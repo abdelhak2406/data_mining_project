@@ -1,0 +1,54 @@
+/*You always need to add the -fx thing otherwise it doesnt work for some reason*/
+*{
+    -fx-clr--orange: #FF7F11 ;
+    -fx-clr--red: #FF1B1C;
+    -fx-clr--gray: #C4C4C4;
+    -fx-clr--green: #5CB85C;
+    -fx-clr--orange-light: #F0AD4E;
+    -fx-clr--red-light: #D9534F;
+}
+
+.button{
+    -fx-background-color: -fx-clr--orange ;
+    -fx-border-radius: 1.5;
+}
+.button:hover {
+    -fx-cursor:hand;
+}
+.label{
+    -fx-font-weight: 700;
+    -fx-text-alignment: center;
+}
+.combo-box:hover{
+    -fx-cursor:hand;
+}
+
+
+
+#btn_upload {
+   -fx-background-color: -fx-clr--orange;
+}
+#btn_reset{
+    -fx-background-color: -fx-clr--red;
+}
+#btn_add{
+    -fx-background-color: -fx-clr--green;
+}
+#btn_edit{
+    -fx-background-color: -fx-clr--orange-light;
+}
+#btn_delete{
+    -fx-background-color: -fx-clr--red-light;
+}
+#btn_submit{
+    -fx-background-color: -fx-clr--green;
+}
+
+#btn_home{
+    -fx-background-color: -fx-clr--gray;
+    -fx-font-weight: 700;
+}
+#btn_dashboard{
+    -fx-background-color: -fx-clr--gray;
+    -fx-font-weight: 700;
+}

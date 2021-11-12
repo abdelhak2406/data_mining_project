@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<SplitPane dividerPositions="0.059548254620123205" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="489.0" prefWidth="686.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DashboardWindowController">
+   <items>
+      <AnchorPane prefHeight="0.0" prefWidth="684.0">
+         <children>
+            <Button fx:id="btn_home" layoutY="2.0" mnemonicParsing="false" onAction="#switchToHomeWin" text="Home" />
+            <Button fx:id="btn_dashboard" layoutX="71.0" layoutY="2.0" mnemonicParsing="false" text="Dashboard" />
+         </children></AnchorPane>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <Button fx:id="btn_submit" layoutX="71.0" layoutY="108.0" mnemonicParsing="false" onAction="#submitAction" prefHeight="32.0" prefWidth="137.0" text="Submit" />
+            <Label layoutX="19.0" layoutY="-2.0" prefHeight="32.0" prefWidth="189.0" text="Select Columns" />
+            <Label layoutX="7.0" layoutY="23.0" prefHeight="32.0" prefWidth="128.0" text="first column" />
+            <Label layoutX="7.0" layoutY="51.0" prefHeight="32.0" prefWidth="128.0" text="second column" />
+            <ComboBox fx:id="combo_firstCol" layoutX="132.0" layoutY="27.0" prefHeight="24.0" prefWidth="128.0" />
+            <ComboBox fx:id="combo_secondCol" layoutX="133.0" layoutY="55.0" prefHeight="24.0" prefWidth="128.0" />
+            <BarChart fx:id="chart_histogram" layoutX="268.0" layoutY="8.0" prefHeight="150.0" prefWidth="243.0">
+              <xAxis>
+                <CategoryAxis prefHeight="0.0" prefWidth="228.0" side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis prefHeight="120.0" prefWidth="19.0" side="LEFT" />
+              </yAxis>
+            </BarChart>
+            <Pane fx:id="chart_boxPlot" layoutX="514.0" layoutY="-2.0" prefHeight="196.0" prefWidth="170.0" style="-fx-background-color: gray;" />
+            <Pane fx:id="chart_otherGraph" layoutX="514.0" layoutY="200.0" prefHeight="116.0" prefWidth="170.0" style="-fx-background-color: gray;" />
+            <Pane fx:id="chart_qPlot" layoutX="351.0" layoutY="321.0" prefHeight="131.0" prefWidth="333.0" style="-fx-background-color: gray;" />
+            <Pane fx:id="chart_otherGraph2" layoutX="3.0" layoutY="321.0" prefHeight="131.0" prefWidth="343.0" style="-fx-background-color: gray;" />
+            <Pane fx:id="chart_tables" layoutX="2.0" layoutY="158.0" prefHeight="158.0" prefWidth="508.0" style="-fx-background-color: gray;" />
+         </children>
+      </AnchorPane>
+   </items>
+</SplitPane>

@@ -1,8 +1,8 @@
+package functions.base_fct.src;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.statistics.HistogramDataset;
-import org.jfree.data.statistics.HistogramType;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 
-public class Main {
+public class MainFct {
 
     public static ArrayList readFile(String path) throws Exception{
         BufferedReader reader= new BufferedReader(new FileReader(path));
