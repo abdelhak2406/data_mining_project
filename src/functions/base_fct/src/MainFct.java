@@ -3,6 +3,7 @@ package functions.base_fct.src;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -68,7 +69,7 @@ public class MainFct {
         return hash;
     }
 
-    /*public static ChartPanel histogram_fct(ArrayList<Double[]> data,int a){
+    public static ChartPanel histogram_fct(ArrayList<Double[]> data,int a){
         HistogramDataset histogram= new HistogramDataset();
         double[] values= new double[data.size()];
 
@@ -81,7 +82,7 @@ public class MainFct {
 
                 ChartPanel panel= new ChartPanel(chart);
         return panel;
-    }*/
+    }
     
     public static double get_moy(ArrayList<Double[]> data, int column){
         double moy=0;
@@ -165,7 +166,7 @@ public class MainFct {
 
 
     public static void main(String[] args) throws Exception{
-        ArrayList<Double[]> data= readFile("..\\..\\seeds_dataset.txt");
+        ArrayList<Double[]> data= readFile("seeds_dataset.txt");
         print_data(data);
         //ChartPanel chartPanel= scatter_diagram(data,2,4);
         System.out.println(mode_fct(data,0)[0]);
