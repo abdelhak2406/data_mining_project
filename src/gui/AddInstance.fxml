@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="328.0" style="-fx-border-color: #F0AD4E; -fx-border-radius: 5px; -fx-border-width: 2px;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainWindowController">
+   <children>
+      <Text fill="#f0ad4e" layoutX="80.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add/Edit Instance">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Text>
+      <TextField fx:id="f1Field" layoutX="107.0" layoutY="90.0" prefHeight="25.0" prefWidth="168.0" />
+      <Text layoutX="54.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Field 1 :" />
+      <TextField fx:id="f2Field" layoutX="107.0" layoutY="121.0" prefHeight="25.0" prefWidth="168.0" />
+      <Text layoutX="54.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Field 2 :" />
+      <TextField fx:id="f3Field" layoutX="107.0" layoutY="152.0" prefHeight="25.0" prefWidth="168.0" />
+      <Text layoutX="54.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Field 3 :" />
+      <TextField fx:id="f4Field" layoutX="107.0" layoutY="184.0" prefHeight="25.0" prefWidth="168.0" />
+      <Text layoutX="54.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Field 4 :" />
+      <TextField fx:id="f5Field" layoutX="107.0" layoutY="215.0" prefHeight="25.0" prefWidth="168.0" />
+      <Text layoutX="54.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Field 5 :" />
+      <TextField fx:id="f6Field" layoutX="107.0" layoutY="247.0" prefHeight="25.0" prefWidth="168.0" />
+      <Text layoutX="54.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Field 6 :" />
+      <TextField fx:id="f7Field" layoutX="107.0" layoutY="280.0" prefHeight="25.0" prefWidth="168.0" />
+      <Text layoutX="54.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Field 7 :" />
+      <TextField fx:id="classField" layoutX="107.0" layoutY="312.0" prefHeight="25.0" prefWidth="168.0" />
+      <Text layoutX="54.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Class :" />
+      <Button fx:id="addBtn" layoutX="165.0" layoutY="359.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" style="-fx-background-color: #5cb85c; -fx-border-color: #5cb85c; -fx-text-fill: #fff;" text="Add" />
+      <Button layoutX="69.0" layoutY="359.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" style="-fx-background-color: #d9534f; -fx-border-color: #d9534f; -fx-text-fill: #fff;" text="Cancel" />
+      <Button fx:id="editBtn" layoutX="165.0" layoutY="359.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" style="-fx-background-color: #5cb85c; -fx-border-color: #5cb85c; -fx-text-fill: #fff;" text="Edit" visible="false" />
+   </children>
+</AnchorPane>
