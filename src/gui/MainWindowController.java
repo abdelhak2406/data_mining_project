@@ -3,16 +3,20 @@ package gui;
 import functions.base_fct.src.MainFct;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -40,15 +44,35 @@ public class MainWindowController implements Initializable {
     @FXML
     private Button btn_reset;
 
+    //MainWindow scene fxml attributes
     @FXML
     public TableView<Field> fieldsTable = new TableView<>();
     public TableView<Instance> datasetTable = new TableView<>();
+    public TextField nbInstancesField = new TextField();
+    public TextField nbAttributesField = new TextField();
+    public TextField nbClassesField = new TextField();
 
+    //AddInstance scene fxml attributes
+    public TextField f1Field = new TextField();
+    public TextField f2Field = new TextField();
+    public TextField f3Field = new TextField();
+    public TextField f4Field = new TextField();
+    public TextField f5Field = new TextField();
+    public TextField f6Field = new TextField();
+    public TextField f7Field = new TextField();
+    public TextField classField = new TextField();
+    public TextField fieldId = new TextField();
+
+    //controller attributes
+    private static String filePath = "";
+    private static ActionEvent tempEvent;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.initFieldsTable();
         this.initDatasetTable();
+        if (!filePath.equals(""))
+            this.addDatasetToTable(filePath);
     }
 
     private void initFieldsTable(){
@@ -128,11 +152,13 @@ public class MainWindowController implements Initializable {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
         String path = fileChooser.showOpenDialog(stage).getAbsolutePath();
+        filePath = path;
         this.addDatasetToTable(path);
 
     }
 
     private void addDatasetToTable(String filePath){
+        this.datasetTable.getItems().clear();
         ArrayList<Double[]> matrix;
         try {
             matrix = MainFct.readFile(filePath);
@@ -157,64 +183,242 @@ public class MainWindowController implements Initializable {
                         className
                 );
                 i += 1;
+                this.datasetTable.refresh();
                 this.datasetTable.getItems().add(instance);
             }
+            this.initCards(matrix);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @FXML
-    void addAction(ActionEvent event) {
-
+    private void initCards(ArrayList<Double[]> matrix){
+        this.nbInstancesField.setText(String.valueOf(matrix.size()));
+        this.nbAttributesField.setText(String.valueOf(matrix.get(0).length));
     }
 
     @FXML
-    void deleteAction(ActionEvent event) {
+    void addBtnClick(ActionEvent event) {
+        tempEvent = event;
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddInstance.fxml"));
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setScene(new Scene(root));
+            stage.show();
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addInstance(ActionEvent event){
+        if (this.f1Field.getText().equals("")
+                || this.f2Field.getText().equals("")
+                || this.f3Field.getText().equals("")
+                || this.f4Field.getText().equals("")
+                || this.f5Field.getText().equals("")
+                || this.f6Field.getText().equals("")
+                || this.f7Field.getText().equals("")
+                || this.classField.getText().equals("")
+        ){
+            this.errorAlert("All fields are required.");
+        }else{
+            try {
+                BufferedWriter output = new BufferedWriter(new FileWriter(filePath, true));
+                output.newLine();
+                output.append(""
+                        + this.f1Field.getText() + "\t"
+                        + this.f2Field.getText() + "\t"
+                        + this.f3Field.getText() + "\t"
+                        + this.f4Field.getText() + "\t"
+                        + this.f5Field.getText() + "\t"
+                        + this.f6Field.getText() + "\t"
+                        + this.f7Field.getText() + "\t"
+                        + this.classField.getText()
+                );
+                output.close();
+                this.closePopup(event);
+                this.refreshScene(tempEvent);
+                this.addDatasetToTable(filePath);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
-    void editAction(ActionEvent event) {
-
+    public void deleteInstance(ActionEvent event) {
+        Instance selectedInstance = this.datasetTable.getSelectionModel().getSelectedItem();
+        if (selectedInstance != null){
+            int lineNumber = selectedInstance.getId();
+            try {
+                ArrayList<Double[]> matrix = MainFct.readFile(filePath);
+                BufferedWriter output = new BufferedWriter(new FileWriter(filePath));
+                output.append("");
+                matrix.remove(lineNumber-1);
+                for (Double[] data: matrix) {
+                    output.append(""
+                            + data[0] + "\t"
+                            + data[1] + "\t"
+                            + data[2] + "\t"
+                            + data[3] + "\t"
+                            + data[4] + "\t"
+                            + data[5] + "\t"
+                            + data[6] + "\t"
+                            + data[7]
+                    );
+                    if (matrix.indexOf(data) < matrix.size()-1)
+                        output.newLine();
+                }
+                output.close();
+                this.refreshScene(event);
+                this.addDatasetToTable(filePath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else{
+            this.errorAlert("You have to select an instance from the table.");
+        }
     }
 
     @FXML
-    void resetAction(ActionEvent event) {
+    public void editBtnClick(ActionEvent event) {
+        tempEvent = event;
+        Instance selectedInstance = this.datasetTable.getSelectionModel().getSelectedItem();
+        if (selectedInstance != null){
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddInstance.fxml"));
+                Parent root = fxmlLoader.load();
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.initStyle(StageStyle.UNDECORATED);
+                stage.setScene(new Scene(root));
 
+                int classNumber = 0;
+                if (selectedInstance.getClasse().equals("Kama"))
+                    classNumber = 1;
+                if (selectedInstance.getClasse().equals("Rosa"))
+                    classNumber = 2;
+                if (selectedInstance.getClasse().equals("Canadian"))
+                    classNumber = 3;
+
+                //Insert data to text fields
+                ((TextField) root.lookup("#f1Field")).setText(String.valueOf(selectedInstance.getField1()));
+                ((TextField) root.lookup("#f2Field")).setText(String.valueOf(selectedInstance.getField2()));
+                ((TextField) root.lookup("#f3Field")).setText(String.valueOf(selectedInstance.getField3()));
+                ((TextField) root.lookup("#f4Field")).setText(String.valueOf(selectedInstance.getField4()));
+                ((TextField) root.lookup("#f5Field")).setText(String.valueOf(selectedInstance.getField5()));
+                ((TextField) root.lookup("#f6Field")).setText(String.valueOf(selectedInstance.getField6()));
+                ((TextField) root.lookup("#f7Field")).setText(String.valueOf(selectedInstance.getField7()));
+                ((TextField) root.lookup("#classField")).setText(String.valueOf(classNumber));
+                ((TextField) root.lookup("#fieldId")).setText(String.valueOf(selectedInstance.getId()));
+
+                root.lookup("#editBtn").setVisible(true);
+
+                stage.show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            this.errorAlert("You have to select an instance from the table.");
+        }
+    }
+
+    public void editInstance(ActionEvent event){
+        if (this.f1Field.getText().equals("")
+                || this.f2Field.getText().equals("")
+                || this.f3Field.getText().equals("")
+                || this.f4Field.getText().equals("")
+                || this.f5Field.getText().equals("")
+                || this.f6Field.getText().equals("")
+                || this.f7Field.getText().equals("")
+                || this.classField.getText().equals("")
+        ){
+            this.errorAlert("All fields are required.");
+        }else{
+            try {
+                ArrayList<Double[]> matrix = MainFct.readFile(filePath);
+                int lineNumber = Integer.parseInt(this.fieldId.getText());
+
+                BufferedWriter output = new BufferedWriter(new FileWriter(filePath));
+                //clear file
+                output.append("");
+
+                //replacing the instance values with the new ones
+                Double[] newLine = {
+                        Double.parseDouble(this.f1Field.getText()),
+                        Double.parseDouble(this.f2Field.getText()),
+                        Double.parseDouble(this.f3Field.getText()),
+                        Double.parseDouble(this.f4Field.getText()),
+                        Double.parseDouble(this.f5Field.getText()),
+                        Double.parseDouble(this.f6Field.getText()),
+                        Double.parseDouble(this.f7Field.getText()),
+                        Double.parseDouble(this.classField.getText())
+                };
+                matrix.set(lineNumber-1, newLine);
+                //Writing new data in the file
+                for (Double[] data: matrix) {
+                    output.append(""
+                            + data[0] + "\t"
+                            + data[1] + "\t"
+                            + data[2] + "\t"
+                            + data[3] + "\t"
+                            + data[4] + "\t"
+                            + data[5] + "\t"
+                            + data[6] + "\t"
+                            + data[7]
+                    );
+                    if (matrix.indexOf(data) < matrix.size()-1)
+                        output.newLine();
+                }
+                output.close();
+                this.closePopup(event);
+                this.refreshScene(tempEvent);
+                this.addDatasetToTable(filePath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
-    void uploadAction(ActionEvent event) {
-
+    public void resetAction(ActionEvent event) {
+        filePath = "";
+        try {
+            this.refreshScene(event);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
     public void switchToDashboardWin(ActionEvent event) throws Exception {
         Utilities u = new Utilities();
         u.switchWindow(event, "DashboardWindow.fxml", root, stage, scene);
-
     }
 
+    private void refreshScene(ActionEvent event) throws IOException {
+        Utilities u = new Utilities();
+        u.switchWindow(event, "MainWindow.fxml", root, stage, scene);
+    }
+
+    public void closePopup(ActionEvent event){
+        Button btn = (Button) event.getSource();
+        Stage stage = (Stage) btn.getScene().getWindow();
+        stage.close();
+    }
+
+    public void errorAlert(String message){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

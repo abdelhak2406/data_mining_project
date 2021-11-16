@@ -16,9 +16,9 @@
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
             <Button fx:id="btn_upload" layoutX="576.0" layoutY="14.0" mnemonicParsing="false" onAction="#uploadFile" prefHeight="32.0" prefWidth="120.0" text="Upload" />
-            <Button fx:id="btn_add" layoutX="533.0" layoutY="146.0" mnemonicParsing="false" onAction="#addAction" prefHeight="24.0" prefWidth="61.0" text="Add" />
-            <Button fx:id="btn_edit" layoutX="606.0" layoutY="146.0" mnemonicParsing="false" onAction="#editAction" prefHeight="24.0" prefWidth="61.0" text="Edit" />
-            <Button fx:id="btn_delete" layoutX="677.0" layoutY="146.0" mnemonicParsing="false" onAction="#deleteAction" text="Delete" />
+            <Button fx:id="btn_add" layoutX="533.0" layoutY="146.0" mnemonicParsing="false" onAction="#addBtnClick" prefHeight="24.0" prefWidth="61.0" text="Add" />
+            <Button fx:id="btn_edit" layoutX="606.0" layoutY="146.0" mnemonicParsing="false" onAction="#editBtnClick" prefHeight="24.0" prefWidth="61.0" text="Edit" />
+            <Button fx:id="btn_delete" layoutX="677.0" layoutY="146.0" mnemonicParsing="false" onAction="#deleteInstance" text="Delete" />
             <Button fx:id="btn_reset" layoutX="576.0" layoutY="62.0" mnemonicParsing="false" onAction="#resetAction" prefHeight="32.0" prefWidth="120.0" text="Reset" />
             <TextArea editable="false" layoutX="4.0" layoutY="14.0" maxHeight="80.0" maxWidth="372.0" prefHeight="80.0" prefWidth="306.0" text="The examined group comprised kernels belonging&#10;to three different varieties of wheat: Kama, Rosa and&#10;Canadian, 70 elements each, randomly selected for the&#10;experiment.">
                <cursor>
