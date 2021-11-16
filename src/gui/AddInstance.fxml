@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -27,8 +28,18 @@
       <Text layoutX="54.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Field 7 :" />
       <TextField fx:id="classField" layoutX="107.0" layoutY="312.0" prefHeight="25.0" prefWidth="168.0" />
       <Text layoutX="54.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Class :" />
-      <Button fx:id="addBtn" layoutX="165.0" layoutY="359.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" style="-fx-background-color: #5cb85c; -fx-border-color: #5cb85c; -fx-text-fill: #fff;" text="Add" />
-      <Button layoutX="69.0" layoutY="359.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" style="-fx-background-color: #d9534f; -fx-border-color: #d9534f; -fx-text-fill: #fff;" text="Cancel" />
-      <Button fx:id="editBtn" layoutX="165.0" layoutY="359.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" style="-fx-background-color: #5cb85c; -fx-border-color: #5cb85c; -fx-text-fill: #fff;" text="Edit" visible="false" />
+      <Button fx:id="addBtn" layoutX="165.0" layoutY="359.0" mnemonicParsing="false" onAction="#addInstance" prefHeight="25.0" prefWidth="94.0" style="-fx-background-color: #5cb85c; -fx-border-color: #5cb85c; -fx-text-fill: #fff;" text="Add">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="cancelBtn" layoutX="69.0" layoutY="359.0" mnemonicParsing="false" onAction="#closePopup" prefHeight="25.0" prefWidth="94.0" style="-fx-background-color: #d9534f; -fx-border-color: #d9534f; -fx-text-fill: #fff;" text="Cancel">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="editBtn" layoutX="165.0" layoutY="359.0" mnemonicParsing="false" onAction="#editInstance" prefHeight="25.0" prefWidth="94.0" style="-fx-background-color: #5cb85c; -fx-border-color: #5cb85c; -fx-text-fill: #fff;" text="Edit" visible="false">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <TextField fx:id="fieldId" layoutX="81.0" layoutY="55.0" prefHeight="25.0" prefWidth="168.0" visible="false" />
    </children>
 </AnchorPane>
