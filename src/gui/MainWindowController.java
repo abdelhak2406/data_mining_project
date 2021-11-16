@@ -52,6 +52,33 @@ public class MainWindowController implements Initializable {
     }
 
     private void initFieldsTable(){
+        TableColumn id = new TableColumn<>("N°");
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        TableColumn name = new TableColumn<>("Name");
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn description = new TableColumn<>("Description");
+        description.setCellValueFactory(new PropertyValueFactory<>("description"));
+        TableColumn type = new TableColumn<>("Type");
+        type.setCellValueFactory(new PropertyValueFactory<>("type"));
+
+        //remove exiting columns
+        while (this.fieldsTable.getColumns().size() > 0){
+            this.fieldsTable.getColumns().remove(0);
+        }
+
+        //adding the new columns
+        this.fieldsTable.getColumns().addAll(id, name, description, type);
+
+        Field field1 = new Field(1, "field1", "area A", "Numeric");
+        Field field2 = new Field(2, "field2", "Perimeter P", "Numeric");
+        Field field3 = new Field(3, "field3", "Compactness", "Numeric");
+        Field field4 = new Field(4, "field4", "length of kernel", "Numeric");
+        Field field5 = new Field(5, "field5", "width of kernel", "Numeric");
+        Field field6 = new Field(6, "field6", "Asymmetry coef", "Numeric");
+        Field field7 = new Field(7, "field7", "Kernel groove length", "Numeric");
+        Field classe = new Field(8, "class", "Class", "Numeric");
+
+        this.fieldsTable.getItems().addAll(field1, field2, field3, field4, field5, field6, field7, classe);
 
     }
 
@@ -80,6 +107,16 @@ public class MainWindowController implements Initializable {
         while (this.datasetTable.getColumns().size() > 0){
             this.datasetTable.getColumns().remove(0);
         }
+
+        id.prefWidthProperty().bind(datasetTable.widthProperty().multiply(0.07));
+        field1.prefWidthProperty().bind(datasetTable.widthProperty().multiply(0.107));
+        field2.prefWidthProperty().bind(datasetTable.widthProperty().multiply(0.107));
+        field3.prefWidthProperty().bind(datasetTable.widthProperty().multiply(0.107));
+        field4.prefWidthProperty().bind(datasetTable.widthProperty().multiply(0.107));
+        field5.prefWidthProperty().bind(datasetTable.widthProperty().multiply(0.107));
+        field6.prefWidthProperty().bind(datasetTable.widthProperty().multiply(0.107));
+        field7.prefWidthProperty().bind(datasetTable.widthProperty().multiply(0.107));
+        classe.prefWidthProperty().bind(datasetTable.widthProperty().multiply(0.14));
 
         //Add new columns to table
         this.datasetTable.getColumns().addAll(id, field1, field2, field3, field4, field5, field6, field7, classe);
