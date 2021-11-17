@@ -28,20 +28,10 @@ public class DashboardWindowController {
     private Parent root;
 
     @FXML private TableView<Tendances_centrales> table_mcentrale=new TableView<Tendances_centrales>();
-    @FXML private TableColumn<String, String> moyenne_col;
-    @FXML private TableColumn<String, String> mtronq_col;
-    @FXML private TableColumn<String , String> mode_col;
-    @FXML private TableColumn<String , String> milieu_col;
-    @FXML private TableColumn<String , String> median_col;
+
 
     @FXML private TableView<String> table_mdispersion;
-    @FXML private TableColumn<String, String> etendue_col;
-    @FXML private TableColumn<String, String> q1_col;
-    @FXML private TableColumn<String , String> q2_col;
-    @FXML private TableColumn<String , String> q3_col;
-    @FXML private TableColumn<String , String> ecatint_col;
-    @FXML private TableColumn<String , String> variance_col;
-    @FXML private TableColumn<String , String> ecartype_col;
+
 
 
     @FXML
