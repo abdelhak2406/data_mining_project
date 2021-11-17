@@ -3,6 +3,7 @@
     -fx-clr--orange: #FF7F11 ;
     -fx-clr--red: #FF1B1C;
     -fx-clr--gray: #C4C4C4;
+    -fx-clr--gray-light: #FFFFFC;
     -fx-clr--green: #5CB85C;
     -fx-clr--orange-light: #F0AD4E;
     -fx-clr--red-light: #D9534F;
@@ -10,7 +11,8 @@
 
 .button{
     -fx-background-color: -fx-clr--orange ;
-    -fx-border-radius: 1.5;
+    -fx-text-fill: #fff;
+    -fx-border-radius: 3px;
 }
 .button:hover {
     -fx-cursor:hand;
@@ -21,6 +23,21 @@
 }
 .combo-box:hover{
     -fx-cursor:hand;
+}
+
+.card-title{
+    -fx-fill: -fx-clr--orange-light;
+}
+
+.table-view .column-header,
+.table-view .column-header .filler,
+.table-view .column-header-background .filler {
+    -fx-background-color: #fff;
+    -fx-border-radius: 5px;
+}
+
+.background{
+    -fx-background: -fx-clr--gray-light;
 }
 
 

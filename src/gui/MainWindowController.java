@@ -18,8 +18,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainWindowController implements Initializable {
 
@@ -29,21 +28,6 @@ public class MainWindowController implements Initializable {
     private Parent root;
 
 
-    @FXML
-    private Button btn_upload;
-
-    @FXML
-    private Button btn_add;
-
-    @FXML
-    private Button btn_edit;
-
-    @FXML
-    private Button btn_delete;
-
-    @FXML
-    private Button btn_reset;
-
     //MainWindow scene fxml attributes
     @FXML
     public TableView<Field> fieldsTable = new TableView<>();
@@ -51,6 +35,10 @@ public class MainWindowController implements Initializable {
     public TextField nbInstancesField = new TextField();
     public TextField nbAttributesField = new TextField();
     public TextField nbClassesField = new TextField();
+    public TextField nbMissingValuesField = new TextField();
+    public TextField fstClassField = new TextField();
+    public TextField sndClassField = new TextField();
+    public TextField thrdClassField = new TextField();
 
     //AddInstance scene fxml attributes
     public TextField f1Field = new TextField();
@@ -196,6 +184,39 @@ public class MainWindowController implements Initializable {
     private void initCards(ArrayList<Double[]> matrix){
         this.nbInstancesField.setText(String.valueOf(matrix.size()));
         this.nbAttributesField.setText(String.valueOf(matrix.get(0).length));
+        //calculate the number of classes
+        ArrayList<Double> tempList = new ArrayList<Double>();
+        for (Double[] instance: matrix) {
+            tempList.add(instance[instance.length-1]);
+        }
+        Set<Double> tempSet = new HashSet<>(tempList);
+        this.nbClassesField.setText(String.valueOf(tempSet.size()));
+
+        //calculate the number of instances per class
+        ArrayList<Double> classesList = new ArrayList<>(tempSet);
+        Collections.sort(classesList);
+        Integer[] nbClassesPerInstance = new Integer[classesList.size()];
+        Arrays.fill(nbClassesPerInstance, 0);
+        for (int i = 0; i < classesList.size(); i++) {
+            for (Double[] instance : matrix) {
+                if (instance[7].equals(classesList.get(i))){
+                    nbClassesPerInstance[i] += 1;
+                }
+            }
+        }
+        this.fstClassField.setText(String.valueOf(nbClassesPerInstance[0]));
+        this.sndClassField.setText(String.valueOf(nbClassesPerInstance[1]));
+        this.thrdClassField.setText(String.valueOf(nbClassesPerInstance[2]));
+
+        //Number of missing values
+        int nbMissingValues = 0;
+        for (Double[] instance: matrix) {
+            for (int i = 0; i < instance.length; i++) {
+                if (instance[i] == null)
+                    nbMissingValues += 1;
+            }
+        }
+        this.nbMissingValuesField.setText(String.valueOf(nbMissingValues));
     }
 
     @FXML
@@ -396,7 +417,6 @@ public class MainWindowController implements Initializable {
             e.printStackTrace();
         }
     }
-
 
     public void switchToDashboardWin(ActionEvent event) throws Exception {
         Utilities u = new Utilities();
