@@ -1,5 +1,6 @@
 package gui;
 
+import functions.base_fct.src.MainFct;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /*
     this class is aimed to contain useful methods that we will need
@@ -35,15 +37,25 @@ public class Utilities {
         });
     }
 
+    public Double[] return_centrale(ArrayList<Double[]> data, int column){
+        Double[] centrale= new Double[5];
+        centrale[0]=MainFct.get_moy(data,column);
+        centrale[1]=MainFct.moyenne_tranquee(data,column);
+        centrale[2]=MainFct.mode_fct(data,column)[0];
+        centrale[3]=MainFct.get_mediane(data,column);
+        centrale[4]=MainFct.milieu_etendu(data,column);
 
+        return centrale;
+    }
 
-    public static void addBlancChoice(ComboBox cbx){
+    public static void addChoice(ComboBox cbx){
        /*
             when a user selects an item in the choice box and wants to go back
             we need to add a "" item that's what this function do
         */
 
-        cbx.getItems().add("");
+        cbx.getItems().addAll("area","perimeter","compactness","length of kernel",
+                "width of kernel","assymmetry coeff","length of kernel groove");
         /*
         cbx_softwareNeeds.getItems().add("");
         cbx_desktopEnvirnment.getItems().add("");
