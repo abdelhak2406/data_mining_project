@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<SplitPane dividerPositions="0.059548254620123205" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="489.0" prefWidth="686.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DashboardWindowController">
+<SplitPane dividerPositions="0.059548254620123205" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DashboardWindowController">
    <items>
       <AnchorPane prefHeight="0.0" prefWidth="684.0">
          <children>
@@ -24,9 +31,9 @@
             <Label layoutX="19.0" layoutY="-2.0" prefHeight="32.0" prefWidth="189.0" text="Select Columns" />
             <Label layoutX="7.0" layoutY="23.0" prefHeight="32.0" prefWidth="128.0" text="first column" />
             <Label layoutX="7.0" layoutY="51.0" prefHeight="32.0" prefWidth="128.0" text="second column" />
-            <ComboBox fx:id="combo_firstCol" layoutX="132.0" layoutY="27.0" prefHeight="24.0" prefWidth="128.0"  promptText="Select feature" >
+            <ComboBox fx:id="combo_firstCol" layoutX="132.0" layoutY="27.0" prefHeight="24.0" prefWidth="128.0" promptText="Select feature">
              <items>
-                 <FXCollections fx:factory="observableArrayList" >
+                 <FXCollections fx:factory="observableArrayList">
                      <String fx:value="1" />
                      <String fx:value="2" />
                      <String fx:value="3" />
@@ -51,7 +58,7 @@
                  </FXCollections>
              </items>
          </ComboBox>
-             <BarChart fx:id="chart_histogram" layoutX="268.0" layoutY="8.0" prefHeight="150.0" prefWidth="243.0">
+             <BarChart fx:id="chart_histogram" layoutX="278.0" layoutY="8.0" prefHeight="150.0" prefWidth="291.0">
               <xAxis>
                 <CategoryAxis prefHeight="0.0" prefWidth="228.0" side="BOTTOM" />
               </xAxis>
@@ -59,20 +66,20 @@
                 <NumberAxis prefHeight="120.0" prefWidth="19.0" side="LEFT" />
               </yAxis>
             </BarChart>
-            <Pane fx:id="chart_boxPlot" layoutX="514.0" layoutY="-2.0" prefHeight="196.0" prefWidth="170.0" style="-fx-background-color: gray;" />
-            <Pane fx:id="chart_scatterPlot" layoutX="514.0" layoutY="200.0" prefHeight="116.0" prefWidth="170.0" style="-fx-background-color: gray;" />
-            <Pane fx:id="chart_qPlot" layoutX="351.0" layoutY="321.0" prefHeight="131.0" prefWidth="333.0" style="-fx-background-color: gray;" />
-            <Pane fx:id="chart_otherGraph2" layoutX="3.0" layoutY="321.0" prefHeight="131.0" prefWidth="343.0" style="-fx-background-color: gray;" />
-            <GridPane fx:id="chart_tables" layoutX="2.0" layoutY="158.0" prefHeight="158.0" prefWidth="508.0" style="-fx-background-color: gray;" >
+            <Pane fx:id="chart_boxPlot" layoutX="579.0" prefHeight="196.0" prefWidth="205.0" style="-fx-background-color: gray;" />
+            <Pane fx:id="chart_scatterPlot" layoutX="579.0" layoutY="205.0" prefHeight="139.0" prefWidth="205.0" style="-fx-background-color: gray;" />
+            <Pane fx:id="chart_qPlot" layoutX="366.0" layoutY="352.0" prefHeight="150.0" prefWidth="420.0" style="-fx-background-color: gray;" />
+            <Pane fx:id="chart_otherGraph2" layoutX="11.0" layoutY="352.0" prefHeight="150.0" prefWidth="346.0" style="-fx-background-color: gray;" />
+            <GridPane fx:id="chart_tables" layoutX="12.0" layoutY="158.0" prefHeight="182.0" prefWidth="555.0" style="-fx-background-color: gray;">
                     <children>
-                        <Label GridPane.columnIndex="0" GridPane.rowIndex="0" layoutX="19.0" layoutY="-2.0" prefHeight="32.0" prefWidth="189.0" text="mesures tendances centrales" />
-                        <TableView fx:id="table_mcentrale" GridPane.columnIndex="0" GridPane.rowIndex="1" maxHeight="40">
+                        <Label layoutX="19.0" layoutY="-2.0" prefHeight="32.0" prefWidth="189.0" text="mesures tendances centrales" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <TableView fx:id="table_mcentrale" maxHeight="40" GridPane.columnIndex="0" GridPane.rowIndex="1">
                             <columns>
-                                <TableColumn fx:id="moyenne_col" text="moyenne" >
+                                <TableColumn fx:id="moyenne_col" text="moyenne">
                                     <cellValueFactory><PropertyValueFactory property="moyenne" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="mtronq_col" text="moy_tronquee" minWidth="100">
+                                <TableColumn fx:id="mtronq_col" minWidth="100" text="moy_tronquee">
                                     <cellValueFactory><PropertyValueFactory property="moy_tronquee" />
                                     </cellValueFactory>
                                 </TableColumn>
@@ -84,7 +91,7 @@
                                     <cellValueFactory><PropertyValueFactory property="mediane" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="milieu_col" text="milieu_etendu" minWidth="100">
+                                <TableColumn fx:id="milieu_col" minWidth="100" text="milieu_etendu">
                                     <cellValueFactory><PropertyValueFactory property="milieu" />
                                     </cellValueFactory>
                                 </TableColumn>
@@ -92,14 +99,14 @@
 
                         </TableView>
 
-                        <Label GridPane.columnIndex="0" GridPane.rowIndex="2" layoutX="19.0" layoutY="-2.0" prefHeight="32.0" prefWidth="189.0" text="mesures de dispersion" />
-                        <TableView fx:id="table_mdispersion" GridPane.columnIndex="0" GridPane.rowIndex="3" maxHeight="40">
+                        <Label layoutX="19.0" layoutY="-2.0" prefHeight="32.0" prefWidth="189.0" text="mesures de dispersion" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <TableView fx:id="table_mdispersion" maxHeight="40.0" GridPane.columnIndex="0" GridPane.rowIndex="3">
                             <columns>
-                                <TableColumn fx:id="q1_col" text="q1" maxWidth="50">
+                                <TableColumn fx:id="q1_col" maxWidth="50" text="q1">
                                 </TableColumn>
-                                <TableColumn fx:id="q2_col" text="q2" maxWidth="50">
+                                <TableColumn fx:id="q2_col" maxWidth="50" text="q2">
                                 </TableColumn>
-                                <TableColumn fx:id="q3_col" text="q3" maxWidth="50">
+                                <TableColumn fx:id="q3_col" maxWidth="50" text="q3">
                                 </TableColumn>
                                 <TableColumn fx:id="ecartype_col" text="ecart type">
                                 </TableColumn>
@@ -112,6 +119,15 @@
                             </columns>
                         </TableView>
                     </children>
+               <columnConstraints>
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
             </GridPane>
          </children>
       </AnchorPane>
