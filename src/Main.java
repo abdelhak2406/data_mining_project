@@ -12,17 +12,17 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
 
 
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/MainWindow.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("resources/views/MainWindow.fxml"));
         stage.setTitle("Data Mining Project");
         Scene scene = new Scene(root);
 
         // the css
         //TODO: find a way to apply the css to every scene(window)
-        String cssPath = "gui/style.css";
+        String cssPath = "resources/views/style.css";
         String css = this.getClass().getResource(cssPath).toExternalForm();
 
 
-        Image icon = new Image("gui/assets/tuxou.png");
+        Image icon = new Image("resources/img/tuxou.png");
 
 
         scene.getStylesheets().add(css);

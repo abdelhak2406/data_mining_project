@@ -1,4 +1,4 @@
-package gui;
+package app;
 
 public class Instance {
     public int id;

@@ -1,6 +1,5 @@
-package functions.base_fct.src;
+package app.functions;
 
-import javafx.scene.chart.Chart;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -15,7 +14,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import smile.plot.swing.PlotCanvas;
 import smile.plot.swing.QQPlot;
-import org.jdesktop.swingx.JXTable;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
@@ -26,8 +25,10 @@ import java.util.HashMap;
 
 
 public class MainFct {
+    public static String filePath;
 
     public static ArrayList readFile(String path) throws Exception{
+        filePath = path;
         BufferedReader reader= new BufferedReader(new FileReader(path));
         ArrayList<Double[]> matrice= new ArrayList<>();
 
@@ -241,7 +242,7 @@ public class MainFct {
 
 
     public static void main(String[] args) throws Exception{
-        ArrayList<Double[]> data= MainFct.readFile("./seeds_dataset.txt");
+        ArrayList<Double[]> data= MainFct.readFile(filePath);
         print_data(data);
         //ChartPanel chartPanel= scatter_diagram(data,2,4);
         System.out.println(mode_fct(data,0)[0]);

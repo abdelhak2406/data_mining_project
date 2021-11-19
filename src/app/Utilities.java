@@ -1,6 +1,6 @@
-package gui;
+package app;
 
-import functions.base_fct.src.MainFct;
+import app.functions.MainFct;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -72,7 +72,7 @@ public class Utilities {
 
     public void switchWindow(ActionEvent event, String fxmlWindow, Parent root, Stage stage, Scene scene) throws IOException {
 
-        String cssPath = "style.css";
+        String cssPath = "/resources/views/style.css";
         String css = this.getClass().getResource(cssPath).toExternalForm();
 
         root = FXMLLoader.load(getClass().getResource(fxmlWindow));

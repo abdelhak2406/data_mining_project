@@ -1,6 +1,9 @@
-package gui;
+package app.controller;
 
-import functions.base_fct.src.MainFct;
+import app.functions.MainFct;
+import app.Field;
+import app.Instance;
+import app.Utilities;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -420,7 +423,7 @@ public class MainWindowController implements Initializable {
 
     public void switchToDashboardWin(ActionEvent event) throws Exception {
         Utilities u = new Utilities();
-        u.switchWindow(event, "DashboardWindow.fxml", root, stage, scene);
+        u.switchWindow(event, "/resources/views/DashboardWindow.fxml", root, stage, scene);
     }
 
     private void refreshScene(ActionEvent event) throws IOException {

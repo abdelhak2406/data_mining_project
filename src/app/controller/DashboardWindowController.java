@@ -1,35 +1,27 @@
-package gui;
+package app.controller;
 
+import app.Tendances_centrales;
+import app.Utilities;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import functions.base_fct.src.MainFct;
+import app.functions.MainFct;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.Chart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import javafx.embed.swing.SwingNode;
 
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
-
-import java.util.ArrayList;
-
-import static functions.base_fct.src.MainFct.readFile;
 
 public class DashboardWindowController {
 
@@ -94,7 +86,8 @@ public class DashboardWindowController {
         int iarg1;
         int iarg2;
 
-        ArrayList<Double[]> data= MainFct.readFile("./seeds_dataset.txt");
+        System.out.println(MainFct.filePath);
+        ArrayList<Double[]> data= MainFct.readFile(MainFct.filePath);
         //MainFct.print_data(data);
 
         if (!arg1.equals("null") && !arg2.equals("null")){
@@ -166,7 +159,7 @@ public class DashboardWindowController {
     @FXML
     void switchToHomeWin(ActionEvent event) throws Exception{
         Utilities u = new Utilities();
-        u.switchWindow(event, "MainWindow.fxml", root, stage, scene);
+        u.switchWindow(event, "/resources/views/MainWindow.fxml", root, stage, scene);
     }
 
 
