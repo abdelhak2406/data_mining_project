@@ -83,7 +83,7 @@
                                     <cellValueFactory><PropertyValueFactory property="moy_tronquee" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="mode_col" text="mode">
+                                <TableColumn fx:id="mode_col" text="mode" minWidth="150">
                                     <cellValueFactory><PropertyValueFactory property="mode" />
                                     </cellValueFactory>
                                 </TableColumn>

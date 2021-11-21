@@ -203,26 +203,43 @@ public class MainFct {
         return (max+min)/2;
     }
 
-    public static Double[] mode_fct(ArrayList<Double[]> data, int col){
+    public static ArrayList<Double> mode_fct(ArrayList<Double[]> data, int col){
         int   i, j;
-        //max value est max[0], max count est max[1]
-        Double[] max= new Double[2];
-        max[0]=0.0;max[1]=0.0;
+        Double max=0.0,maxcount=0.0;
+        ArrayList<Double> returnList= new ArrayList<Double>();
+        int count;
 
-        for (i = 0; i < data.size(); ++i) {
-            int count = 0;
-            for (j = 0; j < data.size(); ++j) {
-                if (data.get(j)[col] == data.get(i)[col])
-                    ++count;
+        for (i = 0; i < data.size(); i++) {
+            count = 0;
+            for (j = 0; j < data.size(); j++) {
+                if (data.get(j)[col].equals(data.get(i)[col]) ){
+                    count++;
+                }
             }
+            if (count > maxcount) {
+                maxcount = Double.parseDouble(String.valueOf(count));
+                max = data.get(i)[col];
 
-            if (count > max[1]) {
-                max[1] = Double.parseDouble(String.valueOf(count));
-                max[0] = data.get(i)[col];
             }
         }
-        return max;
+        returnList.add(max);
+
+        for ( i = 0; i < data.size(); i++) {
+            count=0;
+            for ( j = 0; j < data.size(); j++) {
+                if(data.get(j)[col].equals(data.get(i)[col]) ){
+                    ++count;
+                }
+            }
+            if (count==maxcount && !returnList.contains(data.get(i)[col])){
+                returnList.add(data.get(i)[col]);
+            }
+        }
+
+        return returnList;
     }
+
+
 
 
     public static Double moyenne_tranquee(ArrayList<Double[]> data, int col){
@@ -242,10 +259,10 @@ public class MainFct {
 
 
     public static void main(String[] args) throws Exception{
-        ArrayList<Double[]> data= MainFct.readFile(filePath);
+        ArrayList<Double[]> data= MainFct.readFile("seeds_dataset.txt");
         print_data(data);
         //ChartPanel chartPanel= scatter_diagram(data,2,4);
-        System.out.println(mode_fct(data,0)[0]);
+        System.out.println(mode_fct(data,0));
         System.out.println(get_moy(data,0));
         System.out.println(moyenne_tranquee(data,0));
         System.out.println(milieu_etendu(data,0));

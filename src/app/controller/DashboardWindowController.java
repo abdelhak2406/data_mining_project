@@ -116,7 +116,7 @@ public class DashboardWindowController {
             chart_otherGraph2.getChildren().add(swingNodeHistogram);
 
             Utilities utilities= new Utilities();
-            Double[] table_centrale= utilities.return_centrale(data,combo_firstCol.getSelectionModel().getSelectedIndex());
+            String[] table_centrale= utilities.return_centrale(data,combo_firstCol.getSelectionModel().getSelectedIndex());
             ObservableList<Tendances_centrales> tendance= FXCollections.observableArrayList(
                     new Tendances_centrales(table_centrale[0],table_centrale[1],table_centrale[2],
                             table_centrale[3],table_centrale[4]));
@@ -138,7 +138,7 @@ public class DashboardWindowController {
             chart_otherGraph2.getChildren().add(swingNodeHistogram);
 
             Utilities utilities= new Utilities();
-            Double[] table_centrale= utilities.return_centrale(data,combo_firstCol.getSelectionModel().getSelectedIndex());
+            String[] table_centrale= utilities.return_centrale(data,combo_firstCol.getSelectionModel().getSelectedIndex());
             ObservableList<Tendances_centrales> tendance= FXCollections.observableArrayList(
                     new Tendances_centrales(table_centrale[0],table_centrale[1],table_centrale[2],
                             table_centrale[3],table_centrale[4]));

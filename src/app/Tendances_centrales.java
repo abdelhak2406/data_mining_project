@@ -2,13 +2,13 @@ package app;
 
 public class Tendances_centrales {
 
-    public Double moyenne;
-    public Double moy_tronquee;
-    public Double mode;
-    public Double mediane;
-    public Double milieu;
+    public String moyenne;
+    public String moy_tronquee;
+    public String mode;
+    public String mediane;
+    public String milieu;
 
-    public Tendances_centrales(Double moyenne, Double moy_tronquee, Double mode, Double mediane, Double milieu) {
+    public Tendances_centrales(String moyenne, String moy_tronquee, String mode, String mediane, String milieu) {
         this.moyenne = moyenne;
         this.moy_tronquee = moy_tronquee;
         this.mode = mode;
@@ -16,43 +16,43 @@ public class Tendances_centrales {
         this.milieu = milieu;
     }
 
-    public Double getMoyenne() {
+    public String getMoyenne() {
         return moyenne;
     }
 
-    public void setMoyenne(Double moyenne) {
+    public void setMoyenne(String moyenne) {
         this.moyenne = moyenne;
     }
 
-    public Double getMoy_tronquee() {
+    public String getMoy_tronquee() {
         return moy_tronquee;
     }
 
-    public void setMoy_tronquee(Double moy_tronquee) {
+    public void setMoy_tronquee(String moy_tronquee) {
         this.moy_tronquee = moy_tronquee;
     }
 
-    public Double getMode() {
+    public String getMode() {
         return mode;
     }
 
-    public void setMode(Double mode) {
+    public void setMode(String mode) {
         this.mode = mode;
     }
 
-    public Double getMediane() {
+    public String getMediane() {
         return mediane;
     }
 
-    public void setMediane(Double mediane) {
+    public void setMediane(String mediane) {
         this.mediane = mediane;
     }
 
-    public Double getMilieu() {
+    public String getMilieu() {
         return milieu;
     }
 
-    public void setMilieu(Double milieu) {
+    public void setMilieu(String milieu) {
         this.milieu = milieu;
     }
 }

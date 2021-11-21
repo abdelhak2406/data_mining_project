@@ -37,13 +37,13 @@ public class Utilities {
         });
     }
 
-    public Double[] return_centrale(ArrayList<Double[]> data, int column){
-        Double[] centrale= new Double[5];
-        centrale[0]=MainFct.get_moy(data,column);
-        centrale[1]=MainFct.moyenne_tranquee(data,column);
-        centrale[2]=MainFct.mode_fct(data,column)[0];
-        centrale[3]=MainFct.get_mediane(data,column);
-        centrale[4]=MainFct.milieu_etendu(data,column);
+    public String[] return_centrale(ArrayList<Double[]> data, int column){
+        String[] centrale= new String[5];
+        centrale[0]=String.valueOf(MainFct.get_moy(data,column)) ;
+        centrale[1]=String.valueOf(MainFct.moyenne_tranquee(data,column));
+        centrale[2]=MainFct.mode_fct(data,column).toString();
+        centrale[3]=String.valueOf(MainFct.get_mediane(data,column));
+        centrale[4]=String.valueOf(MainFct.milieu_etendu(data,column));
 
         return centrale;
     }
