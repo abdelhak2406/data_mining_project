@@ -103,19 +103,38 @@
                         <TableView fx:id="table_mdispersion" maxHeight="40.0" GridPane.columnIndex="0" GridPane.rowIndex="3">
                             <columns>
                                 <TableColumn fx:id="q1_col" maxWidth="50" text="q1">
+                                    <cellValueFactory><PropertyValueFactory property="q1" />
+                                    </cellValueFactory>
                                 </TableColumn>
                                 <TableColumn fx:id="q2_col" maxWidth="50" text="q2">
+                                    <cellValueFactory><PropertyValueFactory property="q2" />
+                                    </cellValueFactory>
                                 </TableColumn>
                                 <TableColumn fx:id="q3_col" maxWidth="50" text="q3">
+                                    <cellValueFactory><PropertyValueFactory property="q3" />
+                                    </cellValueFactory>
                                 </TableColumn>
                                 <TableColumn fx:id="ecartype_col" text="ecart type">
+                                    <cellValueFactory><PropertyValueFactory property="ecartype" />
+                                    </cellValueFactory>
                                 </TableColumn>
                                 <TableColumn fx:id="ecatint_col" text="ecart interQ">
+                                    <cellValueFactory><PropertyValueFactory property="ecartQ" />
+                                    </cellValueFactory>
                                 </TableColumn>
                                 <TableColumn fx:id="etendue_col" text="etendue">
+                                    <cellValueFactory><PropertyValueFactory property="etendue" />
+                                    </cellValueFactory>
                                 </TableColumn>
                                 <TableColumn fx:id="variance_col" text="variance">
+                                    <cellValueFactory><PropertyValueFactory property="variance" />
+                                    </cellValueFactory>
                                 </TableColumn>
+                                <TableColumn fx:id="outliers" maxWidth="50" text="outliers">
+                                    <cellValueFactory><PropertyValueFactory property="outliers" />
+                                    </cellValueFactory>
+                                </TableColumn>
+
                             </columns>
                         </TableView>
                     </children>

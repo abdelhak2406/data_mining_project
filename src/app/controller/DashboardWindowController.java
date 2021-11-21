@@ -1,6 +1,7 @@
 package app.controller;
 
 import app.Tendances_centrales;
+import app.Tendances_dispersion;
 import app.Utilities;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,7 +34,7 @@ public class DashboardWindowController {
     @FXML private TableView<Tendances_centrales> table_mcentrale=new TableView<Tendances_centrales>();
 
 
-    @FXML private TableView<String> table_mdispersion;
+    @FXML private TableView<Tendances_dispersion> table_mdispersion;
 
 
 
@@ -115,14 +116,7 @@ public class DashboardWindowController {
             /// check this one
             chart_otherGraph2.getChildren().add(swingNodeHistogram);
 
-            Utilities utilities= new Utilities();
-            String[] table_centrale= utilities.return_centrale(data,combo_firstCol.getSelectionModel().getSelectedIndex());
-            ObservableList<Tendances_centrales> tendance= FXCollections.observableArrayList(
-                    new Tendances_centrales(table_centrale[0],table_centrale[1],table_centrale[2],
-                            table_centrale[3],table_centrale[4]));
-
-            table_mcentrale.setItems(tendance);
-
+            set_tables(data);
 
         }
 
@@ -137,25 +131,33 @@ public class DashboardWindowController {
             swingNodeHistogram.setContent(histogram);
             chart_otherGraph2.getChildren().add(swingNodeHistogram);
 
-            Utilities utilities= new Utilities();
-            String[] table_centrale= utilities.return_centrale(data,combo_firstCol.getSelectionModel().getSelectedIndex());
-            ObservableList<Tendances_centrales> tendance= FXCollections.observableArrayList(
-                    new Tendances_centrales(table_centrale[0],table_centrale[1],table_centrale[2],
-                            table_centrale[3],table_centrale[4]));
-
-            table_mcentrale.setItems(tendance);
+            set_tables(data);
         }
         else
         { // no attribut selected
-            System.out.println("SELETCT AN ATTRIBUT AT LEAST.");
+            System.out.println("SELECT AN ATTRIBUT AT LEAST.");
 
         }
 
-
-
-
-
     }
+
+    public void set_tables(ArrayList<Double[]> data){
+        Utilities utilities= new Utilities();
+        String[] table_centrale= utilities.return_centrale(data,combo_firstCol.getSelectionModel().getSelectedIndex());
+        ObservableList<Tendances_centrales> tendance= FXCollections.observableArrayList(
+                new Tendances_centrales(table_centrale[0],table_centrale[1],table_centrale[2],
+                        table_centrale[3],table_centrale[4]));
+
+        table_mcentrale.setItems(tendance);
+
+        String[] table_dispersion= utilities.return_dispersion(data,combo_firstCol.getSelectionModel().getSelectedIndex());
+        ObservableList<Tendances_dispersion> tendance_d= FXCollections.observableArrayList(
+                new Tendances_dispersion(table_dispersion[0],table_dispersion[1],table_dispersion[2],
+                        table_dispersion[3],table_dispersion[4],table_dispersion[5],table_dispersion[6],table_dispersion[7]));
+
+        table_mdispersion.setItems(tendance_d);
+    }
+
     @FXML
     void switchToHomeWin(ActionEvent event) throws Exception{
         Utilities u = new Utilities();

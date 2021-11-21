@@ -226,7 +226,7 @@ public class MainWindowController implements Initializable {
     void addBtnClick(ActionEvent event) {
         tempEvent = event;
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddInstance.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/resources/views/AddInstance.fxml"));
             Parent root = fxmlLoader.load();
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -316,7 +316,7 @@ public class MainWindowController implements Initializable {
         Instance selectedInstance = this.datasetTable.getSelectionModel().getSelectedItem();
         if (selectedInstance != null){
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddInstance.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/resources/views/AddInstance.fxml"));
                 Parent root = fxmlLoader.load();
                 Stage stage = new Stage();
                 stage.initModality(Modality.APPLICATION_MODAL);

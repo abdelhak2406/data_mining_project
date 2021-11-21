@@ -48,6 +48,20 @@ public class Utilities {
         return centrale;
     }
 
+    public String[] return_dispersion(ArrayList<Double[]> data, int column){
+        String[] dispersion= new String[8];
+        dispersion[0]=String.valueOf(MainFct.quartiles(data,1,column)) ;
+        dispersion[1]=String.valueOf(MainFct.quartiles(data,2,column)) ;
+        dispersion[2]=String.valueOf(MainFct.quartiles(data,3,column)) ;
+        dispersion[3]=String.valueOf(MainFct.ecarttype(data,column));
+        dispersion[4]=String.valueOf(MainFct.ecart_interquartile(data,column));
+        dispersion[5]=String.valueOf(MainFct.etendu(data,column));
+        dispersion[6]=String.valueOf(MainFct.variance(data,column));
+        dispersion[7]=MainFct.outliers(data,column).toString();
+
+        return dispersion;
+    }
+
     public static void addChoice(ComboBox cbx){
        /*
             when a user selects an item in the choice box and wants to go back
