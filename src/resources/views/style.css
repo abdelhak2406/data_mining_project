@@ -17,6 +17,7 @@
 .button:hover {
     -fx-cursor:hand;
 }
+
 .label{
     -fx-font-weight: 700;
     -fx-text-alignment: center;
@@ -62,10 +63,17 @@
 }
 
 #btn_home{
-    -fx-background-color: -fx-clr--gray;
+    -fx-background-color: -fx-clr-gray-light;
+    -fx-border-color: -fx-clr--gray;
+    -fx-text-fill: -fx-clr--orange;
+    -fx-border-radius: 3px;
     -fx-font-weight: 700;
 }
+
 #btn_dashboard{
-    -fx-background-color: -fx-clr--gray;
+    -fx-background-color: -fx-clr-gray-light;
+    -fx-border-color: -fx-clr--gray;
+    -fx-text-fill: -fx-clr--orange;
+    -fx-border-radius: 3px;
     -fx-font-weight: 700;
 }

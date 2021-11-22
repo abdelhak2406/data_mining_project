@@ -60,10 +60,15 @@ public class MainWindowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.initFieldsTable();
         this.initDatasetTable();
-        if (!filePath.equals(""))
+        this.initFieldsTable();
+
+        if (!filePath.equals("")){
             this.addDatasetToTable(filePath);
+            this.addDataToFieldsTable(filePath);
+        }
+
+
     }
 
     private void initFieldsTable(){
@@ -75,25 +80,25 @@ public class MainWindowController implements Initializable {
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
         TableColumn type = new TableColumn<>("Type");
         type.setCellValueFactory(new PropertyValueFactory<>("type"));
+        TableColumn range = new TableColumn<>("Range");
+        range.setCellValueFactory(new PropertyValueFactory<>("range"));
+
 
         //remove exiting columns
         while (this.fieldsTable.getColumns().size() > 0){
             this.fieldsTable.getColumns().remove(0);
         }
 
+        //changing width of columns
+        id.prefWidthProperty().bind(this.fieldsTable.widthProperty().multiply(0.05));
+        name.prefWidthProperty().bind(this.fieldsTable.widthProperty().multiply(0.1));
+        description.prefWidthProperty().bind(this.fieldsTable.widthProperty().multiply(0.3));
+        type.prefWidthProperty().bind(this.fieldsTable.widthProperty().multiply(0.3));
+        range.prefWidthProperty().bind(this.fieldsTable.widthProperty().multiply(0.239));
+
+
         //adding the new columns
-        this.fieldsTable.getColumns().addAll(id, name, description, type);
-
-        Field field1 = new Field(1, "field1", "area A", "Numeric");
-        Field field2 = new Field(2, "field2", "Perimeter P", "Numeric");
-        Field field3 = new Field(3, "field3", "Compactness", "Numeric");
-        Field field4 = new Field(4, "field4", "length of kernel", "Numeric");
-        Field field5 = new Field(5, "field5", "width of kernel", "Numeric");
-        Field field6 = new Field(6, "field6", "Asymmetry coef", "Numeric");
-        Field field7 = new Field(7, "field7", "Kernel groove length", "Numeric");
-        Field classe = new Field(8, "class", "Class", "Numeric");
-
-        this.fieldsTable.getItems().addAll(field1, field2, field3, field4, field5, field6, field7, classe);
+        this.fieldsTable.getColumns().addAll(id, name, description, type, range);
 
     }
 
@@ -145,6 +150,7 @@ public class MainWindowController implements Initializable {
         String path = fileChooser.showOpenDialog(stage).getAbsolutePath();
         filePath = path;
         this.addDatasetToTable(path);
+        this.addDataToFieldsTable(path);
 
     }
 
@@ -182,6 +188,37 @@ public class MainWindowController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void addDataToFieldsTable(String filePath){
+        this.fieldsTable.getItems().clear();
+        ArrayList<Double[]> matrix;
+        ArrayList<Double> column = new ArrayList<>();
+        ArrayList<String> ranges = new ArrayList<>();
+        try {
+            matrix = MainFct.readFile(filePath);
+            for(int i = 0; i < 8; i++) {
+                column.clear();
+                for (Double[] instance: matrix) {
+                    column.add(instance[i]);
+                }
+                ranges.add(this.getColumnRange(column));
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        
+        Field field1 = new Field(1, "field1", "area A", "Numeric/Quantitatif", ranges.get(0));
+        Field field2 = new Field(2, "field2", "Perimeter P", "Numeric/Quantitatif", ranges.get(1));
+        Field field3 = new Field(3, "field3", "Compactness", "Numeric/Quantitatif", ranges.get(2));
+        Field field4 = new Field(4, "field4", "length of kernel", "Numeric/Quantitatif", ranges.get(3));
+        Field field5 = new Field(5, "field5", "width of kernel", "Numeric/Quantitatif", ranges.get(4));
+        Field field6 = new Field(6, "field6", "Asymmetry coef", "Numeric/Quantitatif", ranges.get(5));
+        Field field7 = new Field(7, "field7", "Kernel groove length", "Numeric/Quantitatif", ranges.get(6));
+        Field classe = new Field(8, "class", "Class", "Numeric/Qualitatif", ranges.get(7));
+
+        this.fieldsTable.getItems().addAll(field1, field2, field3, field4, field5, field6, field7, classe);
     }
 
     private void initCards(ArrayList<Double[]> matrix){
@@ -428,7 +465,7 @@ public class MainWindowController implements Initializable {
 
     private void refreshScene(ActionEvent event) throws IOException {
         Utilities u = new Utilities();
-        u.switchWindow(event, "MainWindow.fxml", root, stage, scene);
+        u.switchWindow(event, "/resources/views/MainWindow.fxml", root, stage, scene);
     }
 
     public void closePopup(ActionEvent event){
@@ -442,6 +479,13 @@ public class MainWindowController implements Initializable {
         alert.setTitle("Erreur");
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    
+    private String getColumnRange(ArrayList<Double> list){
+        double min = Collections.min(list);
+        double max = Collections.max(list);
+
+        return "[" + min + ", " + max + "]";
     }
 
 }

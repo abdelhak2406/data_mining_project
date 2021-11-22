@@ -22,6 +22,7 @@ import org.jfree.chart.ChartPanel;
 
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class DashboardWindowController {
@@ -96,12 +97,12 @@ public class DashboardWindowController {
              iarg1= Integer.parseInt(arg1) ;
              iarg2 = Integer.parseInt(arg2) ;
 
-            ChartPanel scatterplot = MainFct.scatter_diagram(data, iarg1, iarg2);
+            JPanel scatterplot = MainFct.scatter_diagram(data, iarg1, iarg2);
             swingNodeScatterPot.setContent(scatterplot);
             chart_scatterPlot.getChildren().add(swingNodeScatterPot);
 
 
-            ChartPanel boxplot = MainFct.boxplot_fct(data, iarg1);
+            JPanel boxplot = MainFct.boxplot_fct(data, iarg1);
             swingNodeBoxPot.setContent(boxplot);
             chart_boxPlot.getChildren().add(swingNodeBoxPot);
 
@@ -111,7 +112,7 @@ public class DashboardWindowController {
             chart_qPlot.getChildren().add(swingNodeQQPlot);
 
 
-            ChartPanel histogram = MainFct.histogram_fct(data, iarg1);
+            JPanel histogram = MainFct.histogram_fct(data, iarg1);
             swingNodeHistogram.setContent(histogram);
             /// check this one
             chart_otherGraph2.getChildren().add(swingNodeHistogram);
@@ -123,11 +124,11 @@ public class DashboardWindowController {
         else if(!arg1.equals("null")){
             iarg1 = Integer.parseInt(arg1) ;
 
-            ChartPanel boxplot = MainFct.boxplot_fct(data, iarg1);
+            JPanel boxplot = MainFct.boxplot_fct(data, iarg1);
             swingNodeBoxPot.setContent(boxplot);
             chart_boxPlot.getChildren().add(swingNodeBoxPot);
 
-            ChartPanel histogram = MainFct.histogram_fct(data, iarg1);
+            JPanel histogram = MainFct.histogram_fct(data, iarg1);
             swingNodeHistogram.setContent(histogram);
             chart_otherGraph2.getChildren().add(swingNodeHistogram);
 

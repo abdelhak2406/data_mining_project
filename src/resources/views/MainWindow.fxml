@@ -7,31 +7,31 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<SplitPane dividerPositions="0.055441478439425054" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="550.0" prefWidth="800.0" style="-fx-background-color: #FFFFFC;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.MainWindowController">
+<SplitPane dividerPositions="0.055441478439425054" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="579.0" prefWidth="1012.0" style="-fx-background-color: #FFFFFC;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.MainWindowController">
   <items>
     <AnchorPane>
          <children>
-            <Button fx:id="btn_home" layoutX="-1.0" layoutY="-1.0" mnemonicParsing="false" text="Home" />
-            <Button fx:id="btn_dashboard" layoutX="66.0" mnemonicParsing="false" onAction="#switchToDashboardWin" text="Dashboard" />
+            <Button fx:id="btn_home" layoutX="4.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" styleClass=".menu-btn" text="Home" />
+            <Button fx:id="btn_dashboard" layoutX="106.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToDashboardWin" prefHeight="25.0" prefWidth="91.0" styleClass=".menu-btn" text="Dashboard" />
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #FFFFFC;">
          <children>
-            <Button fx:id="btn_upload" layoutX="576.0" layoutY="14.0" mnemonicParsing="false" onAction="#uploadFile" prefHeight="32.0" prefWidth="120.0" text="Upload" />
-            <Button fx:id="btn_add" layoutX="539.0" layoutY="144.0" mnemonicParsing="false" onAction="#addBtnClick" prefHeight="24.0" prefWidth="61.0" text="Add" />
-            <Button fx:id="btn_edit" layoutX="612.0" layoutY="144.0" mnemonicParsing="false" onAction="#editBtnClick" prefHeight="24.0" prefWidth="61.0" text="Edit" />
-            <Button fx:id="btn_delete" layoutX="683.0" layoutY="144.0" mnemonicParsing="false" onAction="#deleteInstance" text="Delete" />
-            <Button fx:id="btn_reset" layoutX="576.0" layoutY="62.0" mnemonicParsing="false" onAction="#resetAction" prefHeight="32.0" prefWidth="120.0" text="Reset" />
-            <TextArea editable="false" layoutX="4.0" layoutY="14.0" maxHeight="80.0" maxWidth="372.0" prefHeight="80.0" prefWidth="306.0" text="The examined group comprised kernels belonging&#10;to three different varieties of wheat: Kama, Rosa and&#10;Canadian, 70 elements each, randomly selected for the&#10;experiment.">
+            <Button fx:id="btn_upload" layoutX="821.0" layoutY="22.0" mnemonicParsing="false" onAction="#uploadFile" prefHeight="32.0" prefWidth="120.0" text="Upload" />
+            <Button fx:id="btn_add" layoutX="784.0" layoutY="143.0" mnemonicParsing="false" onAction="#addBtnClick" prefHeight="24.0" prefWidth="61.0" text="Add" />
+            <Button fx:id="btn_edit" layoutX="857.0" layoutY="143.0" mnemonicParsing="false" onAction="#editBtnClick" prefHeight="24.0" prefWidth="61.0" text="Edit" />
+            <Button fx:id="btn_delete" layoutX="928.0" layoutY="143.0" mnemonicParsing="false" onAction="#deleteInstance" text="Delete" />
+            <Button fx:id="btn_reset" layoutX="821.0" layoutY="61.0" mnemonicParsing="false" onAction="#resetAction" prefHeight="32.0" prefWidth="120.0" text="Reset" />
+            <TextArea editable="false" layoutX="4.0" layoutY="14.0" maxHeight="157.0" maxWidth="372.0" prefHeight="157.0" prefWidth="306.0" text="The examined group comprised kernels belonging&#10;to three different varieties of wheat: Kama, Rosa and&#10;Canadian, 70 elements each, randomly selected for the&#10;experiment.">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor></TextArea>
-            <TableView fx:id="fieldsTable" layoutX="4.0" layoutY="262.0" prefHeight="239.0" prefWidth="306.0">
+            <TableView fx:id="fieldsTable" layoutX="5.0" layoutY="295.0" prefHeight="239.0" prefWidth="428.0">
               <columns>
                 <TableColumn prefWidth="86.0" text="Field" />
                 <TableColumn prefWidth="169.0" text="Description" />
               </columns>
             </TableView>
-            <TableView fx:id="datasetTable" layoutX="321.0" layoutY="181.0" prefHeight="320.0" prefWidth="475.0">
+            <TableView fx:id="datasetTable" layoutX="440.0" layoutY="188.0" prefHeight="346.0" prefWidth="556.0">
               <columns>
                 <TableColumn prefWidth="75.0" />
                 <TableColumn prefWidth="75.0" />
@@ -41,46 +41,58 @@
                   <String fx:value=".column-header-background" />
                </styleClass>
             </TableView>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="73.0" layoutX="4.0" layoutY="98.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="146.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="73.0" layoutX="164.0" layoutY="98.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="146.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="73.0" layoutX="5.0" layoutY="181.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="146.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="157.0" layoutX="321.0" layoutY="15.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="158.0" />
-            <Text layoutX="19.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Number of instances">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="98.0" layoutX="221.0" layoutY="188.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="212.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="73.0" layoutX="318.0" layoutY="15.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="238.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="98.0" layoutX="5.0" layoutY="188.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="212.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="157.0" layoutX="566.0" layoutY="14.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="158.0" />
+            <Text layoutX="269.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Number of instances">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text layoutX="177.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Number of attributes">
+            <Text layoutX="373.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Number of classes">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text layoutX="27.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Number of classes">
+            <Text layoutX="60.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Number of Attributes">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Text layoutX="347.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Instances per class">
+            <Text layoutX="592.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Instances per class">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <TextField fx:id="nbInstancesField" alignment="CENTER" editable="false" layoutX="19.0" layoutY="134.0" prefHeight="25.0" prefWidth="117.0" style="-fx-background-color: #fff;" />
-            <TextField fx:id="nbAttributesField" alignment="CENTER" editable="false" layoutX="179.0" layoutY="134.0" prefHeight="25.0" prefWidth="117.0" style="-fx-background-color: #fff;" />
-            <TextField fx:id="nbClassesField" alignment="CENTER" editable="false" layoutX="20.0" layoutY="224.0" prefHeight="25.0" prefWidth="117.0" style="-fx-background-color: #fff;" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="73.0" layoutX="164.0" layoutY="181.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="146.0" />
-            <Text layoutX="177.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Number of missing values" textAlignment="CENTER" wrappingWidth="120.123046875">
+            <TextField fx:id="nbInstancesField" alignment="CENTER" editable="false" layoutX="269.0" layoutY="237.0" prefHeight="25.0" prefWidth="117.0" style="-fx-background-color: #fff;">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></TextField>
+            <TextField fx:id="nbClassesField" alignment="CENTER" editable="false" layoutX="382.0" layoutY="49.0" prefHeight="25.0" prefWidth="117.0" style="-fx-background-color: #fff;">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></TextField>
+            <TextField fx:id="nbAttributesField" alignment="CENTER" editable="false" layoutX="53.0" layoutY="237.0" prefHeight="25.0" prefWidth="117.0" style="-fx-background-color: #fff;">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></TextField>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="73.0" layoutX="318.0" layoutY="98.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="238.0" />
+            <Text layoutX="340.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Number of missing values" textAlignment="CENTER" wrappingWidth="185.123046875">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <TextField fx:id="nbMissingValuesField" alignment="CENTER" editable="false" layoutX="179.0" layoutY="223.0" prefHeight="25.0" prefWidth="117.0" style="-fx-background-color: #fff;" />
-            <TextField fx:id="fstClassField" alignment="CENTER" editable="false" layoutX="406.0" layoutY="62.0" prefHeight="25.0" prefWidth="61.0" style="-fx-background-color: #fff;" />
-            <TextField fx:id="sndClassField" alignment="CENTER" editable="false" layoutX="406.0" layoutY="90.0" prefHeight="25.0" prefWidth="61.0" style="-fx-background-color: #fff;" />
-            <TextField fx:id="thrdClassField" alignment="CENTER" editable="false" layoutX="406.0" layoutY="118.0" prefHeight="25.0" prefWidth="61.0" style="-fx-background-color: #fff;" />
-            <Text layoutX="336.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kama:" />
-            <Text layoutX="336.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rosa:" />
-            <Text layoutX="338.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Canadian:" />
+            <TextField fx:id="nbMissingValuesField" alignment="CENTER" editable="false" layoutX="375.0" layoutY="134.0" prefHeight="25.0" prefWidth="117.0" style="-fx-background-color: #fff;">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></TextField>
+            <TextField fx:id="fstClassField" alignment="CENTER" editable="false" layoutX="651.0" layoutY="61.0" prefHeight="25.0" prefWidth="61.0" style="-fx-background-color: #fff;" />
+            <TextField fx:id="sndClassField" alignment="CENTER" editable="false" layoutX="651.0" layoutY="89.0" prefHeight="25.0" prefWidth="61.0" style="-fx-background-color: #fff;" />
+            <TextField fx:id="thrdClassField" alignment="CENTER" editable="false" layoutX="651.0" layoutY="117.0" prefHeight="25.0" prefWidth="61.0" style="-fx-background-color: #fff;" />
+            <Text layoutX="581.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kama:" />
+            <Text layoutX="581.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rosa:" />
+            <Text layoutX="583.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Canadian:" />
          </children></AnchorPane>
   </items>
 </SplitPane>

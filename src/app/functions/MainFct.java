@@ -35,7 +35,6 @@ public class MainFct {
         String line = reader.readLine();
         while (line != null) {
             String[] line_table=line.split("\t+");
-            System.out.println(line_table);
 
             Double[] line_double=new Double[line_table.length];
 
@@ -70,7 +69,7 @@ public class MainFct {
                 "attribute a","Attribute b",collection);
 
         ChartPanel chart = new ChartPanel(scatter_plot);
-        chart.setPreferredSize(new Dimension(190,120));
+        chart.setPreferredSize(new Dimension(518,186));
 
         return (chart);
     }
@@ -98,7 +97,8 @@ public class MainFct {
                 "Data", "Frequency", histogram);
 
                 ChartPanel panel= new ChartPanel(chart);
-        panel.setPreferredSize(new Dimension(370, 130));
+        panel.setPreferredSize(new Dimension(436, 148));
+
         return panel;
     }
 
@@ -132,7 +132,7 @@ public class MainFct {
 
 
         ChartPanel panel = new ChartPanel(chart);
-        panel.setPreferredSize(new Dimension(200, 200));
+        panel.setPreferredSize(new Dimension(275, 333));
         panel.setLayout(new BorderLayout());
         return panel;
 
@@ -152,7 +152,7 @@ public class MainFct {
 
         PlotCanvas canvas = QQPlot.plot(att1, att2);
         JPanel pan = new JPanel(new BorderLayout());
-        pan.setPreferredSize(new Dimension(400, 130));
+        pan.setPreferredSize(new Dimension(461, 186));
         pan.add(canvas, BorderLayout.CENTER);
 
         return pan;
