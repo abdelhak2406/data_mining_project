@@ -94,8 +94,8 @@ public class DashboardWindowController {
 
         if (!arg1.equals("null") && !arg2.equals("null")){
 
-             iarg1= Integer.parseInt(arg1) ;
-             iarg2 = Integer.parseInt(arg2) ;
+             iarg1= Integer.parseInt(arg1)-1 ;
+             iarg2 = Integer.parseInt(arg2)-1 ;
 
             JPanel scatterplot = MainFct.scatter_diagram(data, iarg1, iarg2);
             swingNodeScatterPot.setContent(scatterplot);
@@ -122,7 +122,7 @@ public class DashboardWindowController {
         }
 
         else if(!arg1.equals("null")){
-            iarg1 = Integer.parseInt(arg1) ;
+            iarg1 = Integer.parseInt(arg1)-1 ;
 
             JPanel boxplot = MainFct.boxplot_fct(data, iarg1);
             swingNodeBoxPot.setContent(boxplot);

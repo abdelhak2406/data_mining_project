@@ -121,7 +121,7 @@
                                     <cellValueFactory><PropertyValueFactory property="variance" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="outliers" maxWidth="50" text="0utliers">
+                                <TableColumn fx:id="outliers" minWidth="200" text="0utliers">
                                     <cellValueFactory><PropertyValueFactory property="outliers" />
                                     </cellValueFactory>
                                 </TableColumn>
