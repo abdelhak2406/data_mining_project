@@ -1,5 +1,6 @@
 package app.functions;
 
+import app.controller.MainWindowController;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -34,7 +35,13 @@ public class MainFct {
 
         String line = reader.readLine();
         while (line != null) {
-            String[] line_table=line.split("\t+");
+            String[] line_table;
+            if (MainWindowController.fileExtension.equals("txt")){
+                line_table = line.split("\t+");
+            }else {
+                line_table = line.split(",");
+            }
+
 
             Double[] line_double=new Double[line_table.length];
 
@@ -45,6 +52,7 @@ public class MainFct {
 
             line=reader.readLine();
         }
+        reader.close();
 
         return matrice;
     }

@@ -23,6 +23,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+import static app.Utilities.acceptOnlyNumbersTextField;
+
+
 public class MainWindowController implements Initializable {
 
     //window fiels
@@ -57,6 +60,7 @@ public class MainWindowController implements Initializable {
     //controller attributes
     private static String filePath = "";
     private static ActionEvent tempEvent;
+    public static String fileExtension = "txt";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -68,8 +72,19 @@ public class MainWindowController implements Initializable {
             this.addDataToFieldsTable(filePath);
         }
 
+        //Numeric constraint on add/edit instance fields
+        acceptOnlyNumbersTextField(f1Field);
+        acceptOnlyNumbersTextField(f2Field);
+        acceptOnlyNumbersTextField(f3Field);
+        acceptOnlyNumbersTextField(f4Field);
+        acceptOnlyNumbersTextField(f5Field);
+        acceptOnlyNumbersTextField(f6Field);
+        acceptOnlyNumbersTextField(f7Field);
+        acceptOnlyNumbersTextField(classField);
+
 
     }
+
 
     private void initFieldsTable(){
         TableColumn id = new TableColumn<>("N°");
@@ -145,9 +160,10 @@ public class MainWindowController implements Initializable {
     public void uploadFile(ActionEvent event){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Ressource File");
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT or CSV files (*.txt, *.csv)", "*.txt", "*.csv");
         fileChooser.getExtensionFilters().add(extFilter);
         String path = fileChooser.showOpenDialog(stage).getAbsolutePath();
+        fileExtension = path.split("\\.")[1];
         filePath = path;
         this.addDatasetToTable(path);
         this.addDataToFieldsTable(path);
@@ -209,14 +225,14 @@ public class MainWindowController implements Initializable {
         }
 
         
-        Field field1 = new Field(1, "field1", "area A", "Numeric/Quantitatif", ranges.get(0));
-        Field field2 = new Field(2, "field2", "Perimeter P", "Numeric/Quantitatif", ranges.get(1));
-        Field field3 = new Field(3, "field3", "Compactness", "Numeric/Quantitatif", ranges.get(2));
-        Field field4 = new Field(4, "field4", "length of kernel", "Numeric/Quantitatif", ranges.get(3));
-        Field field5 = new Field(5, "field5", "width of kernel", "Numeric/Quantitatif", ranges.get(4));
-        Field field6 = new Field(6, "field6", "Asymmetry coef", "Numeric/Quantitatif", ranges.get(5));
-        Field field7 = new Field(7, "field7", "Kernel groove length", "Numeric/Quantitatif", ranges.get(6));
-        Field classe = new Field(8, "class", "Class", "Numeric/Qualitatif", ranges.get(7));
+        Field field1 = new Field(1, "field1", "area A", "Numeric/Quantitatif/continu", ranges.get(0));
+        Field field2 = new Field(2, "field2", "Perimeter P", "Numeric/Quantitatif/continu", ranges.get(1));
+        Field field3 = new Field(3, "field3", "Compactness", "Numeric/Quantitatif/continu", ranges.get(2));
+        Field field4 = new Field(4, "field4", "length of kernel", "Numeric/Quantitatif/continu", ranges.get(3));
+        Field field5 = new Field(5, "field5", "width of kernel", "Numeric/Quantitatif/continu", ranges.get(4));
+        Field field6 = new Field(6, "field6", "Asymmetry coef", "Numeric/Quantitatif/continu", ranges.get(5));
+        Field field7 = new Field(7, "field7", "Kernel groove length", "Numeric/Quantitatif/continu", ranges.get(6));
+        Field classe = new Field(8, "class", "Class", "Numeric/Qualitatif/discret", ranges.get(7));
 
         this.fieldsTable.getItems().addAll(field1, field2, field3, field4, field5, field6, field7, classe);
     }
@@ -291,14 +307,16 @@ public class MainWindowController implements Initializable {
             try {
                 BufferedWriter output = new BufferedWriter(new FileWriter(filePath, true));
                 output.newLine();
+                String seprator = this.getSeparator();
+
                 output.append(""
-                        + this.f1Field.getText() + "\t"
-                        + this.f2Field.getText() + "\t"
-                        + this.f3Field.getText() + "\t"
-                        + this.f4Field.getText() + "\t"
-                        + this.f5Field.getText() + "\t"
-                        + this.f6Field.getText() + "\t"
-                        + this.f7Field.getText() + "\t"
+                        + this.f1Field.getText() + seprator
+                        + this.f2Field.getText() + seprator
+                        + this.f3Field.getText() + seprator
+                        + this.f4Field.getText() + seprator
+                        + this.f5Field.getText() + seprator
+                        + this.f6Field.getText() + seprator
+                        + this.f7Field.getText() + seprator
                         + this.classField.getText()
                 );
                 output.close();
@@ -322,15 +340,16 @@ public class MainWindowController implements Initializable {
                 BufferedWriter output = new BufferedWriter(new FileWriter(filePath));
                 output.append("");
                 matrix.remove(lineNumber-1);
+                String separator = this.getSeparator();
                 for (Double[] data: matrix) {
                     output.append(""
-                            + data[0] + "\t"
-                            + data[1] + "\t"
-                            + data[2] + "\t"
-                            + data[3] + "\t"
-                            + data[4] + "\t"
-                            + data[5] + "\t"
-                            + data[6] + "\t"
+                            + data[0] + separator
+                            + data[1] + separator
+                            + data[2] + separator
+                            + data[3] + separator
+                            + data[4] + separator
+                            + data[5] + separator
+                            + data[6] + separator
                             + data[7]
                     );
                     if (matrix.indexOf(data) < matrix.size()-1)
@@ -424,15 +443,16 @@ public class MainWindowController implements Initializable {
                 };
                 matrix.set(lineNumber-1, newLine);
                 //Writing new data in the file
+                String separator = this.getSeparator();
                 for (Double[] data: matrix) {
                     output.append(""
-                            + data[0] + "\t"
-                            + data[1] + "\t"
-                            + data[2] + "\t"
-                            + data[3] + "\t"
-                            + data[4] + "\t"
-                            + data[5] + "\t"
-                            + data[6] + "\t"
+                            + data[0] + separator
+                            + data[1] + separator
+                            + data[2] + separator
+                            + data[3] + separator
+                            + data[4] + separator
+                            + data[5] + separator
+                            + data[6] + separator
                             + data[7]
                     );
                     if (matrix.indexOf(data) < matrix.size()-1)
@@ -486,6 +506,13 @@ public class MainWindowController implements Initializable {
         double max = Collections.max(list);
 
         return "[" + min + ", " + max + "]";
+    }
+
+    private String getSeparator(){
+        if (fileExtension.equals("txt")){
+            return "\t";
+        }
+        return ",";
     }
 
 }

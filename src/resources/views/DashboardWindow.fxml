@@ -62,23 +62,23 @@
                         <Label layoutX="19.0" layoutY="-2.0" prefHeight="32.0" prefWidth="189.0" text="mesures tendances centrales" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                         <TableView fx:id="table_mcentrale" maxHeight="51.0" prefHeight="51.0" prefWidth="508.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
                             <columns>
-                                <TableColumn fx:id="moyenne_col" text="moyenne">
+                                <TableColumn fx:id="moyenne_col" text="Mean">
                                     <cellValueFactory><PropertyValueFactory property="moyenne" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="mtronq_col" minWidth="100" text="moy_tronquee">
+                                <TableColumn fx:id="mtronq_col" minWidth="100" text="Trimmed mean">
                                     <cellValueFactory><PropertyValueFactory property="moy_tronquee" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="mode_col" minWidth="150" text="mode">
+                                <TableColumn fx:id="mode_col" minWidth="150" text="Mode">
                                     <cellValueFactory><PropertyValueFactory property="mode" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="median_col" text="mediane">
+                                <TableColumn fx:id="median_col" text="Median">
                                     <cellValueFactory><PropertyValueFactory property="mediane" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="milieu_col" minWidth="100" text="milieu_etendu">
+                                <TableColumn fx:id="milieu_col" minWidth="100" text="Midrange">
                                     <cellValueFactory><PropertyValueFactory property="milieu" />
                                     </cellValueFactory>
                                 </TableColumn>
@@ -105,23 +105,23 @@
                                     <cellValueFactory><PropertyValueFactory property="q3" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="ecartype_col" text="ecart type">
+                                <TableColumn fx:id="ecartype_col" text="SD">
                                     <cellValueFactory><PropertyValueFactory property="ecartype" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="ecatint_col" text="ecart interQ">
+                                <TableColumn fx:id="ecatint_col" text="IQR">
                                     <cellValueFactory><PropertyValueFactory property="ecartQ" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="etendue_col" text="etendue">
+                                <TableColumn fx:id="etendue_col" text="Range">
                                     <cellValueFactory><PropertyValueFactory property="etendue" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="variance_col" text="variance">
+                                <TableColumn fx:id="variance_col" text="Variance">
                                     <cellValueFactory><PropertyValueFactory property="variance" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="outliers" maxWidth="50" text="outliers">
+                                <TableColumn fx:id="outliers" maxWidth="50" text="0utliers">
                                     <cellValueFactory><PropertyValueFactory property="outliers" />
                                     </cellValueFactory>
                                 </TableColumn>
@@ -143,6 +143,8 @@
                   <RowConstraints />
                </rowConstraints>
             </GridPane>
+            <Label layoutX="210.0" layoutY="159.0" prefHeight="32.0" prefWidth="128.0" text="(first column)" />
+            <Label layoutX="174.0" layoutY="242.0" prefHeight="32.0" prefWidth="128.0" text="(first column)" />
          </children>
       </AnchorPane>
    </items>
