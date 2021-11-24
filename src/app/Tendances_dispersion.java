@@ -5,13 +5,15 @@ public class Tendances_dispersion {
     public String q1;
     public String q2;
     public String q3;
+    public String min;
+    public String max;
     public String ecartype;
     public String ecartQ;
     public String etendue;
     public String variance;
     public String outliers;
 
-    public Tendances_dispersion(String q1, String q2, String q3, String ecartype, String ecartQ, String etendue, String variance, String outliers) {
+    public Tendances_dispersion(String q1, String q2, String q3, String ecartype, String ecartQ, String etendue, String variance, String outliers, String min, String max) {
         this.q1 = q1;
         this.q2 = q2;
         this.q3 = q3;
@@ -20,6 +22,8 @@ public class Tendances_dispersion {
         this.etendue = etendue;
         this.variance = variance;
         this.outliers= outliers;
+        this.min = min;
+        this.max = max;
     }
 
     public String getOutliers() {
@@ -85,4 +89,8 @@ public class Tendances_dispersion {
     public void setVariance(String variance) {
         this.variance = variance;
     }
+
+    public String getMin(){ return this.min; }
+
+    public String getMax(){ return this.max; }
 }

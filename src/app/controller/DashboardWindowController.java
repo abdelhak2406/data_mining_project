@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
@@ -24,6 +25,8 @@ import org.jfree.chart.ChartPanel;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class DashboardWindowController {
 
@@ -136,7 +139,7 @@ public class DashboardWindowController {
         }
         else
         { // no attribut selected
-            System.out.println("SELECT AN ATTRIBUT AT LEAST.");
+            this.errorAlert("SELECT AN ATTRIBUT AT LEAST.");
 
         }
 
@@ -152,9 +155,26 @@ public class DashboardWindowController {
         table_mcentrale.setItems(tendance);
 
         String[] table_dispersion= utilities.return_dispersion(data,combo_firstCol.getSelectionModel().getSelectedIndex());
+        ArrayList<Double> tempList = new ArrayList<>();
+
+        for (int i = 0; i < data.size(); i++) {
+            tempList.add(data.get(i)[combo_firstCol.getSelectionModel().getSelectedIndex()]);
+        }
+        System.out.println(tempList);
         ObservableList<Tendances_dispersion> tendance_d= FXCollections.observableArrayList(
-                new Tendances_dispersion(table_dispersion[0],table_dispersion[1],table_dispersion[2],
-                        table_dispersion[3],table_dispersion[4],table_dispersion[5],table_dispersion[6],table_dispersion[7]));
+                new Tendances_dispersion(
+                        table_dispersion[0],
+                        table_dispersion[1],
+                        table_dispersion[2],
+                        table_dispersion[3],
+                        table_dispersion[4],
+                        table_dispersion[5],
+                        table_dispersion[6],
+                        table_dispersion[7],
+                        String.valueOf(Collections.min(tempList)),
+                        String.valueOf(Collections.max(tempList))
+                )
+        );
 
         table_mdispersion.setItems(tendance_d);
     }
@@ -176,7 +196,15 @@ public class DashboardWindowController {
                 swingNode.setContent(panel);
             }
         });
-}}
+    }
+
+    public void errorAlert(String message){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+}
 
 
 

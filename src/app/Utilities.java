@@ -39,10 +39,11 @@ public class Utilities {
 
     public String[] return_centrale(ArrayList<Double[]> data, int column){
         String[] centrale= new String[5];
-        centrale[0]=String.valueOf(MainFct.get_moy(data,column)) ;
-        centrale[1]=String.valueOf(MainFct.moyenne_tranquee(data,column));
+        centrale[0]=String.format("%.2f", MainFct.get_moy(data,column)).replace(",", ".") ;
+        centrale[1]=String.format("%.2f", MainFct.moyenne_tranquee(data,column)).replace(",", ".");
         centrale[2]=MainFct.mode_fct(data,column).toString();
-        centrale[3]=String.valueOf(MainFct.get_mediane(data,column));
+        centrale[3]=String.format("%.2f", MainFct.get_mediane(data,column)).replace(",", ".");
+        //TODO; try to fix the .2f error
         centrale[4]=String.valueOf(MainFct.milieu_etendu(data,column));
 
         return centrale;
@@ -50,13 +51,13 @@ public class Utilities {
 
     public String[] return_dispersion(ArrayList<Double[]> data, int column){
         String[] dispersion= new String[8];
-        dispersion[0]=String.valueOf(MainFct.quartiles(data,1,column)) ;
-        dispersion[1]=String.valueOf(MainFct.quartiles(data,2,column)) ;
-        dispersion[2]=String.valueOf(MainFct.quartiles(data,3,column)) ;
-        dispersion[3]=String.valueOf(MainFct.ecarttype(data,column));
-        dispersion[4]=String.valueOf(MainFct.ecart_interquartile(data,column));
-        dispersion[5]=String.valueOf(MainFct.etendu(data,column));
-        dispersion[6]=String.valueOf(MainFct.variance(data,column));
+        dispersion[0]=String.format("%.2f", MainFct.quartiles(data,1,column)).replace(",", ".") ;
+        dispersion[1]=String.format("%.2f", MainFct.quartiles(data,2,column)).replace(",", ".") ;
+        dispersion[2]=String.format("%.2f", MainFct.quartiles(data,3,column)).replace(",", ".") ;
+        dispersion[3]=String.format("%.2f", MainFct.ecarttype(data,column)).replace(",", ".");
+        dispersion[4]=String.format("%.2f", MainFct.ecart_interquartile(data,column)).replace(",", ".");
+        dispersion[5]=String.format("%.2f", MainFct.etendu(data,column)).replace(",", ".");
+        dispersion[6]=String.format("%.2f", MainFct.variance(data,column)).replace(",", ".");
         dispersion[7]=MainFct.outliers(data,column).toString();
 
         return dispersion;

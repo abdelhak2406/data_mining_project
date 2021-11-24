@@ -37,6 +37,10 @@
     -fx-border-radius: 5px;
 }
 
+.table-view .table-column{
+    -fx-text-alignment: CENTER-RIGHT;
+}
+
 .background{
     -fx-background: -fx-clr--gray-light;
 }

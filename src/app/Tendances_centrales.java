@@ -7,6 +7,7 @@ public class Tendances_centrales {
     public String mode;
     public String mediane;
     public String milieu;
+    public String symetrie;
 
     public Tendances_centrales(String moyenne, String moy_tronquee, String mode, String mediane, String milieu) {
         this.moyenne = moyenne;
@@ -14,6 +15,39 @@ public class Tendances_centrales {
         this.mode = mode;
         this.mediane = mediane;
         this.milieu = milieu;
+        this.symetrie = this.getSymetry(moyenne, mediane, mode);
+    }
+
+    private String getSymetry(String moy, String med, String mod){
+        double moyenne = Double.parseDouble(moy);
+        double median = Double.parseDouble(med);
+        mod = mod.replace("[", "");
+        mod = mod.replace("]", "");
+        String[] modeStr = mod.split(",");
+        if (Math.abs(moyenne - median) <= 0.5){
+            for (String mode: modeStr) {
+                if (Math.abs(moyenne - Double.parseDouble(mode)) <= 0.5 && Math.abs(median - Double.parseDouble(mode)) <= 0.5){
+                    return "symmetric";
+                }
+            }
+            return "none";
+        }else{
+            if (moyenne < median){
+                for (String mode: modeStr) {
+                    if (median > Double.parseDouble(mode))
+                        return "none";
+                }
+                return "negatively skewed data";
+            }
+            if (moyenne > median){
+                for (String mode: modeStr) {
+                    if (median < Double.parseDouble(mode))
+                        return "none";
+                }
+                return "positively skewed data";
+            }
+        }
+        return "none";
     }
 
     public String getMoyenne() {
@@ -54,5 +88,9 @@ public class Tendances_centrales {
 
     public void setMilieu(String milieu) {
         this.milieu = milieu;
+    }
+
+    public String getSymetrie(){
+        return this.symetrie;
     }
 }
