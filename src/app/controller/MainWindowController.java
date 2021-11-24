@@ -72,7 +72,7 @@ public class MainWindowController implements Initializable {
             this.addDataToFieldsTable(filePath);
         }
 
-        //Numeric constraint on add/edit instance fields
+        /*//Numeric constraint on add/edit instance fields
         acceptOnlyNumbersTextField(f1Field);
         acceptOnlyNumbersTextField(f2Field);
         acceptOnlyNumbersTextField(f3Field);
@@ -82,6 +82,8 @@ public class MainWindowController implements Initializable {
         acceptOnlyNumbersTextField(f7Field);
         acceptOnlyNumbersTextField(classField);
 
+
+         */
 
     }
 
