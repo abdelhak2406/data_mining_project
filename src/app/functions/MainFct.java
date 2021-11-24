@@ -389,6 +389,20 @@ public class MainFct {
 
     }
 
+    public static double correlationCoef(ArrayList<Double[]> data, int column1, int column2){
+        Double somme = new Double(0.0);
+        Double nAB = new Double(0.0);
+        Double denomin = new Double(0.0);
+        for (int i = 0; i < data.size(); i++) {
+            somme += data.get(i)[column1] * data.get(i)[column2];
+        }
+
+        nAB = data.size() * get_moy(data, column1) * get_moy(data, column2);
+        denomin = (data.size()-1) * ecarttype(data, column1) * ecarttype(data, column2);
+
+        return (somme-nAB)/denomin;
+    }
+
 
     public static void main(String[] args) throws Exception{
         ArrayList<Double[]> data= MainFct.readFile("seeds_dataset.txt");

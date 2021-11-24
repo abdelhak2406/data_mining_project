@@ -6,6 +6,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
 <SplitPane dividerPositions="0.059548254620123205" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="579.0" prefWidth="1012.0" style="-fx-background-color: #FFFFFC;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.DashboardWindowController">
    <items>
@@ -57,32 +59,32 @@
                <padding>
                   <Insets left="1.0" top="1.0" />
                </padding></Pane>
-            <GridPane fx:id="chart_tables" alignment="TOP_CENTER" layoutX="11.0" layoutY="158.0" prefHeight="182.0" prefWidth="705.0" style="-fx-border-color: #EDECEC;">
+            <GridPane fx:id="chart_tables" layoutX="11.0" layoutY="158.0" prefHeight="182.0" prefWidth="579.0" style="-fx-border-color: #EDECEC;">
                     <children>
                         <Label layoutX="19.0" layoutY="-2.0" prefHeight="32.0" prefWidth="189.0" text="mesures tendances centrales" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <TableView fx:id="table_mcentrale" maxHeight="51.0" prefHeight="51.0" prefWidth="508.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <TableView fx:id="table_mcentrale" maxHeight="51.0" prefHeight="50.0" prefWidth="577.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
                             <columns>
-                                <TableColumn fx:id="moyenne_col" text="Mean">
+                                <TableColumn fx:id="moyenne_col" prefWidth="60.0" text="Mean">
                                     <cellValueFactory><PropertyValueFactory property="moyenne" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="mtronq_col" minWidth="100" text="Trimmed mean">
+                                <TableColumn fx:id="mtronq_col" minWidth="74.0" prefWidth="92.0" text="Trimmed mean">
                                     <cellValueFactory><PropertyValueFactory property="moy_tronquee" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="mode_col" minWidth="150" text="Mode">
+                                <TableColumn fx:id="mode_col" minWidth="86.0" prefWidth="141.0" text="Mode">
                                     <cellValueFactory><PropertyValueFactory property="mode" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="median_col" text="Median">
+                                <TableColumn fx:id="median_col" prefWidth="65.0" text="Median">
                                     <cellValueFactory><PropertyValueFactory property="mediane" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="milieu_col" minWidth="100" text="Midrange">
+                                <TableColumn fx:id="milieu_col" minWidth="65.0" prefWidth="78.0" text="Midrange">
                                     <cellValueFactory><PropertyValueFactory property="milieu" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="symtr" minWidth="100" text="Symmetry">
+                                <TableColumn fx:id="symtr" minWidth="81.0" prefWidth="91.0" text="Symmetry">
                                     <cellValueFactory><PropertyValueFactory property="symetrie" />
                                     </cellValueFactory>
                                 </TableColumn>
@@ -94,8 +96,8 @@
 
                         </TableView>
 
-                        <Label layoutX="19.0" layoutY="-2.0" prefHeight="32.0" prefWidth="189.0" text="mesures de dispersion" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                        <TableView fx:id="table_mdispersion" maxHeight="66.0" prefHeight="60.0" prefWidth="623.0" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                        <Label layoutX="19.0" layoutY="-2.0" prefHeight="32.0" prefWidth="189.0" text="mesures de dispersion" GridPane.rowIndex="3" />
+                        <TableView fx:id="table_mdispersion" maxHeight="66.0" prefHeight="60.0" prefWidth="520.0" GridPane.rowIndex="4">
                             <columns>
                                 <TableColumn fx:id="min_col" maxWidth="50.0" styleClass=".table-column" text="min">
                                     <cellValueFactory><PropertyValueFactory property="min" />
@@ -121,19 +123,19 @@
                                     <cellValueFactory><PropertyValueFactory property="ecartype" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="ecatint_col" prefWidth="68.0" styleClass=".table-column" text="IQR">
+                                <TableColumn fx:id="ecatint_col" prefWidth="54.0" styleClass=".table-column" text="IQR">
                                     <cellValueFactory><PropertyValueFactory property="ecartQ" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="etendue_col" prefWidth="79.0" styleClass=".table-column" text="Range">
+                                <TableColumn fx:id="etendue_col" prefWidth="54.0" styleClass=".table-column" text="Range">
                                     <cellValueFactory><PropertyValueFactory property="etendue" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="variance_col" prefWidth="81.0" styleClass=".table-column" text="Variance">
+                                <TableColumn fx:id="variance_col" prefWidth="72.0" styleClass=".table-column" text="Variance">
                                     <cellValueFactory><PropertyValueFactory property="variance" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="outliers" minWidth="73.0" prefWidth="82.0" styleClass=".table-column" text="0utliers">
+                                <TableColumn fx:id="outliers" minWidth="38.0" prefWidth="61.0" styleClass=".table-column" text="0utliers">
                                     <cellValueFactory><PropertyValueFactory property="outliers" />
                                     </cellValueFactory>
                                 </TableColumn>
@@ -147,8 +149,10 @@
                     </children>
                <columnConstraints>
                   <ColumnConstraints />
+                  <ColumnConstraints />
                </columnConstraints>
                <rowConstraints>
+                  <RowConstraints />
                   <RowConstraints />
                   <RowConstraints />
                   <RowConstraints />
@@ -157,6 +161,19 @@
             </GridPane>
             <Label layoutX="210.0" layoutY="159.0" prefHeight="32.0" prefWidth="128.0" text="(first column)" />
             <Label layoutX="174.0" layoutY="242.0" prefHeight="32.0" prefWidth="128.0" text="(first column)" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fffffc" height="182.0" layoutX="594.0" layoutY="158.0" stroke="#edecec" strokeType="INSIDE" width="121.0" />
+            <Label layoutX="609.0" layoutY="159.0" prefHeight="32.0" prefWidth="91.0" text="correlation coef" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField fx:id="correlationCoefField" alignment="CENTER" editable="false" layoutX="600.0" layoutY="191.0" prefHeight="25.0" prefWidth="109.0" style="-fx-background-color: #fffffc; -fx-border-color: #fffffc;" />
+            <Label layoutX="621.0" layoutY="254.0" prefHeight="32.0" prefWidth="68.0" text="Correlation">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField fx:id="resultCorrelationField" alignment="CENTER" editable="false" layoutX="600.0" layoutY="297.0" prefHeight="25.0" prefWidth="109.0" style="-fx-background-color: #fffffc; -fx-border-color: #fffffc;" />
          </children>
       </AnchorPane>
    </items>

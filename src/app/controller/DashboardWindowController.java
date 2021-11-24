@@ -16,6 +16,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -71,6 +72,10 @@ public class DashboardWindowController {
     @FXML
     private GridPane chart_tables;
 
+    @FXML
+    public TextField correlationCoefField = new TextField();
+    public TextField resultCorrelationField = new TextField();
+
 
 
 
@@ -121,6 +126,7 @@ public class DashboardWindowController {
             chart_otherGraph2.getChildren().add(swingNodeHistogram);
 
             set_tables(data);
+            this.setCorrelationData(data);
 
         }
 
@@ -154,6 +160,7 @@ public class DashboardWindowController {
 
         table_mcentrale.setItems(tendance);
 
+
         String[] table_dispersion= utilities.return_dispersion(data,combo_firstCol.getSelectionModel().getSelectedIndex());
         ArrayList<Double> tempList = new ArrayList<>();
 
@@ -177,6 +184,26 @@ public class DashboardWindowController {
         );
 
         table_mdispersion.setItems(tendance_d);
+    }
+
+    private void setCorrelationData(ArrayList<Double[]> data){
+        int column1 = Integer.parseInt(this.combo_firstCol.getValue());
+        int column2 = Integer.parseInt(this.combo_secondCol.getValue());
+        double corrCoef = MainFct.correlationCoef(data, column1, column2);
+        this.correlationCoefField.setText(String.format("%.2f", corrCoef));
+
+        if (Math.abs(corrCoef) <= 0.2){
+            this.resultCorrelationField.setText("Not correlated");
+        }else{
+            if (corrCoef > 0.0){
+                this.resultCorrelationField.setText("+ correlated");
+            }else{
+                if (corrCoef < 0.0){
+                    this.resultCorrelationField.setText("- correlated");
+                }
+            }
+        }
+
     }
 
     @FXML
