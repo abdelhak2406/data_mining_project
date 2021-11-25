@@ -182,10 +182,10 @@ public class MainFct {
     public static Double get_mediane(ArrayList<Double[]> data, int column){
         Double[] values=sort(data,column);
         if(values.length%2==1){
-            return values[(values.length+1)/2];
+            return values[(values.length)/2];
         }
         else {
-            return (values[values.length/2]+values[(values.length+2)/2])/2;
+            return (values[(values.length-1)/2]+values[(values.length+1)/2])/2;
         }
     }
 
