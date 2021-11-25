@@ -43,8 +43,6 @@ public class DashboardWindowController {
 
 
 
-    @FXML
-    private Button btn_submit;
 
     @FXML
     private ComboBox<String> combo_firstCol;
@@ -54,8 +52,6 @@ public class DashboardWindowController {
     private ComboBox<String> combo_secondCol;
 
 
-    @FXML
-    private BarChart chart_histogram;
 
     @FXML
     private Pane chart_boxPlot;
@@ -69,8 +65,6 @@ public class DashboardWindowController {
     @FXML
     private Pane chart_otherGraph2;
 
-    @FXML
-    private GridPane chart_tables;
 
     @FXML
     public TextField correlationCoefField = new TextField();
@@ -98,7 +92,6 @@ public class DashboardWindowController {
 
         System.out.println(MainFct.filePath);
         ArrayList<Double[]> data= MainFct.readFile(MainFct.filePath);
-        //MainFct.print_data(data);
 
         if (!arg1.equals("null") && !arg2.equals("null")){
 

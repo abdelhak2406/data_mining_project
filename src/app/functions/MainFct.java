@@ -357,13 +357,13 @@ public class MainFct {
         //boucle de somme de (x-moyenne)carre
         //return racine(1/n(somme))
         Double element , somme=0.0 , moyenne = get_moy(list,column); Double difference;
-        int i , taille= Math.toIntExact(Arrays.stream(list.get(column)).count());
-        for(i=0;i<taille;i++){
+        int i;
+        for(i=0;i<list.size();i++){
             element = list.get(i)[column];
             difference=(element-moyenne);
             somme = somme+difference*difference;
         }
-        return Math.sqrt(somme/taille);
+        return Math.sqrt(somme/list.size());
     }
 
     public static ArrayList<Double> outliers(ArrayList<Double[]> list, int column){
