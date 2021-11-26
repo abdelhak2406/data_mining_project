@@ -24,9 +24,9 @@ public class Tendances_centrales {
         mod = mod.replace("[", "");
         mod = mod.replace("]", "");
         String[] modeStr = mod.split(",");
-        if (Math.abs(moyenne - median) <= 0.5){
+        if (Math.abs(moyenne - median) <= 0.3){
             for (String mode: modeStr) {
-                if (Math.abs(moyenne - Double.parseDouble(mode)) <= 0.5 && Math.abs(median - Double.parseDouble(mode)) <= 0.5){
+                if (Math.abs(moyenne - Double.parseDouble(mode)) <= 0.3 && Math.abs(median - Double.parseDouble(mode)) <= 0.3){
                     return "symmetric";
                 }
             }
@@ -34,7 +34,7 @@ public class Tendances_centrales {
         }else{
             if (moyenne < median){
                 for (String mode: modeStr) {
-                    if (median > Double.parseDouble(mode))
+                    if (median  > Double.parseDouble(mode))
                         return "none";
                 }
                 return "negatively skewed data";
