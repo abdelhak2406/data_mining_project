@@ -115,35 +115,32 @@ public class MainFct {
 
     public static ChartPanel boxplot_fct(ArrayList<Double[]> dataset, int a){
 
-        DefaultBoxAndWhiskerCategoryDataset data = new DefaultBoxAndWhiskerCategoryDataset();
+
         ArrayList<Double> col = new ArrayList<>();
-
-
         for (int i = 0; i < dataset.size(); i++) {
             col.add(dataset.get(i)[a]);
         }
-        data.add(col, a, a);
 
-        JFrame f = new JFrame("BoxPlot");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        DefaultBoxAndWhiskerXYDataset data = new DefaultBoxAndWhiskerXYDataset("");
+        BoxAndWhiskerItem item = BoxAndWhiskerCalculator.calculateBoxAndWhiskerStatistics(col);
 
-        final CategoryAxis xAxis = new CategoryAxis("Attribut");
-        final NumberAxis yAxis = new NumberAxis("Values");
-        yAxis.setAutoRangeIncludesZero(false);
-        final BoxAndWhiskerRenderer renderer = new BoxAndWhiskerRenderer();
-        renderer.setFillBox(true);
-        renderer.setSeriesToolTipGenerator(1, new BoxAndWhiskerToolTipGenerator());
-        //renderer.setMeanVisible(false);
+        data.add(new Date(), item);
 
-        final CategoryPlot plot = new CategoryPlot(data, xAxis, yAxis, renderer);
-        final JFreeChart chart = new JFreeChart(
-                "BoxPlot", plot);
+        Double upper = max_list(dataset,a);
+        Double lower = min_list(dataset,a);
 
+        JFreeChart plot = ChartFactory.createBoxAndWhiskerChart("BOXPLOT","","Column"+a, data ,true);
 
-        ChartPanel panel = new ChartPanel(chart);
-        panel.setPreferredSize(new Dimension(275, 333));
-        panel.setLayout(new BorderLayout());
-        return panel;
+        XYPlot idfPlot = (XYPlot) plot.getPlot();
+
+        ValueAxis y_axis = idfPlot.getRangeAxis();
+        y_axis.setRange(lower -1, upper+1);
+        XYBoxAndWhiskerRenderer renderer = new XYBoxAndWhiskerRenderer();
+        idfPlot.setRenderer(renderer);
+
+        ChartPanel chartPan = new ChartPanel(plot);
+        chartPan.setPreferredSize(new Dimension(275, 333));
+        return chartPan;
 
     }
 
