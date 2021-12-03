@@ -6,11 +6,13 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.labels.BoxAndWhiskerToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BoxAndWhiskerRenderer;
-import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
-import org.jfree.data.statistics.HistogramDataset;
+import org.jfree.chart.renderer.xy.XYBoxAndWhiskerRenderer;
+import org.jfree.data.statistics.*;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import smile.plot.swing.PlotCanvas;
@@ -20,10 +22,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 
 public class MainFct {
@@ -400,23 +401,85 @@ public class MainFct {
         return (somme-nAB)/denomin;
     }
 
+    //--------------------------------part2--------------------------
+    public static void minMaxNormalization(ArrayList<Double> column){
+        double min = Collections.min(column);
+        double max = Collections.max(column);
+
+        for (int i = 0; i < column.size(); i++) {
+            double tempValue = (column.get(i) - min)/(max - min);
+            column.set(i, tempValue);
+        }
+
+        System.out.println(column);
+    }
+
+    public static void zScoreNormalization(ArrayList<Double> column){
+        double sum = 0;
+        double moy = getMoy(column);
+        for (int i = 0; i < column.size(); i++) {
+            sum += Math.abs(column.get(i) - moy);
+        }
+        System.out.println(column.size());
+        double s = sum/column.size();
+
+        for (int i = 0; i < column.size(); i++) {
+            double val = column.get(i);
+            column.set(i, (val - moy)/s);
+        }
+
+        System.out.println(column);
+    }
+
+    public static double getMoy(ArrayList<Double> column){
+        double sum = 0;
+        for (double val:column) {
+            sum += val;
+        }
+        return (sum/column.size());
+    }
+
+    //----------------------- discrétisation ----------------------
+    public static void discretisationEqual(ArrayList<Double>column, int q, int c){
+        double min = Collections.min(column);
+        double max = Collections.max(column);
+        double int_length= (max-min)/q;
+        double[] array={int_length,int_length*2,int_length*3};
+        ArrayList<String> result= new ArrayList<>();
+
+        for (int i = 0; i < column.size(); i++) {
+            if(column.get(i)<array[0]){
+                result.set(i,'I'+String.valueOf(c)+'1');
+            }
+            else if(column.get(i)<array[1]){
+                result.set(i,'I'+String.valueOf(c)+'2');
+            }
+            else if(column.get(i)<array[2]){
+                result.set(i,'I'+String.valueOf(c)+'3');
+            }
+            else {
+                result.set(i,'I'+String.valueOf(c)+'4');
+            }
+            System.out.println(result.get(i));
+        }
+
+
+    }
+
 
     public static void main(String[] args) throws Exception{
-        ArrayList<Double[]> data= MainFct.readFile("seeds_dataset.txt");
-        print_data(data);
-        //ChartPanel chartPanel= scatter_diagram(data,2,4);
-        System.out.println(mode_fct(data,0));
-        System.out.println(get_moy(data,0));
-        System.out.println(moyenne_tranquee(data,0));
-        System.out.println(milieu_etendu(data,0));
-        System.out.println(get_mediane(data,0));
-        System.out.println("-------------------------");
-        System.out.println(etendu(data,0));
-        System.out.println(quartiles(data,1,0));
-        System.out.println(quartiles(data,3,0));
-        System.out.println(ecart_interquartile(data,0));
-        System.out.println(variance(data,0));
-        System.out.println(ecarttype(data,0));
-        System.out.println(outliers(data,0));
+        ArrayList<Double[]> data= MainFct.readFile("C:\\Users\\Raouftams\\IdeaProjects\\data_mining_project\\src\\app\\functions\\seeds.txt");
+        ArrayList<Double> ar = new ArrayList();
+        Double[] instance = {};
+        for (int i = 0; i < 7; i++) {
+
+            for (int j= 0; j < data.size(); j++) {
+                ar.add(data.get(j)[i]);
+            }
+            discretisationEqual(ar,4,i);
+
+            ar.clear();
+
+        }
     }
 }
