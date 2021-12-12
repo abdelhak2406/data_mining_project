@@ -440,30 +440,52 @@ public class MainFct {
     }
 
     //----------------------- discrétisation ----------------------
-    public static void discretisationEqual(ArrayList<Double>column, int q, int c){
+    public static ArrayList<String> discretisationEqual(ArrayList<Double>column, int q, int c){
         double min = Collections.min(column);
         double max = Collections.max(column);
         double int_length= (max-min)/q;
         double[] array={int_length,int_length*2,int_length*3};
-        ArrayList<String> result= new ArrayList<>();
+        ArrayList<String> result= new ArrayList<>(column.size());
 
         for (int i = 0; i < column.size(); i++) {
-            if(column.get(i)<array[0]){
-                result.set(i,'I'+String.valueOf(c)+'1');
+            if(column.get(i)<min+array[0]){
+                result.add('I'+String.valueOf(c)+'1');
             }
-            else if(column.get(i)<array[1]){
-                result.set(i,'I'+String.valueOf(c)+'2');
+            else if(column.get(i)<min+array[1]){
+                result.add('I'+String.valueOf(c)+'2');
             }
-            else if(column.get(i)<array[2]){
-                result.set(i,'I'+String.valueOf(c)+'3');
+            else if(column.get(i)<min+array[2]){
+                result.add('I'+String.valueOf(c)+'3');
             }
             else {
-                result.set(i,'I'+String.valueOf(c)+'4');
+                result.add('I'+String.valueOf(c)+'4');
             }
-            System.out.println(result.get(i));
         }
+        return result;
 
 
+    }
+
+    public static void frequentItem(double minSup, ArrayList<String> column, int c){
+        String[] items = {"I"+c+"1","I"+c+"2","I"+c+"3","I"+c+"4"};
+        String[][] frequency= new String[2][column.size()];
+        int j=0;
+        for(String d:items){
+            int i=0;
+            for(String col:column){
+
+                if(d.equals(col)){
+                    i++;
+                }
+            }
+            if(Double.valueOf(i)/Double.valueOf(column.size())>minSup){
+                frequency[0][j]=d;
+                frequency[1][j]=String.valueOf(i);
+
+                System.out.println(frequency[0][j]+", freq"+frequency[1][j]);
+            }
+            j++;
+        }
     }
 
 
@@ -471,15 +493,20 @@ public class MainFct {
         ArrayList<Double[]> data= MainFct.readFile("C:\\Users\\Raouftams\\IdeaProjects\\data_mining_project\\src\\app\\functions\\seeds.txt");
         ArrayList<Double> ar = new ArrayList();
         Double[] instance = {};
+        ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
         for (int i = 0; i < 7; i++) {
 
             for (int j= 0; j < data.size(); j++) {
                 ar.add(data.get(j)[i]);
             }
-            discretisationEqual(ar,4,i);
+            list.add(discretisationEqual(ar,4,i+1));
 
             ar.clear();
 
         }
+        for (int i = 0; i < list.size(); i++) {
+            frequentItem(0.2,list.get(i),i+1);
+        }
+
     }
 }
