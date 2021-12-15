@@ -466,6 +466,29 @@ public class MainFct {
 
     }
 
+    public static ArrayList<String> discretisation_effectif(ArrayList<Double> column,int q, int c){
+        Double[] ar=new Double[column.size()];
+        for (int i = 0; i < column.size(); i++) {
+            ar[i]=column.get(i);
+        }
+        Double[] sorted=sort(ar);
+        Double [] quartiles= new Double[q];
+        for (int i = 0; i < q; i++) {
+            quartiles[i]=sorted[(Math.round(column.size()/q*(i+1)))];
+        }
+        //System.out.println(quartiles[0]+"   "+quartiles[1]+"   "+quartiles[2]+"   "+quartiles[3]);
+        ArrayList<String> result= new ArrayList<>();
+        for (int i = 0; i < column.size(); i++) {
+            for (int j = 0; j < q; j++) {
+                if (column.get(i) <= quartiles[j]) {
+                    result.add('I' + String.valueOf(c) + String.valueOf(j + 1));
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
     public static void frequentItem(double minSup, ArrayList<String> column, int c){
         String[] items = {"I"+c+"1","I"+c+"2","I"+c+"3","I"+c+"4"};
         String[][] frequency= new String[2][column.size()];
@@ -490,7 +513,7 @@ public class MainFct {
 
 
     public static void main(String[] args) throws Exception{
-        ArrayList<Double[]> data= MainFct.readFile("C:\\Users\\Raouftams\\IdeaProjects\\data_mining_project\\src\\app\\functions\\seeds.txt");
+        ArrayList<Double[]> data= MainFct.readFile("datasets\\seeds.txt");
         ArrayList<Double> ar = new ArrayList();
         Double[] instance = {};
         ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
@@ -499,7 +522,7 @@ public class MainFct {
             for (int j= 0; j < data.size(); j++) {
                 ar.add(data.get(j)[i]);
             }
-            list.add(discretisationEqual(ar,4,i+1));
+            list.add(discretisation_effectif(ar,4,i+1));
 
             ar.clear();
 
