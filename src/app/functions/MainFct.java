@@ -4,13 +4,8 @@ import app.controller.MainWindowController;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.labels.BoxAndWhiskerToolTipGenerator;
-import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.category.BoxAndWhiskerRenderer;
 import org.jfree.chart.renderer.xy.XYBoxAndWhiskerRenderer;
 import org.jfree.data.statistics.*;
 import org.jfree.data.xy.XYSeries;
@@ -22,8 +17,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.lang.reflect.Array;
-import java.text.DecimalFormat;
 import java.util.*;
 
 
@@ -31,6 +24,11 @@ public class MainFct {
     public static String filePath;
 
     public static ArrayList readFile(String path) throws Exception{
+        /**
+         * Method used to read the file as txt or csv
+         * @param path This is the path to the file
+         * @return Arraylist
+         */
         filePath = path;
         BufferedReader reader= new BufferedReader(new FileReader(path));
         ArrayList<Double[]> matrice= new ArrayList<>();
@@ -60,6 +58,10 @@ public class MainFct {
     }
 
     public static void print_data(ArrayList<Double[]> data){
+        /**
+         * Print the data read by @see readFile
+         * @deprecated
+         */
         for (int i = 0; i < data.size(); i++) {
             for (int j = 0; j < 8; j++) {
                 System.out.println(data.get(i)[j]);
@@ -69,6 +71,13 @@ public class MainFct {
     }
 
     public static ChartPanel scatter_diagram(ArrayList<Double[]> data, int a, int b){
+        /**
+         * Create the scatter diagram of a and b variables (columns)
+         * @param data The data that we got from @see readFile
+         * @param a the index of the first column(attribute) in data(the first variable selected in the ui)
+         * @param b the index of the second column(attribute) in data (the second variable selected in the ui)
+         * @return the ChartPanel object that will be displayed in the gui
+         */
         XYSeriesCollection collection= new XYSeriesCollection();
         XYSeries series= new XYSeries("");
         for (int i = 0; i < data.size(); i++) {
@@ -84,7 +93,13 @@ public class MainFct {
         return (chart);
     }
 
-    public static HashMap get_frequencies(ArrayList<Double[]> data){
+    public static HashMap getFrequencies(ArrayList<Double[]> data){
+        /** previously named get_frequencies.
+         *
+         * @deprecated  at least i didnt find use case yet
+         * @param data: i suppose it's the matrix  returned by @see readFile
+         * TODO: find use case!
+         */
         HashMap<Double,Integer> hash= new HashMap();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < data.size(); j++) {
@@ -95,7 +110,14 @@ public class MainFct {
         return hash;
     }
 
-    public static ChartPanel histogram_fct(ArrayList<Double[]> data,int a){
+    public static ChartPanel histogramFct(ArrayList<Double[]> data, int a){
+        /** previously named 'histogram_fct'
+         * Create the histogram  diagram of the a'th index attribute
+         * @param data The data that we got from @see readFile
+         * @param a the attribute(column) from which we want to compute the frequecy for each value and plot
+                       the histogram
+         * @return the ChartPanel object that will display the histogram in the gui
+         */
         HistogramDataset histogram= new HistogramDataset();
         double[] values= new double[data.size()];
 
@@ -112,10 +134,13 @@ public class MainFct {
         return panel;
     }
 
-
-
-    public static ChartPanel boxplot_fct(ArrayList<Double[]> dataset, int a){
-
+    public static ChartPanel boxplotFct(ArrayList<Double[]> dataset, int a){
+        /** previously named 'boxplot_fct'
+         * Create the boxplot  diagram of the a'th index attribute
+         * @param data The data that we got from @see readFile
+         * @param a the attribute(column) from which we want to  display the boxplot
+         * @return the ChartPanel object that will display the boxplot in the gui
+         */
 
         ArrayList<Double> col = new ArrayList<>();
         for (int i = 0; i < dataset.size(); i++) {
@@ -127,8 +152,8 @@ public class MainFct {
 
         data.add(new Date(), item);
 
-        Double upper = max_list(dataset,a);
-        Double lower = min_list(dataset,a);
+        Double upper = maxList(dataset,a);
+        Double lower = minList(dataset,a);
 
         JFreeChart plot = ChartFactory.createBoxAndWhiskerChart("BOXPLOT","","Column"+a, data ,true);
 
@@ -145,9 +170,14 @@ public class MainFct {
 
     }
 
-
-    public static JPanel qqplot_fct(ArrayList<Double[]> dataset,int x, int y)
-    {
+    public static JPanel qqplotFct(ArrayList<Double[]> dataset, int x, int y){
+        /** previously named 'qqplot_fct'
+         * Create the qq-plot  diagram of the a'th and b'th index attribute
+         * @param data The data that we got from @see readFile
+         * @param a the first attribute(column) from which we want to  display the qqplot
+         * @param b the second attribute(column) from which we want to  display the qqplot
+         * @return  JPanel object that will display the qqplot in the gui
+         */
         int size = dataset.size();
         double att1[] = new double[size];
         double att2[] = new double[size];
@@ -165,9 +195,14 @@ public class MainFct {
         return pan;
     }
 
+    public static double getMoy(ArrayList<Double[]> data, int column){
+        /** previously named 'get_moy'
+         * Compute the "mean" of a column (attribute)
+         * @param data The data that we got from @see readFile
+         * @param column the column from which we want to comute the mean
+         * @return  Double ,the mean of the column column
+         */
 
-
-    public static double get_moy(ArrayList<Double[]> data, int column){
         double moy=0;
         for (int i = 0; i < data.size(); i++) {
             moy+=data.get(i)[column];
@@ -176,8 +211,15 @@ public class MainFct {
         return moy;
     }
 
+    public static Double getMediane(ArrayList<Double[]> data, int column){
+        /** previously named 'get_mediane'
+         * Compute the "median" of a column (attribute)
+         * @param data The data that we got from @see readFile
+         * @param column the column from which we want to comute the meadian
+         * @return  Double , the median of the column column
+         */
 
-    public static Double get_mediane(ArrayList<Double[]> data, int column){
+
         Double[] values=sort(data,column);
         if(values.length%2==1){
             return values[(values.length)/2];
@@ -188,6 +230,12 @@ public class MainFct {
     }
 
     public static Double[] sort(ArrayList<Double[]> data, int col){
+        /**
+         * Sort a specific column (col) in the data
+         * @param data The data that we got from @see readFile
+         * @param col the column that we want to sort.
+         * @return  Double[] , an array of the sorted column values.
+         */
         Double[] values=new Double[data.size()];
         for (int i = 0; i < data.size(); i++) {
             values[i]=data.get(i)[col];
@@ -196,7 +244,15 @@ public class MainFct {
         return values;
     }
 
-    public static Double milieu_etendu(ArrayList<Double[]> data, int col){
+    public static Double milieuEtendu(ArrayList<Double[]> data, int col){
+        /** previously named 'milieu_etendu'
+
+         * Compute the "midrange"(milieu ed gamme) of a column (attribute)
+         * @param data The data that we got from @see readFile
+         * @param column the column from which we want to comute the midrange
+         * @return  Double , the midrange of the column column
+         * TODO -low priority- :optimise when have time
+         */
         Double max=0.0; Double min=data.get(0)[col];
 
         for (int i = 0; i < data.size(); i++) {
@@ -210,7 +266,14 @@ public class MainFct {
         return (max+min)/2;
     }
 
-    public static ArrayList<Double> mode_fct(ArrayList<Double[]> data, int col){
+    public static ArrayList<Double> modeFct(ArrayList<Double[]> data, int col){
+        /** previously named 'mode_fct'
+
+         * Compute the "mode" of the a'th column (attribute)
+         * @param data The data that we got from @see readFile
+         * @param col the column from which we want to compute the mode
+         * @return  Arraylist<Double>, the list of the modes of the column col.
+         */
         int   i, j;
         Double max=0.0,maxcount=0.0;
         ArrayList<Double> returnList= new ArrayList<Double>();
@@ -246,9 +309,16 @@ public class MainFct {
         return returnList;
     }
 
+    public static Double moyenneTranquee(ArrayList<Double[]> data, int col){
+        /** previously named 'moyenne_tranquee'
 
+         * Compute the "trimmed mean" of the a'th column (attribute)
+         * @param data The data that we got from @see readFile
+         * @param col the column from which we want to compute the trimmed mean
+         * @return  Double, the trimmed mean of the column col.
+         * TODO: i don't get this one!
+         */
 
-    public static Double moyenne_tranquee(ArrayList<Double[]> data, int col){
         Double[] values=sort(data,col);
         Double dbl=values.length*0.025;
         int min= dbl.intValue()+1;
@@ -262,52 +332,90 @@ public class MainFct {
         return moyenne/ values.length;
     }
 
+    static Double maxList(ArrayList<Double[]> data, int column) {
+        /** previously named 'max_list'
 
-
-    static Double max_list(ArrayList<Double[]> list, int column) {
-        int i; Double max=list.get(0)[column];
-        for(i=1;i<list.size();i++){
-            Double element=list.get(i)[column];
+         * Compute the "max" of the a'th column (attribute)
+         * @param data The data that we got from @see readFile
+         * @param column the column from which we want to get the max value of
+         * @return  Double, the maximum value of the elements of the column column.
+         */
+        int i; Double max=data.get(0)[column];
+        for(i=1;i<data.size();i++){
+            Double element=data.get(i)[column];
             if(element>max){max= element;}
         }
         return max;
     }
-    static Double min_list(ArrayList<Double[]> list, int column) {
-        int i; Double min=list.get(0)[column];
-        for(i=1;i<list.size();i++){
-            if(list.get(i)[column]<min)
-            {min= list.get(i)[column];}
+
+    static Double minList(ArrayList<Double[]> data, int column) {
+        /** previously named 'min_list'
+         * Compute the "min" of the a'th column (attribute)
+         * @param data The data that we got from @see readFile
+         * @param column the column from which we want to get the min value of
+         * @return  Double, the minimum value of the elements of the column column.
+         */
+        int i; Double min=data.get(0)[column];
+        for(i=1;i<data.size();i++){
+            if(data.get(i)[column]<min)
+            {min= data.get(i)[column];}
         }
         return min;
     }
+
     static Double[] sort(Double[] array){
+        /**
+         * Compute a Double[] list
+         * @param array the array we want to sort
+         * @return  Double[], the array sorted
+         * @note i guess it can be optimised using another sorting method mais bon.
+         */
+
         int i, j , indexMin = 0;
         double min, temp ; int t=array.length;
+
         for(i=0;i<t-1;i++){
             min=array[i];
-            for(j=i+1;j<t;j++)
-            {  if (array[j] < min)
-            {   min = array[j];
-                temp = array[i];
-                array[i]=min;
-                array[j]=temp;}
-            }
 
+            for(j=i+1;j<t;j++){
+
+                if (array[j] < min){
+                    min = array[j];
+                    temp = array[i];
+                    array[i]=min;
+                    array[j]=temp;
+                }
+            }
         }
         return array;
     }
-    public static Double etendu(ArrayList<Double[]> list, int column){
-        Double max = max_list(list,column);
-        Double min = min_list(list,column);
+
+    public static Double etendu(ArrayList<Double[]> data, int column){
+        /**
+         * Compute etendu
+         * @param data The data that we got from @see readFile
+         * @param column the column from which we want to get "entendu"
+         * @return  Double, etendue value.
+         */
+        Double max = maxList(data,column);
+        Double min = minList(data,column);
         return max-min;
 
     }
 
-    public static Double quartiles(ArrayList<Double[]> list, int quartile, int column){
+    public static Double quartiles(ArrayList<Double[]> data, int quartile, int column){
+        /**
+         * Compute quartile number @param quartile
+         * @param data the dataset (matrix)
+         * @param quartile the quartile number we want to compute (1 2 3 )
+         * @param column the columns from which we want to compute the quartile
+         * @return Double, the quartile value
+         */
         double result = 0;  ;
         //////////////////Not Getting the right column
-        Double[] mycol =new Double[list.size()]; int i ;
-        for(i = 0; i < list.size()  ; i++) { mycol[i] = list.get(i)[column];}
+        Double[] mycol =new Double[data.size()]; int i ;
+
+        for(i = 0; i < data.size()  ; i++) { mycol[i] = data.get(i)[column];}
         Double[] sorted = sort(mycol);
         int taille = sorted.length , index;
         if (quartile == 1){
@@ -328,54 +436,77 @@ public class MainFct {
                 if(taille*3%4==0){ return ((sorted[index] + sorted[index-1] )/2) ;}
                 else return sorted[index-1];
             }
-            else{ System.out.println("Unexpected value: " + quartile);
+            else{
+                //TODO: throw some exception here
+                System.out.println("Unexpected value: " + quartile);
             }
         }
-
-
 
         return result;
     }
 
-
-    public static Double ecart_interquartile(ArrayList<Double[]> list, int column){
-        double q1 = quartiles(list,1,column);
-        double q3 = quartiles(list,3,column);
+    public static Double ecartInterquartile(ArrayList<Double[]> data, int column){
+        /** previously named ecart_interquartile
+         * Compute ecart type
+         * @param data the dataset (matrix)
+         * @param column the columns from which we want to compute the "ecart type"
+         * @return Double, the "equart type" value
+         */
+        double q1 = quartiles(data,1,column);
+        double q3 = quartiles(data,3,column);
         return q3-q1;
 
     }
 
-    public static Double variance(ArrayList<Double[]> list, int column) {
-        //
-        Double ecarttype = ecarttype(list,column);
+    public static Double variance(ArrayList<Double[]> data, int column) {
+        /**
+         * Compute variance of the column
+         * @param data the dataset (matrix)
+         * @param column the columns from which we want to compute the "variance"
+         * @rturn Double, the value of the variance
+         */
+        Double ecarttype = ecartType(data,column);
         return ecarttype*ecarttype;
     }
 
-    public static Double ecarttype(ArrayList<Double[]> list, int column){
+    public static Double ecartType(ArrayList<Double[]> data, int column){
+
+        /**
+         * Compute "ecart type" of the column
+         * @param data the dataset (matrix)
+         * @param column the columns from which we want to compute the "ecart type"
+         * @rturn Double, the value of the "ecart type"
+         */
         //boucle de somme de (x-moyenne)carre
         //return racine(1/n(somme))
-        Double element , somme=0.0 , moyenne = get_moy(list,column); Double difference;
+        Double element , somme=0.0 , moyenne = getMoy(data,column); Double difference;
         int i;
-        for(i=0;i<list.size();i++){
-            element = list.get(i)[column];
+        for(i=0;i<data.size();i++){
+            element = data.get(i)[column];
             difference=(element-moyenne);
             somme = somme+difference*difference;
         }
-        return Math.sqrt(somme/list.size());
+        return Math.sqrt(somme/data.size());
     }
 
-    public static ArrayList<Double> outliers(ArrayList<Double[]> list, int column){
+    public static ArrayList<Double> outliers(ArrayList<Double[]> data, int column){
+        /**
+         * Calculate outliers of the column column
+         * @param data the dataset (matrix)
+         * @param column the columns from which we want to compute the outliers
+         * @rturn Double[], list of outliers
+         */
         //calculate outliers
-        int i , taille=list.size();
+        int i , taille=data.size();
         Double outlier1,outlier2 , q1 , q3 , iqr ,element;
-        q1 = quartiles(list,1,column);
-        q3 = quartiles(list,3,column);
-        iqr =  ecart_interquartile(list,column);
+        q1 = quartiles(data,1,column);
+        q3 = quartiles(data,3,column);
+        iqr =  ecartInterquartile(data,column);
         outlier1 = q1-1.5*iqr;
         outlier2 = q3+1.5*iqr;
         ArrayList<Double> outliers = new ArrayList<>();
         for(i=0;i<taille;i++){
-            element = list.get(i)[column];
+            element = data.get(i)[column];
             if ( element >outlier2) {
                 outliers.add(element);
             }
@@ -388,6 +519,11 @@ public class MainFct {
     }
 
     public static double correlationCoef(ArrayList<Double[]> data, int column1, int column2){
+        /**
+         * Compute "coefficient de correlation" of the @param column1 and @param column2
+         * @return Double the computed corelation coef between the two columns(variables)
+         * @note apparently double and Double isn't the same this @see https://stackoverflow.com/questions/20437003/what-is-the-difference-between-double-and-double-in-java
+         */
         Double somme = new Double(0.0);
         Double nAB = new Double(0.0);
         Double denomin = new Double(0.0);
@@ -395,8 +531,8 @@ public class MainFct {
             somme += data.get(i)[column1] * data.get(i)[column2];
         }
 
-        nAB = data.size() * get_moy(data, column1) * get_moy(data, column2);
-        denomin = (data.size()-1) * ecarttype(data, column1) * ecarttype(data, column2);
+        nAB = data.size() * getMoy(data, column1) * getMoy(data, column2);
+        denomin = (data.size()-1) * ecartType(data, column1) * ecartType(data, column2);
 
         return (somme-nAB)/denomin;
     }

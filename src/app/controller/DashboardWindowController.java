@@ -11,22 +11,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.jfree.chart.ChartPanel;
 
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class DashboardWindowController {
@@ -103,17 +97,17 @@ public class DashboardWindowController {
             chart_scatterPlot.getChildren().add(swingNodeScatterPot);
 
 
-            JPanel boxplot = MainFct.boxplot_fct(data, iarg1);
+            JPanel boxplot = MainFct.boxplotFct(data, iarg1);
             swingNodeBoxPot.setContent(boxplot);
             chart_boxPlot.getChildren().add(swingNodeBoxPot);
 
 
-            JPanel qqplot  = MainFct.qqplot_fct(data, iarg1, iarg2);
+            JPanel qqplot  = MainFct.qqplotFct(data, iarg1, iarg2);
             swingNodeQQPlot.setContent(qqplot);
             chart_qPlot.getChildren().add(swingNodeQQPlot);
 
 
-            JPanel histogram = MainFct.histogram_fct(data, iarg1);
+            JPanel histogram = MainFct.histogramFct(data, iarg1);
             swingNodeHistogram.setContent(histogram);
             /// check this one
             chart_otherGraph2.getChildren().add(swingNodeHistogram);
@@ -126,11 +120,11 @@ public class DashboardWindowController {
         else if(!arg1.equals("null")){
             iarg1 = Integer.parseInt(arg1)-1 ;
 
-            JPanel boxplot = MainFct.boxplot_fct(data, iarg1);
+            JPanel boxplot = MainFct.boxplotFct(data, iarg1);
             swingNodeBoxPot.setContent(boxplot);
             chart_boxPlot.getChildren().add(swingNodeBoxPot);
 
-            JPanel histogram = MainFct.histogram_fct(data, iarg1);
+            JPanel histogram = MainFct.histogramFct(data, iarg1);
             swingNodeHistogram.setContent(histogram);
             chart_otherGraph2.getChildren().add(swingNodeHistogram);
 
