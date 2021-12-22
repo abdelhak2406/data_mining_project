@@ -17,7 +17,6 @@ public class Main extends Application {
         Scene scene = new Scene(root);
 
         // the css
-        //TODO: find a way to apply the css to every scene(window)
         String cssPath = "resources/views/style.css";
         String css = this.getClass().getResource(cssPath).toExternalForm();
 

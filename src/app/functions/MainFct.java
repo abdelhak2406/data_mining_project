@@ -538,18 +538,98 @@ public class MainFct {
     }
 
     //--------------------------------part2--------------------------
-    public static void minMaxNormalization(ArrayList<Double> column){
-        double min = Collections.min(column);
-        double max = Collections.max(column);
+    public static Double[] getColumn(ArrayList<Double[]> data, int column){
+        /**
+         * get the entire column of the data(matrix) and return it.
+         * @return the entire column specified in @param column
+         */
 
-        for (int i = 0; i < column.size(); i++) {
-            double tempValue = (column.get(i) - min)/(max - min);
-            column.set(i, tempValue);
+        Double[] columnArray = new Double[data.size()];
+        for(int i=0 ;i<data.size();i++) {
+            columnArray[i] = data.get(i)[column];
         }
+        return  columnArray;
 
-        System.out.println(column);
+    }
+    
+    public static Double getMin(Double[] columnArray){
+        /**
+         * Get the minimum value
+         * @note i just lost too much time looking for "the min function"
+         */
+       Arrays.sort(columnArray);
+        return columnArray[0];
+    }
+    
+    public static Double getMax(Double[] columnArray){
+        /**
+         * Get the minimum value
+         * @note i just lost too much time looking for "the min function"
+         */
+        Arrays.sort(columnArray);
+        return columnArray[columnArray.length - 1];
     }
 
+    public static Double getNormalizedMinMaxVal(Double value ,Double min, Double max){
+        /**
+         * get the normalized value
+         */
+        return (value -min) /(max - min);
+    }
+
+    public static Double[] normalizeMinMaxCol(ArrayList<Double[]> data ,int column){
+        /**
+         * Normalize value of the column @param column
+         * @param data the dataset (matrix)
+         * @param column the columns from which we want to compute the "ecart type"
+         * @return Double[], the new values for the column column
+         */
+        Double[] normalizedColumn = getColumn(data,column);
+        Double min,max;
+
+        min = getMin(normalizedColumn);
+        max = getMax(normalizedColumn);
+        for(int i=0;i<normalizedColumn.length;i++) {
+            //normalize the thing
+            normalizedColumn[i] = (normalizedColumn[i] - min) / (max -min) ;
+        }
+        return normalizedColumn;
+    }
+
+    public static  ArrayList<Double[]> minMaxNormalization(ArrayList<Double[]> data) {
+        //TODO: test if the functions or normalisation works!
+        /**
+         * Normalize all the dataset  using the minMax method
+         * @param data the dataset returned by @see readData
+         * @return the normalized dataset!
+         * @note i know the solution is kindof stupid now and it takes a little bit too much ram
+        but since the dataset is small we can work with that, and any changes are welcome.
+         * @note2 it was tested and the value of the first instances are
+            [0.40509915014164316, 0.44628099173553726, 0.6624319419237747, 0.3688063063063065,
+                  0.5010691375623664, 0.03288301759221938, 0.21516494337764666, 1.0]
+            it matches the teacher's result
+         */
+        ArrayList<Double[]> tmpNormalizedData = new ArrayList<>();
+        ArrayList<Double[]> NormalizedData = new ArrayList<>();
+        int maxNumCol = 8;
+
+        Double[] minList = new Double[maxNumCol];
+        Double[] maxList = new Double[maxNumCol];
+        for (int i = 0; i < maxNumCol; i++) {
+            minList[i] = getMin(getColumn(data, i));
+            maxList[i] = getMax(getColumn(data, i));
+        }
+
+        for (int i = 0; i < data.size(); i++) {
+            for (int j = 0; j < data.get(i).length -1 ; j++) {//the -1 is here because we don't need the last column
+                data.get(i)[j] = getNormalizedMinMaxVal(data.get(i)[j], minList[j], maxList[j]);
+            }
+
+        }
+
+        return  data;
+
+    }
     public static void zScoreNormalization(ArrayList<Double> column){
         double sum = 0;
         double moy = getMoy(column);
