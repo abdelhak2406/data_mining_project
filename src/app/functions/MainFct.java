@@ -848,8 +848,9 @@ public class MainFct {
     }
 
 
-    public static void accuracy(int classe, int[][] confusion_matrix){
+    public static float accuracy(int classe, int[][] confusion_matrix){
         int tp, fn = 0, fp = 0,tn = 0,i,j;
+        float acc;
 
         // 1, TP
         tp = confusion_matrix[classe-1][classe-1];
@@ -877,8 +878,10 @@ public class MainFct {
         System.out.println("FP : "+fp);
         System.out.println("FN : "+fn);
 
-    }
+       acc = (float)(tp+tn)/ 60;
+       return acc;
 
+    }
 
     public static void main(String[] args) throws Exception{
         ArrayList<Double[]> data= MainFct.readFile("datasets\\seeds.txt");
@@ -948,10 +951,10 @@ public class MainFct {
               }
               System.out.println(row);
           }
-  
-          System.out.println("//// TEST ACCURACY //////");
-          // test acc of class 1
-          accuracy(1, mat);
+            System.out.println("//// TEST ACCURACY //////");
+            float acc = accuracy(1, mat);
+            System.out.println("Accuracy of classe 1 : " +acc);
+
           */
 
     }
