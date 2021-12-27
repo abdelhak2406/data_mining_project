@@ -29,9 +29,10 @@ public class Knn {
                 distances[j]=distance_eucledienne(testing_data.get(i),training_data.get(j));
             }
             Arrays.sort(distances);
-            nearest_neighb[i][0]=distances[0];
-            nearest_neighb[i][1]=distances[1];
-            nearest_neighb[i][2]=distances[2];
+            for (int j = 0; j <=k ; j++) {
+                nearest_neighb[i][j]=distances[j];
+            }
+
         }
 
         return nearest_neighb;
