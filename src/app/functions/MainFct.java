@@ -726,7 +726,162 @@ public class MainFct {
             j++;
         }
     }
+        public static java.util.ArrayList<java.util.ArrayList<Double[]>> splitData(ArrayList<Double[]> data){
+        // 20 instances -> test , Cid =  50 -> apprentissage  , D=150
+        int i,j;double class1 = 1.0, class2 = 2.0, class3 = 3.0; int column=7;
+        ArrayList <ArrayList<Double[]>> total = new ArrayList();
+        ArrayList<Double[]> testData = new ArrayList();
+        ArrayList<Double[]> trainingData=new ArrayList();
+        ArrayList<Double> yTrain = new ArrayList<Double>();
+        ArrayList<Double> yTest = new ArrayList<Double>();
 
+        //for each  get 20 first instance  (each class) put it in test , rest 50 put it in training
+        int training1=0;int training2=0;int training3=0;
+        int test1=0;int test2=0;int test3=0;
+
+        for ( i = 0; i < data.size(); i++) {
+            //System.out.println(data.get(i)[column]);
+            //if class 1 -> 20 test 50 training
+            if((data.get(i)[column] == class1) && (test1<20)){ testData.add(data.get(i)); test1++;  }
+            if((data.get(i)[column] == class1) && (training1<50)){ trainingData.add(data.get(i)); training1++;  }
+            if((data.get(i)[column] == class2) && (test2<20)){ testData.add(data.get(i)); test2++;  }
+            if((data.get(i)[column] == class2) && (training2<50)){ trainingData.add(data.get(i)); training2++;}
+            if((data.get(i)[column] == class3) && (test3<20)){ testData.add(data.get(i)); test3++;  }
+            if((data.get(i)[column] == class3) && (training3<50)){ trainingData.add(data.get(i)); training3++;}
+        }
+
+        System.out.println("Training size " +trainingData.size() );
+        //for ( i = 0; i < trainingData.size(); i++) {
+        //    System.out.println(trainingData.get(i)[1]);
+        //}
+        System.out.println("Test " +testData.size() );
+        //for ( i = 0; i < testData.size(); i++) {
+        //    System.out.println(testData.get(i)[1]);
+        //}
+
+        total.add(trainingData);
+        total.add(testData);
+        return total;
+    }
+
+
+    public static ArrayList<Double> th_naiveBayes(ArrayList<Double[]> train, ArrayList<Double[]> test )
+    {
+        float p_de_classes[] = {(float)50/150, (float)50/150,(float)50/150};
+
+        double max;
+        float  pX_givenC, Xk_given_Ci;
+        int att, c, i;
+        ArrayList <Double> predictions = new ArrayList  <Double> ();
+
+        double classe = 0;
+        // for each row of the test set, calculate the proba of belonging to the 3classes and choice max
+        for ( i = 0; i < test.size(); i++)
+        {
+            max =0;
+            for (c = 0; c<3; c++)
+            {
+                pX_givenC  = 1;
+                for (att =0; att<7 ;att++)
+                {
+
+                    Xk_given_Ci = find_prob_Xk_given_Ci(c,att,train.get(i)[att], train);
+                    pX_givenC = pX_givenC* Xk_given_Ci;
+                }
+                pX_givenC = pX_givenC * p_de_classes[c];
+                if(pX_givenC> max){max = pX_givenC; classe = c;}
+
+            }
+
+            predictions.add( Double.valueOf(classe+1));
+        }
+        return predictions;
+    }
+
+    public static float find_prob_Xk_given_Ci(int classe, int att, double val, ArrayList<Double[]> data){
+        int count = 0,i ;
+
+        for ( i = 0; i < data.size(); i++) {
+            if((data.get(i)[7] == classe) && (data.get(i)[att] == val)) { count++; } }
+
+        float rslt = (float)count/50;
+        return rslt;
+    }
+
+    public static float find_prob_Xk_given_Ci_laplace(int classe, int att, float val, ArrayList<Double[]> data){
+        int count = 0,i ;
+        ArrayList <Double> unique_vals = new ArrayList<Double>();
+
+        for ( i = 0; i < data.size(); i++) {
+
+            if((data.get(i)[7] == classe) && (data.get(i)[att] == val)) { count++; }
+            // chercher # de valeurs possibles de l'attribut att
+            if ( unique_vals.contains(data.get(i)[att]) == false ) { unique_vals.add(data.get(i)[att]); }
+        }
+        return (float) (count+1)/(30+unique_vals.size());
+    }
+
+
+    // CONFUSION MATRIX
+
+    public static int[][] getConfusion_Matrix (ArrayList <Double> predictions, ArrayList <Double> y ){
+        int[][] confusion_matrix = new int[3][3];
+        int i,j,k;
+
+
+        for(i=0;i<3;i++){
+            for(j=0;j<3;j++){
+                confusion_matrix[i][j] = 0;
+
+                // pour chaque celule, parcourir la liste des Y et Y'
+                for(k= 0; k<predictions.size(); k++)
+                {
+                    if ((y.get(k).equals( Double.valueOf(i+1))) && (predictions.get(k).equals(Double.valueOf(j+1))) ){
+                        confusion_matrix[i][j] +=1;
+                    }
+                }
+
+            }
+        }
+
+        return confusion_matrix;
+    }
+
+
+    public static float accuracy(int classe, int[][] confusion_matrix){
+        int tp, fn = 0, fp = 0,tn = 0,i,j;
+        float acc;
+
+        // 1, TP
+        tp = confusion_matrix[classe-1][classe-1];
+        // 2, FN
+
+        for(i= 0; i<3;i++){
+            fn = fn+ confusion_matrix[classe-1][i];
+            fp = fp +  confusion_matrix[i][classe-1];
+        }
+        fn = fn - tp;
+
+        // 3, TP
+        fp=  fp - tp;
+
+        // 4, TN
+        for(i= 0; i<3;i++){
+            for(j= 0; j<3;j++){
+                tn = tn+ confusion_matrix[i][j];
+            }
+        }
+        tn = tn -(tp+fn+fp);
+
+        System.out.println("TP : "+tp);
+        System.out.println("TN : "+tn);
+        System.out.println("FP : "+fp);
+        System.out.println("FN : "+fn);
+
+       acc = (float)(tp+tn)/ 60;
+       return acc;
+
+    }
 
     public static void main(String[] args) throws Exception{
         ArrayList<Double[]> data= MainFct.readFile("datasets\\seeds.txt");
@@ -746,6 +901,61 @@ public class MainFct {
         for (int i = 0; i < list.size(); i++) {
             frequentItem(0.2,list.get(i),i+1);
         }
+
+
+
+          //////// USAGE OF NB, CONFUSION MATRIX AND ACCURACY////////////
+          /*
+          ArrayList <ArrayList<Double[]>> total = new ArrayList();
+          ArrayList<Double> predictions = new ArrayList<Double>();
+          ArrayList<Double[]> train, test = new ArrayList<Double[]>();
+          ArrayList<Double> yTrain  = new ArrayList<Double>();
+          ArrayList<Double> yTest = new ArrayList<Double>();
+          total = splitData(data);
+  
+  
+
+          // get xtrainset and yTrainset
+          train = total.get(0);
+          for (int i=0; i<train.size();i++)
+          {
+              yTrain.add(train.get(i)[7]);
+          }
+  
+          // get xtestset and yTestset
+          test  = total.get(1);
+          for (int i=0; i<test.size();i++)
+          {
+              yTest.add(test.get(i)[7]);
+          }
+  
+
+          System.out.println("Test labels");
+          System.out.println(yTest);
+  
+          System.out.println("////////////////////////");
+  
+          System.out.println("Test predictions");
+          predictions = th_naiveBayes(train,test);
+          System.out.println(predictions);
+  
+  
+          System.out.println("//// CONFUSION MATRIX //////");
+          int[][] mat = getConfusion_Matrix(predictions, yTest);
+          
+          for (int i =0; i<3;i++)
+          {
+              String row = "";
+              for(int j=0; j<3; j++){
+                  row = row+" "+mat[i][j];
+              }
+              System.out.println(row);
+          }
+            System.out.println("//// TEST ACCURACY //////");
+            float acc = accuracy(1, mat);
+            System.out.println("Accuracy of classe 1 : " +acc);
+
+          */
 
     }
 }
