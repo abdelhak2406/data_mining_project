@@ -511,10 +511,48 @@ public class MainFct {
         }
     }
 
+    public static java.util.ArrayList<java.util.ArrayList<Double[]>> splitData(ArrayList<Double[]> data){
+        // 20 instances -> test , Cid =  50 -> apprentissage  , D=150
+        int i,j;double class1 = 1.0, class2 = 2.0, class3 = 3.0; int column=7;
+        ArrayList <ArrayList<Double[]>> total = new ArrayList();
+        ArrayList<Double[]> testData = new ArrayList();
+        ArrayList<Double[]> trainingData=new ArrayList();
+
+        //for each  get 20 first instance  (each class) put it in test , rest 50 put it in training
+        int training1=0;int training2=0;int training3=0;
+        int test1=0;int test2=0;int test3=0;
+
+        for ( i = 0; i < data.size(); i++) {
+            //System.out.println(data.get(i)[column]);
+            //if class 1 -> 20 test 50 training
+            if((data.get(i)[column] == class1) && (test1<20)){ testData.add(data.get(i)); test1++;  }
+            if((data.get(i)[column] == class1) && (training1<50) && test1==20){ trainingData.add(data.get(i)); training1++;  }
+            if((data.get(i)[column] == class2) && (test2<20)){ testData.add(data.get(i)); test2++;  }
+            if((data.get(i)[column] == class2) && (training2<50) && test2==20){ trainingData.add(data.get(i)); training2++;}
+            if((data.get(i)[column] == class3) && (test3<20)){ testData.add(data.get(i)); test3++;  }
+            if((data.get(i)[column] == class3) && (training3<50) && test3==20){ trainingData.add(data.get(i)); training3++;}
+        }
+
+        total.add(trainingData);
+        total.add(testData);
+        return total;
+    }
+
 
     public static void main(String[] args) throws Exception{
         ArrayList<Double[]> data= MainFct.readFile("datasets\\seeds.txt");
         ArrayList<Double> ar = new ArrayList();
+        ArrayList<ArrayList<Double[]>> total=splitData(data);
+        int k=3;
+        Knn knn_instance= new Knn(total.get(0),total.get(1),k);
+        Double[][] result=knn_instance.calcul_knn();
+        for (int i = 0; i < result.length; i++) {
+            System.out.println("instance : "+i);
+            for (int j = 0; j < k; j++) {
+                System.out.println("nearest "+j+" : "+result[i][j]);
+            }
+        }
+        /*
         Double[] instance = {};
         ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
         for (int i = 0; i < 7; i++) {
@@ -530,6 +568,6 @@ public class MainFct {
         for (int i = 0; i < list.size(); i++) {
             frequentItem(0.2,list.get(i),i+1);
         }
-
+        */
     }
 }

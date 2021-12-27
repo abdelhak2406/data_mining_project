@@ -13,7 +13,7 @@ public class Knn {
         this.k = k;
     }
 
-    public Double distance_eucledienne(Double[] ins1, Double[] ins2){
+    private Double distance_eucledienne(Double[] ins1, Double[] ins2){
         Double distance=0.0;
         for (int i = 0; i < ins1.length; i++) {
             distance+=Math.pow(ins1[i]-ins2[i],2);
@@ -29,7 +29,7 @@ public class Knn {
                 distances[j]=distance_eucledienne(testing_data.get(i),training_data.get(j));
             }
             Arrays.sort(distances);
-            for (int j = 0; j <=k ; j++) {
+            for (int j = 0; j <k ; j++) {
                 nearest_neighb[i][j]=distances[j];
             }
 
