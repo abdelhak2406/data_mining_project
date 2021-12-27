@@ -571,13 +571,22 @@ public class MainFct {
         ArrayList<ArrayList<Double[]>> total=splitData(data);
         int k=3;
         Knn knn_instance= new Knn(total.get(0),total.get(1),k);
-        Double[][] result=knn_instance.calcul_knn();
-        for (int i = 0; i < result.length; i++) {
+        //Double[][] result=knn_instance.calcul_knn();
+        Double[] predicted_classes= knn_instance.predict_class();
+        /*for (int i = 0; i < result.length; i++) {
             System.out.println("instance : "+i);
             for (int j = 0; j < k; j++) {
                 System.out.println("nearest "+j+" : "+result[i][j]);
             }
+            System.out.println("predicted class : "+predicted_classes[i]);
+        }*/
+
+        for (int i = 0; i < predicted_classes.length ; i++) {
+            System.out.println("Instance "+(i+1)+", actual class : "+knn_instance.testing_data.get(i)[7]
+                    +",     predicted class : "+predicted_classes[i]);
         }
+
+
         /*
         Double[] instance = {};
 
