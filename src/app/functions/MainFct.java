@@ -402,7 +402,7 @@ public class MainFct {
     }
 
     //--------------------------------part2--------------------------
-    public static void minMaxNormalization(ArrayList<Double> column){
+    public static ArrayList<Double> minMaxNormalization(ArrayList<Double> column){
         double min = Collections.min(column);
         double max = Collections.max(column);
 
@@ -411,7 +411,7 @@ public class MainFct {
             column.set(i, tempValue);
         }
 
-        System.out.println(column);
+        return column;
     }
 
     public static void zScoreNormalization(ArrayList<Double> column){
@@ -431,6 +431,26 @@ public class MainFct {
         System.out.println(column);
     }
 
+    public static ArrayList<Double[]> maxmin_normalization_wholeData(ArrayList<Double[]> data){
+        ArrayList<Double> ar = new ArrayList();
+
+        for (int i = 0; i < 7; i++) {
+
+            for (int j= 0; j < data.size(); j++) {
+                ar.add(data.get(j)[i]);
+            }
+            ArrayList<Double> temp=minMaxNormalization(ar);
+
+            for (int j = 0; j < data.size(); j++) {
+                data.get(j)[i]=temp.get(j);
+            }
+
+            ar.clear();
+
+        }
+        return data;
+    }
+
     public static double getMoy(ArrayList<Double> column){
         double sum = 0;
         for (double val:column) {
@@ -444,7 +464,12 @@ public class MainFct {
         double min = Collections.min(column);
         double max = Collections.max(column);
         double int_length= (max-min)/q;
-        double[] array={int_length,int_length*2,int_length*3};
+        double[] array= new double[q];
+
+        for (int i = 0; i < q; i++) {
+            array[i]=int_length*(i+1);
+        }
+
         ArrayList<String> result= new ArrayList<>(column.size());
 
         for (int i = 0; i < column.size(); i++) {
@@ -541,7 +566,8 @@ public class MainFct {
 
     public static void main(String[] args) throws Exception{
         ArrayList<Double[]> data= MainFct.readFile("datasets\\seeds.txt");
-        ArrayList<Double> ar = new ArrayList();
+
+        data=maxmin_normalization_wholeData(data);
         ArrayList<ArrayList<Double[]>> total=splitData(data);
         int k=3;
         Knn knn_instance= new Knn(total.get(0),total.get(1),k);
@@ -554,17 +580,7 @@ public class MainFct {
         }
         /*
         Double[] instance = {};
-        ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
-        for (int i = 0; i < 7; i++) {
 
-            for (int j= 0; j < data.size(); j++) {
-                ar.add(data.get(j)[i]);
-            }
-            list.add(discretisation_effectif(ar,4,i+1));
-
-            ar.clear();
-
-        }
         for (int i = 0; i < list.size(); i++) {
             frequentItem(0.2,list.get(i),i+1);
         }
