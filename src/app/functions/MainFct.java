@@ -743,11 +743,11 @@ public class MainFct {
             //System.out.println(data.get(i)[column]);
             //if class 1 -> 20 test 50 training
             if((data.get(i)[column] == class1) && (test1<20)){ testData.add(data.get(i)); test1++;  }
-            if((data.get(i)[column] == class1) && (training1<50)){ trainingData.add(data.get(i)); training1++;  }
+            if((data.get(i)[column] == class1) && (training1<50) && (test1 ==20){ trainingData.add(data.get(i)); training1++;  }
             if((data.get(i)[column] == class2) && (test2<20)){ testData.add(data.get(i)); test2++;  }
-            if((data.get(i)[column] == class2) && (training2<50)){ trainingData.add(data.get(i)); training2++;}
+            if((data.get(i)[column] == class2) && (training2<50)  && (test2 ==20)){ trainingData.add(data.get(i)); training2++;}
             if((data.get(i)[column] == class3) && (test3<20)){ testData.add(data.get(i)); test3++;  }
-            if((data.get(i)[column] == class3) && (training3<50)){ trainingData.add(data.get(i)); training3++;}
+            if((data.get(i)[column] == class3) && (training3<50)  && (test3 ==20)){ trainingData.add(data.get(i)); training3++;}
         }
 
         System.out.println("Training size " +trainingData.size() );
