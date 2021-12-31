@@ -744,46 +744,46 @@ public class MainFct {
                         j++;
                 }
         }
-        public static java.util.ArrayList<java.util.ArrayList<Double[]>> splitData(ArrayList<Double[]> data){
+        public static ArrayList<ArrayList<ArrayList<String>>> splitData(ArrayList<ArrayList<String>> data){
                 // 20 instances -> test , Cid =  50 -> apprentissage  , D=150
-                int i,j;double class1 = 1.0, class2 = 2.0, class3 = 3.0; int column=7;
-                ArrayList <ArrayList<Double[]>> total = new ArrayList();
-                ArrayList<Double[]> testData = new ArrayList();
-                ArrayList<Double[]> trainingData=new ArrayList();
-                ArrayList<Double> yTrain = new ArrayList<Double>();
-                ArrayList<Double> yTest = new ArrayList<Double>();
+                int i,j;String class1 = "1.0",  class2 = "2.0", class3 = "3.0"; int column=7;
+                ArrayList <ArrayList <ArrayList<String>>>total = new ArrayList();
+
+                ArrayList<ArrayList<String>> testData = new ArrayList();
+                ArrayList<ArrayList<String>> trainingData=new ArrayList();
+                ArrayList<String> ligne = new ArrayList<String>();
+
+
 
                 //for each  get 20 first instance  (each class) put it in test , rest 50 put it in training
                 int training1=0;int training2=0;int training3=0;
                 int test1=0;int test2=0;int test3=0;
 
-                for ( i = 0; i < data.size(); i++) {
+                for ( i = 0; i < data.get(column).size()-1; i++) {
                         //System.out.println(data.get(i)[column]);
                         //if class 1 -> 20 test 50 training
-                        if((data.get(i)[column] == class1) && (test1<20)){ testData.add(data.get(i)); test1++;  }
-                        if((data.get(i)[column] == class1) && (training1<50)){ trainingData.add(data.get(i)); training1++;  }
-                        if((data.get(i)[column] == class2) && (test2<20)){ testData.add(data.get(i)); test2++;  }
-                        if((data.get(i)[column] == class2) && (training2<50)){ trainingData.add(data.get(i)); training2++;}
-                        if((data.get(i)[column] == class3) && (test3<20)){ testData.add(data.get(i)); test3++;  }
-                        if((data.get(i)[column] == class3) && (training3<50)){ trainingData.add(data.get(i)); training3++;}
+                        ligne = new ArrayList<>();
+                        for (j = 0; j<8;j++)
+                        {
+                                ligne.add(data.get(j).get(i));
+                        }
+
+                        if((data.get(column).get(i).equals(class1) && (test1<20))){
+                                testData.add(ligne); test1++;  }
+                        if((data.get(column).get(i).equals(class1) && (training1<50)  && (test1 ==20))){ trainingData.add(ligne); training1++; }
+
+                        if((data.get(column).get(i).equals(class2) && (test2<20))){ testData.add(ligne); test2++;  }
+                        if((data.get(column).get(i).equals(class2) && (training2<50)  && (test2 ==20))){ trainingData.add(ligne); training2++;}
+                        if((data.get(column).get(i).equals(class3) && (test3<20))){ testData.add(ligne); test3++;  }
+                        if((data.get(column).get(i).equals(class3) && (training3<50)  && (test3 ==20))){ trainingData.add(ligne); training3++;}
                 }
-
-                System.out.println("Training size " +trainingData.size() );
-                //for ( i = 0; i < trainingData.size(); i++) {
-                //    System.out.println(trainingData.get(i)[1]);
-                //}
-                System.out.println("Test " +testData.size() );
-                //for ( i = 0; i < testData.size(); i++) {
-                //    System.out.println(testData.get(i)[1]);
-                //}
-
                 total.add(trainingData);
                 total.add(testData);
                 return total;
         }
 
 
-        public static ArrayList<Double> th_naiveBayes(ArrayList<Double[]> train, ArrayList<Double[]> test )
+        public static ArrayList<Double> th_naiveBayes(ArrayList<ArrayList<String>> train, ArrayList<ArrayList<String>> test )
         {
                 float p_de_classes[] = {(float)50/150, (float)50/150,(float)50/150};
 
@@ -803,7 +803,7 @@ public class MainFct {
                                 for (att =0; att<7 ;att++)
                                 {
 
-                                        Xk_given_Ci = find_prob_Xk_given_Ci(c,att,train.get(i)[att], train);
+                                        Xk_given_Ci = find_prob_Xk_given_Ci(String.valueOf(Double.valueOf(c)),att,train.get(i).get(att), train);
                                         pX_givenC = pX_givenC* Xk_given_Ci;
                                 }
                                 pX_givenC = pX_givenC * p_de_classes[c];
@@ -816,11 +816,11 @@ public class MainFct {
                 return predictions;
         }
 
-        public static float find_prob_Xk_given_Ci(int classe, int att, double val, ArrayList<Double[]> data){
+        public static float find_prob_Xk_given_Ci(String classe, int att, String val, ArrayList<ArrayList<String>> data){
                 int count = 0,i ;
 
                 for ( i = 0; i < data.size(); i++) {
-                        if((data.get(i)[7] == classe) && (data.get(i)[att] == val)) { count++; } }
+                        if((data.get(i).get(7).equals(classe) && (data.get(i).get(att).equals(val)))) { count++; } }
 
                 float rslt = (float)count/50;
                 return rslt;
@@ -842,7 +842,7 @@ public class MainFct {
 
         // CONFUSION MATRIX
 
-        public static int[][] getConfusion_Matrix (ArrayList <Double> predictions, ArrayList <Double> y ){
+        public static int[][] getConfusion_Matrix (ArrayList <Double> predictions, ArrayList <String> y ){
                 int[][] confusion_matrix = new int[3][3];
                 int i,j,k;
 
@@ -854,7 +854,7 @@ public class MainFct {
                                 // pour chaque celule, parcourir la liste des Y et Y'
                                 for(k= 0; k<predictions.size(); k++)
                                 {
-                                        if ((y.get(k).equals( Double.valueOf(i+1))) && (predictions.get(k).equals(Double.valueOf(j+1))) ){
+                                        if ((y.get(k).equals( String.valueOf(Double.valueOf(i+1)))) && (predictions.get(k).equals(Double.valueOf(j+1))) ){
                                                 confusion_matrix[i][j] +=1;
                                         }
                                 }
@@ -864,6 +864,7 @@ public class MainFct {
 
                 return confusion_matrix;
         }
+
 
         public static float accuracy(int classe, int[][] confusion_matrix){
                 int tp, fn = 0, fp = 0,tn = 0,i,j;
@@ -977,6 +978,31 @@ public class MainFct {
 
           //////// USAGE OF NB, CONFUSION MATRIX AND ACCURACY////////////
           /*
+
+          // First, discretisation
+        ArrayList<Double[]> data= MainFct.readFile("datasets/seeds_dataset.txt");
+        ArrayList<Double> ar = new ArrayList();
+        ArrayList<String> y = new ArrayList();
+        Double[] instance = {};
+        ArrayList <Double> labels = new ArrayList<>();
+
+        ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+        for (int i = 0; i < 7; i++) {
+
+            for (int j= 0; j < data.size(); j++) {
+                ar.add(data.get(j)[i]);
+            }
+            list.add(discretisation_effectif(ar,4,i+1));
+
+            ar.clear();
+        }
+        // add the labels to the new dataset to be able to call NB fct
+        for (int j= 0; j < data.size(); j++) {
+            y.add(data.get(j)[7].toString());
+        }
+        list.add(y);
+
+
           ArrayList <ArrayList<Double[]>> total = new ArrayList();
           ArrayList<Double> predictions = new ArrayList<Double>();
           ArrayList<Double[]> train, test = new ArrayList<Double[]>();
@@ -1029,6 +1055,5 @@ public class MainFct {
           */
 
         }
-       
-    }
 
+}
