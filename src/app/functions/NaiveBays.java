@@ -3,6 +3,9 @@ package app.functions;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import static app.functions.MainFct.discretisation_effectif;
+import static app.functions.MainFct.splitData;
+
 public class NaiveBays {
 
         public NaiveBays (ArrayList<Double[]> data) {
@@ -130,15 +133,96 @@ public class NaiveBays {
 
         }
 
-        public  static void mainTest(String[] args){
+        public  static void mainTest(String[] args) throws Exception {
                 /**
                  * Function to test the naiveBays things!
                  * confusion matrix,
                  * ect
                  * TODO:trouve comment executer sa!!
                  */
+                ArrayList<Double[]> data= MainFct.readFile("datasets/seeds_dataset.txt");
+                ArrayList<Double> ar = new ArrayList();
+                ArrayList<String> y = new ArrayList();
+                Double[] instance = {};
+                ArrayList <Double> labels = new ArrayList<>();
+
+                ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+                for (int i = 0; i < 7; i++) {
+
+                        for (int j= 0; j < data.size(); j++) {
+                                ar.add(data.get(j)[i]);
+                        }
+                        list.add(discretisation_effectif(ar,4,i+1));
+
+                        ar.clear();
+                }
+                // add the labels to the new dataset to be able to call NB fct
+                for (int j= 0; j < data.size(); j++) {
+                        y.add(data.get(j)[7].toString());
+                }
+                list.add(y);
 
 
+
+
+                //////// USAGE OF NB, CONFUSION MATRIX AND ACCURACY////////////
+
+                ArrayList<ArrayList<ArrayList<String>>> total = new ArrayList();
+
+                ArrayList<Double> predictions = new ArrayList<Double>();
+                ArrayList<ArrayList<String>> train;
+                ArrayList<ArrayList<String>> test ;
+                ArrayList<String> yTrain  = new ArrayList<String>();
+                ArrayList<String > yTest = new ArrayList<String>();
+
+                total = splitData(list);
+
+
+
+                train = total.get(0);
+                System.out.println(train.get(0));
+
+                // get xtrainset and yTrainset
+                train = total.get(0);
+                for (int i=0; i<train.size();i++)
+                {
+                        yTrain.add(train.get(i).get(7));
+                }
+
+                // get xtestset and yTestset
+                test  = total.get(1);
+                for (int i=0; i<test.size();i++)
+                {
+                        yTest.add(test.get(i).get(7));
+                }
+
+
+
+                System.out.println("////////////////////////");
+
+
+                System.out.println("Test predictions");
+                predictions = th_naiveBayes(train,test);
+
+                System.out.println(predictions);
+
+
+
+                System.out.println("//// CONFUSION MATRIX //////");
+                int[][] mat = getConfusion_Matrix(predictions, yTest);
+
+                for (int i =0; i<3;i++)
+                {
+                        String row = "";
+                        for(int j=0; j<3; j++){
+                                row = row+" "+mat[i][j];
+                        }
+                        System.out.println(row);
+                }
+                System.out.println("//// TEST ACCURACY //////");
+                float acc = accuracy(1, mat);
+                System.out.println("Accuracy of classe 1 : " +acc);
 
         }
+
 }

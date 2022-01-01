@@ -23,41 +23,41 @@ import java.util.*;
 public class MainFct {
         public static String filePath;
 
-        public static ArrayList readFile(String path) throws Exception{
+        public static ArrayList readFile(String path) throws Exception {
                 /**
                  * Method used to read the file as txt or csv
                  * @param path This is the path to the file
                  * @return Arraylist
                  */
                 filePath = path;
-                BufferedReader reader= new BufferedReader(new FileReader(path));
-                ArrayList<Double[]> matrice= new ArrayList<>();
+                BufferedReader reader = new BufferedReader(new FileReader(path));
+                ArrayList<Double[]> matrice = new ArrayList<>();
 
                 String line = reader.readLine();
                 while (line != null) {
                         String[] line_table;
-                        if (MainWindowController.fileExtension.equals("txt")){
+                        if (MainWindowController.fileExtension.equals("txt")) {
                                 line_table = line.split("\t+");
-                        }else {
+                        } else {
                                 line_table = line.split(",");
                         }
 
 
-                        Double[] line_double=new Double[line_table.length];
+                        Double[] line_double = new Double[line_table.length];
 
                         for (int i = 0; i < line_table.length; i++) {
-                                line_double[i]=Double.parseDouble(line_table[i]);
+                                line_double[i] = Double.parseDouble(line_table[i]);
                         }
                         matrice.add(line_double);
 
-                        line=reader.readLine();
+                        line = reader.readLine();
                 }
                 reader.close();
 
                 return matrice;
         }
 
-        public static void print_data(ArrayList<Double[]> data){
+        public static void print_data(ArrayList<Double[]> data) {
                 /**
                  * Print the data read by @see readFile
                  * @deprecated
@@ -70,7 +70,7 @@ public class MainFct {
                 }
         }
 
-        public static ChartPanel scatter_diagram(ArrayList<Double[]> data, int a, int b){
+        public static ChartPanel scatter_diagram(ArrayList<Double[]> data, int a, int b) {
                 /**
                  * Create the scatter diagram of a and b variables (columns)
                  * @param data The data that we got from @see readFile
@@ -78,39 +78,39 @@ public class MainFct {
                  * @param b the index of the second column(attribute) in data (the second variable selected in the ui)
                  * @return the ChartPanel object that will be displayed in the gui
                  */
-                XYSeriesCollection collection= new XYSeriesCollection();
-                XYSeries series= new XYSeries("");
+                XYSeriesCollection collection = new XYSeriesCollection();
+                XYSeries series = new XYSeries("");
                 for (int i = 0; i < data.size(); i++) {
-                        series.add(data.get(i)[a],data.get(i)[b]);
+                        series.add(data.get(i)[a], data.get(i)[b]);
                 }
                 collection.addSeries(series);
-                JFreeChart scatter_plot= ChartFactory.createScatterPlot("Scatter Plot",
-                        "attribute a","Attribute b",collection);
+                JFreeChart scatter_plot = ChartFactory.createScatterPlot("Scatter Plot",
+                        "attribute a", "Attribute b", collection);
 
                 ChartPanel chart = new ChartPanel(scatter_plot);
-                chart.setPreferredSize(new Dimension(518,186));
+                chart.setPreferredSize(new Dimension(518, 186));
 
                 return (chart);
         }
 
-        public static HashMap getFrequencies(ArrayList<Double[]> data){
+        public static HashMap getFrequencies(ArrayList<Double[]> data) {
                 /** previously named get_frequencies.
                  *
-                 * @deprecated  at least i didnt find use case yet
+                 * @deprecated at least i didnt find use case yet
                  * @param data: i suppose it's the matrix  returned by @see readFile
                  * TODO: find use case!
                  */
-                HashMap<Double,Integer> hash= new HashMap();
+                HashMap<Double, Integer> hash = new HashMap();
                 for (int i = 0; i < 8; i++) {
                         for (int j = 0; j < data.size(); j++) {
-                                hash.put(data.get(j)[i],hash.get(data.get(j)[i])+1);
+                                hash.put(data.get(j)[i], hash.get(data.get(j)[i]) + 1);
                         }
                         System.out.println(hash);
                 }
                 return hash;
         }
 
-        public static ChartPanel histogramFct(ArrayList<Double[]> data, int a){
+        public static ChartPanel histogramFct(ArrayList<Double[]> data, int a) {
                 /** previously named 'histogram_fct'
                  * Create the histogram  diagram of the a'th index attribute
                  * @param data The data that we got from @see readFile
@@ -118,23 +118,23 @@ public class MainFct {
                 the histogram
                  * @return the ChartPanel object that will display the histogram in the gui
                  */
-                HistogramDataset histogram= new HistogramDataset();
-                double[] values= new double[data.size()];
+                HistogramDataset histogram = new HistogramDataset();
+                double[] values = new double[data.size()];
 
                 for (int i = 0; i < data.size(); i++) {
-                        values[i]=data.get(i)[a];
+                        values[i] = data.get(i)[a];
                 }
-                histogram.addSeries("key",values,20);
+                histogram.addSeries("key", values, 20);
                 JFreeChart chart = ChartFactory.createHistogram("Histogram",
                         "Data", "Frequency", histogram);
 
-                ChartPanel panel= new ChartPanel(chart);
+                ChartPanel panel = new ChartPanel(chart);
                 panel.setPreferredSize(new Dimension(436, 148));
 
                 return panel;
         }
 
-        public static ChartPanel boxplotFct(ArrayList<Double[]> dataset, int a){
+        public static ChartPanel boxplotFct(ArrayList<Double[]> dataset, int a) {
                 /** previously named 'boxplot_fct'
                  * Create the boxplot  diagram of the a'th index attribute
                  * @param data The data that we got from @see readFile
@@ -152,15 +152,15 @@ public class MainFct {
 
                 data.add(new Date(), item);
 
-                Double upper = maxList(dataset,a);
-                Double lower = minList(dataset,a);
+                Double upper = maxList(dataset, a);
+                Double lower = minList(dataset, a);
 
-                JFreeChart plot = ChartFactory.createBoxAndWhiskerChart("BOXPLOT","","Column"+a, data ,true);
+                JFreeChart plot = ChartFactory.createBoxAndWhiskerChart("BOXPLOT", "", "Column" + a, data, true);
 
                 XYPlot idfPlot = (XYPlot) plot.getPlot();
 
                 ValueAxis y_axis = idfPlot.getRangeAxis();
-                y_axis.setRange(lower -1, upper+1);
+                y_axis.setRange(lower - 1, upper + 1);
                 XYBoxAndWhiskerRenderer renderer = new XYBoxAndWhiskerRenderer();
                 idfPlot.setRenderer(renderer);
 
@@ -170,21 +170,21 @@ public class MainFct {
 
         }
 
-        public static JPanel qqplotFct(ArrayList<Double[]> dataset, int x, int y){
+        public static JPanel qqplotFct(ArrayList<Double[]> dataset, int x, int y) {
                 /** previously named 'qqplot_fct'
                  * Create the qq-plot  diagram of the a'th and b'th index attribute
                  * @param data The data that we got from @see readFile
                  * @param a the first attribute(column) from which we want to  display the qqplot
                  * @param b the second attribute(column) from which we want to  display the qqplot
-                 * @return  JPanel object that will display the qqplot in the gui
+                 * @return JPanel object that will display the qqplot in the gui
                  */
                 int size = dataset.size();
                 double att1[] = new double[size];
                 double att2[] = new double[size];
 
                 for (int i = 0; i < dataset.size(); i++) {
-                        att1[i]=(dataset.get(i)[x]);
-                        att2[i]=(dataset.get(i)[y]);
+                        att1[i] = (dataset.get(i)[x]);
+                        att2[i] = (dataset.get(i)[y]);
                 }
 
                 PlotCanvas canvas = QQPlot.plot(att1, att2);
@@ -195,94 +195,92 @@ public class MainFct {
                 return pan;
         }
 
-        public static double getMoy(ArrayList<Double[]> data, int column){
+        public static double getMoy(ArrayList<Double[]> data, int column) {
                 /** previously named 'get_moy'
                  * Compute the "mean" of a column (attribute)
                  * @param data The data that we got from @see readFile
                  * @param column the column from which we want to compute the mean
-                 * @return  Double ,the mean of the column column
+                 * @return Double ,the mean of the column column
                  */
 
-                double moy=0;
+                double moy = 0;
                 for (int i = 0; i < data.size(); i++) {
-                        moy+=data.get(i)[column];
+                        moy += data.get(i)[column];
                 }
-                moy=moy/ data.size();
+                moy = moy / data.size();
                 return moy;
         }
 
-        public static Double getMediane(ArrayList<Double[]> data, int column){
+        public static Double getMediane(ArrayList<Double[]> data, int column) {
                 /** previously named 'get_mediane'
                  * Compute the "median" of a column (attribute)
                  * @param data The data that we got from @see readFile
                  * @param column the column from which we want to comute the meadian
-                 * @return  Double , the median of the column column
+                 * @return Double , the median of the column column
                  */
 
 
-                Double[] values=sort(data,column);
-                if(values.length%2==1){
-                        return values[(values.length)/2];
-                }
-                else {
-                        return (values[(values.length-1)/2]+values[(values.length+1)/2])/2;
+                Double[] values = sort(data, column);
+                if (values.length % 2 == 1) {
+                        return values[(values.length) / 2];
+                } else {
+                        return (values[(values.length - 1) / 2] + values[(values.length + 1) / 2]) / 2;
                 }
         }
 
-        public static Double[] sort(ArrayList<Double[]> data, int col){
+        public static Double[] sort(ArrayList<Double[]> data, int col) {
                 /**
                  * Sort a specific column (col) in the data
                  * @param data The data that we got from @see readFile
                  * @param col the column that we want to sort.
-                 * @return  Double[] , an array of the sorted column values.
+                 * @return Double[] , an array of the sorted column values.
                  */
-                Double[] values=new Double[data.size()];
+                Double[] values = new Double[data.size()];
                 for (int i = 0; i < data.size(); i++) {
-                        values[i]=data.get(i)[col];
+                        values[i] = data.get(i)[col];
                 }
                 Arrays.sort(values);
                 return values;
         }
 
-        public static Double milieuEtendu(ArrayList<Double[]> data, int col){
+        public static Double milieuEtendu(ArrayList<Double[]> data, int col) {
                 /** previously named 'milieu_etendu'
-
                  * Compute the "midrange"(milieu ed gamme) of a column (attribute)
                  * @param data The data that we got from @see readFile
                  * @param column the column from which we want to comute the midrange
-                 * @return  Double , the midrange of the column column
+                 * @return Double , the midrange of the column column
                  * TODO -low priority- :optimise when have time
                  */
-                Double max=0.0; Double min=data.get(0)[col];
+                Double max = 0.0;
+                Double min = data.get(0)[col];
 
                 for (int i = 0; i < data.size(); i++) {
-                        if(max<data.get(i)[col]){
-                                max=data.get(i)[col];
+                        if (max < data.get(i)[col]) {
+                                max = data.get(i)[col];
                         }
-                        if(min>data.get(i)[col]){
-                                min=data.get(i)[col];
+                        if (min > data.get(i)[col]) {
+                                min = data.get(i)[col];
                         }
                 }
-                return (max+min)/2;
+                return (max + min) / 2;
         }
 
-        public static ArrayList<Double> modeFct(ArrayList<Double[]> data, int col){
+        public static ArrayList<Double> modeFct(ArrayList<Double[]> data, int col) {
                 /** previously named 'mode_fct'
-
                  * Compute the "mode" of the a'th column (attribute)
                  * @param data The data that we got from @see readFile
                  * @param col the column from which we want to compute the mode
-                 * @return  Arraylist<Double>, the list of the modes of the column col.
+                 * @return Arraylist<Double>, the list of the modes of the column col.
                  */
-                int   i, j;
-                Double max=0.0,maxcount=0.0;
-                ArrayList<Double> returnList= new ArrayList<Double>();
+                int i, j;
+                Double max = 0.0, maxcount = 0.0;
+                ArrayList<Double> returnList = new ArrayList<Double>();
                 int count;
 
                 for (i = 0; i < data.size(); i++) {
                         count = 0;
                         for (j = 0; j < data.size(); j++) {
-                                if (data.get(j)[col].equals(data.get(i)[col]) ){
+                                if (data.get(j)[col].equals(data.get(i)[col])) {
                                         count++;
                                 }
                         }
@@ -294,14 +292,14 @@ public class MainFct {
                 }
                 returnList.add(max);
 
-                for ( i = 0; i < data.size(); i++) {
-                        count=0;
-                        for ( j = 0; j < data.size(); j++) {
-                                if(data.get(j)[col].equals(data.get(i)[col]) ){
+                for (i = 0; i < data.size(); i++) {
+                        count = 0;
+                        for (j = 0; j < data.size(); j++) {
+                                if (data.get(j)[col].equals(data.get(i)[col])) {
                                         ++count;
                                 }
                         }
-                        if (count==maxcount && !returnList.contains(data.get(i)[col])){
+                        if (count == maxcount && !returnList.contains(data.get(i)[col])) {
                                 returnList.add(data.get(i)[col]);
                         }
                 }
@@ -309,41 +307,42 @@ public class MainFct {
                 return returnList;
         }
 
-        public static Double moyenneTranquee(ArrayList<Double[]> data, int col){
+        public static Double moyenneTranquee(ArrayList<Double[]> data, int col) {
                 /** previously named 'moyenne_tranquee'
-
                  * Compute the "trimmed mean" of the a'th column (attribute)
                  * @param data The data that we got from @see readFile
                  * @param col the column from which we want to compute the trimmed mean
-                 * @return  Double, the trimmed mean of the column col.
+                 * @return Double, the trimmed mean of the column col.
                  * TODO: i don't get this one!
                  */
 
-                Double[] values=sort(data,col);
-                Double dbl=values.length*0.025;
-                int min= dbl.intValue()+1;
-                dbl=values.length*0.975;
-                int max=dbl.intValue();
+                Double[] values = sort(data, col);
+                Double dbl = values.length * 0.025;
+                int min = dbl.intValue() + 1;
+                dbl = values.length * 0.975;
+                int max = dbl.intValue();
 
-                Double moyenne=0.0;
+                Double moyenne = 0.0;
                 for (int i = min; i < max; i++) {
-                        moyenne+=values[i];
+                        moyenne += values[i];
                 }
-                return moyenne/ values.length;
+                return moyenne / values.length;
         }
 
         static Double maxList(ArrayList<Double[]> data, int column) {
                 /** previously named 'max_list'
-
                  * Compute the "max" of the a'th column (attribute)
                  * @param data The data that we got from @see readFile
                  * @param column the column from which we want to get the max value of
-                 * @return  Double, the maximum value of the elements of the column column.
+                 * @return Double, the maximum value of the elements of the column column.
                  */
-                int i; Double max=data.get(0)[column];
-                for(i=1;i<data.size();i++){
-                        Double element=data.get(i)[column];
-                        if(element>max){max= element;}
+                int i;
+                Double max = data.get(0)[column];
+                for (i = 1; i < data.size(); i++) {
+                        Double element = data.get(i)[column];
+                        if (element > max) {
+                                max = element;
+                        }
                 }
                 return max;
         }
@@ -353,57 +352,60 @@ public class MainFct {
                  * Compute the "min" of the a'th column (attribute)
                  * @param data The data that we got from @see readFile
                  * @param column the column from which we want to get the min value of
-                 * @return  Double, the minimum value of the elements of the column column.
+                 * @return Double, the minimum value of the elements of the column column.
                  */
-                int i; Double min=data.get(0)[column];
-                for(i=1;i<data.size();i++){
-                        if(data.get(i)[column]<min)
-                        {min= data.get(i)[column];}
+                int i;
+                Double min = data.get(0)[column];
+                for (i = 1; i < data.size(); i++) {
+                        if (data.get(i)[column] < min) {
+                                min = data.get(i)[column];
+                        }
                 }
                 return min;
         }
 
-        static Double[] sort(Double[] array){
+        static Double[] sort(Double[] array) {
                 /**
                  * Compute a Double[] list
                  * @param array the array we want to sort
-                 * @return  Double[], the array sorted
+                 * @return Double[], the array sorted
                  * @note i guess it can be optimised using another sorting method mais bon.
                  */
 
-                int i, j , indexMin = 0;
-                double min, temp ; int t=array.length;
+                int i, j, indexMin = 0;
+                double min, temp;
+                int t = array.length;
 
-                for(i=0;i<t-1;i++){
-                        min=array[i];
+                for (i = 0; i < t - 1; i++) {
+                        min = array[i];
 
-                        for(j=i+1;j<t;j++){
+                        for (j = i + 1; j < t; j++) {
 
-                                if (array[j] < min){
+                                if (array[j] < min) {
                                         min = array[j];
                                         temp = array[i];
-                                        array[i]=min;
-                                        array[j]=temp;
+                                        array[i] = min;
+                                        array[j] = temp;
                                 }
                         }
                 }
                 return array;
         }
 
-        public static Double etendu(ArrayList<Double[]> data, int column){
+        public static Double etendu(ArrayList<Double[]> data, int column) {
                 /**
                  * Compute etendu
                  * @param data The data that we got from @see readFile
                  * @param column the column from which we want to get "entendu"
-                 * @return  Double, etendue value.
+                 * @return Double, etendue value.
                  */
-                Double max = maxList(data,column);
-                Double min = minList(data,column);
-                return max-min;
+                Double max = maxList(data, column);
+                Double min = minList(data, column);
+                return max - min;
 
         }
 
-        public static Double quartiles(ArrayList<Double[]> data, int quartile, int column){
+        public static Double quartiles(ArrayList<Double[]> data, int quartile, int column) {
                 /**
                  * Compute quartile number @param quartile
                  * @param data the dataset (matrix)
@@ -411,32 +413,41 @@ public class MainFct {
                  * @param column the columns from which we want to compute the quartile
                  * @return Double, the quartile value
                  */
-                double result = 0;  ;
+                double result = 0;
+                ;
                 //////////////////Not Getting the right column
-                Double[] mycol =new Double[data.size()]; int i ;
+                Double[] mycol = new Double[data.size()];
+                int i;
 
-                for(i = 0; i < data.size()  ; i++) { mycol[i] = data.get(i)[column];}
+                for (i = 0; i < data.size(); i++) {
+                        mycol[i] = data.get(i)[column];
+                }
                 Double[] sorted = sort(mycol);
-                int taille = sorted.length , index;
-                if (quartile == 1){
-                        index = taille/4; System.out.println("index = " +index);
+                int taille = sorted.length, index;
+                if (quartile == 1) {
+                        index = taille / 4;
+                        System.out.println("index = " + index);
                         /// pair
-                        if(taille%4==0) { return ((sorted[index] + sorted[index-1]) /2) ;}
-                        else return sorted[index-1];
+                        if (taille % 4 == 0) {
+                                return ((sorted[index] + sorted[index - 1]) / 2);
+                        } else return sorted[index - 1];
                 } else {
-                        if(quartile==2){
-                                index = taille/2; System.out.println("index = " +index);
+                        if (quartile == 2) {
+                                index = taille / 2;
+                                System.out.println("index = " + index);
                                 /// pair
-                                if(taille%2==0){ return ((sorted[index] + sorted[index-1] )/2) ;}
-                                else return sorted[index-1];
+                                if (taille % 2 == 0) {
+                                        return ((sorted[index] + sorted[index - 1]) / 2);
+                                } else return sorted[index - 1];
 
-                        } else if(quartile==3){
-                                index = taille*3/4; System.out.println("index = " +index);
+                        } else if (quartile == 3) {
+                                index = taille * 3 / 4;
+                                System.out.println("index = " + index);
                                 /// pair
-                                if(taille*3%4==0){ return ((sorted[index] + sorted[index-1] )/2) ;}
-                                else return sorted[index-1];
-                        }
-                        else{
+                                if (taille * 3 % 4 == 0) {
+                                        return ((sorted[index] + sorted[index - 1]) / 2);
+                                } else return sorted[index - 1];
+                        } else {
                                 //TODO: throw some exception here
                                 System.out.println("Unexpected value: " + quartile);
                         }
@@ -445,16 +456,16 @@ public class MainFct {
                 return result;
         }
 
-        public static Double ecartInterquartile(ArrayList<Double[]> data, int column){
+        public static Double ecartInterquartile(ArrayList<Double[]> data, int column) {
                 /** previously named ecart_interquartile
                  * Compute ecart type
                  * @param data the dataset (matrix)
                  * @param column the columns from which we want to compute the "ecart type"
                  * @return Double, the "equart type" value
                  */
-                double q1 = quartiles(data,1,column);
-                double q3 = quartiles(data,3,column);
-                return q3-q1;
+                double q1 = quartiles(data, 1, column);
+                double q3 = quartiles(data, 3, column);
+                return q3 - q1;
 
         }
 
@@ -465,11 +476,11 @@ public class MainFct {
                  * @param column the columns from which we want to compute the "variance"
                  * @rturn Double, the value of the variance
                  */
-                Double ecarttype = ecartType(data,column);
-                return ecarttype*ecarttype;
+                Double ecarttype = ecartType(data, column);
+                return ecarttype * ecarttype;
         }
 
-        public static Double ecartType(ArrayList<Double[]> data, int column){
+        public static Double ecartType(ArrayList<Double[]> data, int column) {
 
                 /**
                  * Compute "ecart type" of the column
@@ -479,17 +490,18 @@ public class MainFct {
                  */
                 //boucle de somme de (x-moyenne)carre
                 //return racine(1/n(somme))
-                Double element , somme=0.0 , moyenne = getMoy(data,column); Double difference;
+                Double element, somme = 0.0, moyenne = getMoy(data, column);
+                Double difference;
                 int i;
-                for(i=0;i<data.size();i++){
+                for (i = 0; i < data.size(); i++) {
                         element = data.get(i)[column];
-                        difference=(element-moyenne);
-                        somme = somme+difference*difference;
+                        difference = (element - moyenne);
+                        somme = somme + difference * difference;
                 }
-                return Math.sqrt(somme/data.size());
+                return Math.sqrt(somme / data.size());
         }
 
-        public static ArrayList<Double> outliers(ArrayList<Double[]> data, int column){
+        public static ArrayList<Double> outliers(ArrayList<Double[]> data, int column) {
                 /**
                  * Calculate outliers of the column column
                  * @param data the dataset (matrix)
@@ -497,28 +509,29 @@ public class MainFct {
                  * @rturn Double[], list of outliers
                  */
                 //calculate outliers
-                int i , taille=data.size();
-                Double outlier1,outlier2 , q1 , q3 , iqr ,element;
-                q1 = quartiles(data,1,column);
-                q3 = quartiles(data,3,column);
-                iqr =  ecartInterquartile(data,column);
-                outlier1 = q1-1.5*iqr;
-                outlier2 = q3+1.5*iqr;
+                int i, taille = data.size();
+                Double outlier1, outlier2, q1, q3, iqr, element;
+                q1 = quartiles(data, 1, column);
+                q3 = quartiles(data, 3, column);
+                iqr = ecartInterquartile(data, column);
+                outlier1 = q1 - 1.5 * iqr;
+                outlier2 = q3 + 1.5 * iqr;
                 ArrayList<Double> outliers = new ArrayList<>();
-                for(i=0;i<taille;i++){
+                for (i = 0; i < taille; i++) {
                         element = data.get(i)[column];
-                        if ( element >outlier2) {
+                        if (element > outlier2) {
                                 outliers.add(element);
+                        } else {
+                                if (element < outlier1) {
+                                        outliers.add(element);
+                                }
                         }
-                        else {if ( element <outlier1) {
-                                outliers.add(element);
-                        }}
                 }
                 return outliers;
 
         }
 
-        public static double correlationCoef(ArrayList<Double[]> data, int column1, int column2){
+        public static double correlationCoef(ArrayList<Double[]> data, int column1, int column2) {
                 /**
                  * Compute "coefficient de correlation" of the @param column1 and @param column2
                  * @return Double the computed corelation coef between the two columns(variables)
@@ -532,27 +545,27 @@ public class MainFct {
                 }
 
                 nAB = data.size() * getMoy(data, column1) * getMoy(data, column2);
-                denomin = (data.size()-1) * ecartType(data, column1) * ecartType(data, column2);
+                denomin = (data.size() - 1) * ecartType(data, column1) * ecartType(data, column2);
 
-                return (somme-nAB)/denomin;
+                return (somme - nAB) / denomin;
         }
 
         //--------------------------------part2--------------------------
-        public static Double[] getColumn(ArrayList<Double[]> data, int column){
+        public static Double[] getColumn(ArrayList<Double[]> data, int column) {
                 /**
                  * get the entire column of the data(matrix) and return it.
                  * @return the entire column specified in @param column
                  */
 
                 Double[] columnArray = new Double[data.size()];
-                for(int i=0 ;i<data.size();i++) {
+                for (int i = 0; i < data.size(); i++) {
                         columnArray[i] = data.get(i)[column];
                 }
-                return  columnArray;
+                return columnArray;
 
         }
 
-        public static Double getMin(Double[] columnArray){
+        public static Double getMin(Double[] columnArray) {
                 /**
                  * Get the minimum value
                  * @note i just lost too much time looking for "the min function"
@@ -561,7 +574,7 @@ public class MainFct {
                 return columnArray[0];
         }
 
-        public static Double getMax(Double[] columnArray){
+        public static Double getMax(Double[] columnArray) {
                 /**
                  * Get the minimum value
                  * @note i just lost too much time looking for "the min function"
@@ -570,33 +583,33 @@ public class MainFct {
                 return columnArray[columnArray.length - 1];
         }
 
-        public static Double getNormalizedMinMaxVal(Double value ,Double min, Double max){
+        public static Double getNormalizedMinMaxVal(Double value, Double min, Double max) {
                 /**
                  * get the normalized value
                  */
-                return (value -min) /(max - min);
+                return (value - min) / (max - min);
         }
 
-        public static Double[] normalizeMinMaxCol(ArrayList<Double[]> data ,int column){
+        public static Double[] normalizeMinMaxCol(ArrayList<Double[]> data, int column) {
                 /**
                  * Normalize value of the column @param column
                  * @param data the dataset (matrix)
                  * @param column the columns from which we want to compute the "ecart type"
                  * @return Double[], the new values for the column column
                  */
-                Double[] normalizedColumn = getColumn(data,column);
-                Double min,max;
+                Double[] normalizedColumn = getColumn(data, column);
+                Double min, max;
 
                 min = getMin(normalizedColumn);
                 max = getMax(normalizedColumn);
-                for(int i=0;i<normalizedColumn.length;i++) {
+                for (int i = 0; i < normalizedColumn.length; i++) {
                         //normalize the thing
-                        normalizedColumn[i] = (normalizedColumn[i] - min) / (max -min) ;
+                        normalizedColumn[i] = (normalizedColumn[i] - min) / (max - min);
                 }
                 return normalizedColumn;
         }
 
-        public static  ArrayList<Double[]> minMaxNormalization(ArrayList<Double[]> data) {
+        public static ArrayList<Double[]> minMaxNormalization(ArrayList<Double[]> data) {
                 /**
                  * Normalize all the dataset  using the minMax method
                  * @param data the dataset returned by @see readData
@@ -620,33 +633,34 @@ public class MainFct {
                 }
 
                 for (int i = 0; i < data.size(); i++) {
-                        for (int j = 0; j < data.get(i).length -1 ; j++) {//the -1 is here because we don't need the last column
+                        for (int j = 0; j < data.get(i).length - 1; j++) {//the -1 is here because we don't need the last column
                                 data.get(i)[j] = getNormalizedMinMaxVal(data.get(i)[j], minList[j], maxList[j]);
                         }
                 }
-                return  data;
+                return data;
         }
 
-        public static Double getSValue(ArrayList<Double[]> data,double moyenne, int column){
+        public static Double getSValue(ArrayList<Double[]> data, double moyenne, int column) {
                 /**
                  * compute the S value for zsocre normalization
                  */
-                double sValue=0.0;
+                double sValue = 0.0;
                 int n = data.size();
                 for (int i = 0; i < data.size(); i++) {
-                        sValue =sValue +( data.get(i)[column] - moyenne);
+                        sValue = sValue + (data.get(i)[column] - moyenne);
                 }
-                sValue = sValue/n;
-                return sValue ;
+                sValue = sValue / n;
+                return sValue;
         }
-        public static Double getNormalizedzScoreValue(Double value ,Double moyenne,Double sValue){
+
+        public static Double getNormalizedzScoreValue(Double value, Double moyenne, Double sValue) {
                 /**
                  * get the normalized zscore value
                  */
-                return (value -moyenne) /sValue;
+                return (value - moyenne) / sValue;
         }
 
-        public static ArrayList<Double[]> zScoreNormalization(ArrayList<Double[]> data){
+        public static ArrayList<Double[]> zScoreNormalization(ArrayList<Double[]> data) {
                 /**
                  * Normalize all the dataset  using the zScore method
                  * @param data the dataset returned by @see readData
@@ -658,10 +672,10 @@ public class MainFct {
                 Double[] meanList = new Double[maxNumCol];
                 for (int i = 0; i < maxNumCol; i++) {
                         meanList[i] = getMoy(data, i);
-                        sList[i] = getSValue(data,meanList[i],i);
+                        sList[i] = getSValue(data, meanList[i], i);
                 }
                 for (int i = 0; i < data.size(); i++) {
-                        for (int j = 0; j < data.get(i).length -1 ; j++) {//the -1 is here because we don't need the last column
+                        for (int j = 0; j < data.get(i).length - 1; j++) {//the -1 is here because we don't need the last column
                                 data.get(i)[j] = getNormalizedzScoreValue(data.get(i)[j], meanList[j], sList[j]);
                         }
                 }
@@ -670,29 +684,26 @@ public class MainFct {
         }
 
         //----------------------- discrétisation ----------------------
-        public static ArrayList<String> discretisationEqual(ArrayList<Double> column, int q, int c){
+        public static ArrayList<String> discretisationEqual(ArrayList<Double> column, int q, int c) {
                 /**
                  * TODO understand how they work!
                  *
                  */
                 double min = Collections.min(column);
                 double max = Collections.max(column);
-                double int_length= (max-min)/q;
-                double[] array={int_length,int_length*2,int_length*3};
-                ArrayList<String> result= new ArrayList<>(column.size());
+                double int_length = (max - min) / q;
+                double[] array = {int_length, int_length * 2, int_length * 3};
+                ArrayList<String> result = new ArrayList<>(column.size());
 
                 for (int i = 0; i < column.size(); i++) {
-                        if(column.get(i)<min+array[0]){
-                                result.add('I'+String.valueOf(c)+'1');
-                        }
-                        else if(column.get(i)<min+array[1]){
-                                result.add('I'+String.valueOf(c)+'2');
-                        }
-                        else if(column.get(i)<min+array[2]){
-                                result.add('I'+String.valueOf(c)+'3');
-                        }
-                        else {
-                                result.add('I'+String.valueOf(c)+'4');
+                        if (column.get(i) < min + array[0]) {
+                                result.add('I' + String.valueOf(c) + '1');
+                        } else if (column.get(i) < min + array[1]) {
+                                result.add('I' + String.valueOf(c) + '2');
+                        } else if (column.get(i) < min + array[2]) {
+                                result.add('I' + String.valueOf(c) + '3');
+                        } else {
+                                result.add('I' + String.valueOf(c) + '4');
                         }
                 }
                 return result;
@@ -700,18 +711,18 @@ public class MainFct {
 
         }
 
-        public static ArrayList<String> discretisation_effectif(ArrayList<Double> column,int q, int c){
-                Double[] ar=new Double[column.size()];
+        public static ArrayList<String> discretisation_effectif(ArrayList<Double> column, int q, int c) {
+                Double[] ar = new Double[column.size()];
                 for (int i = 0; i < column.size(); i++) {
-                        ar[i]=column.get(i);
+                        ar[i] = column.get(i);
                 }
-                Double[] sorted=sort(ar);
-                Double [] quartiles= new Double[q];
+                Double[] sorted = sort(ar);
+                Double[] quartiles = new Double[q];
                 for (int i = 0; i < q; i++) {
-                        quartiles[i]=sorted[(Math.round(column.size()/q*(i+1)))];
+                        quartiles[i] = sorted[(Math.round(column.size() / q * (i + 1)))];
                 }
                 //System.out.println(quartiles[0]+"   "+quartiles[1]+"   "+quartiles[2]+"   "+quartiles[3]);
-                ArrayList<String> result= new ArrayList<>();
+                ArrayList<String> result = new ArrayList<>();
                 for (int i = 0; i < column.size(); i++) {
                         for (int j = 0; j < q; j++) {
                                 if (column.get(i) <= quartiles[j]) {
@@ -723,60 +734,81 @@ public class MainFct {
                 return result;
         }
 
-        public static void frequentItem(double minSup, ArrayList<String> column, int c){
-                String[] items = {"I"+c+"1","I"+c+"2","I"+c+"3","I"+c+"4"};
-                String[][] frequency= new String[2][column.size()];
-                int j=0;
-                for(String d:items){
-                        int i=0;
-                        for(String col:column){
+        public static void frequentItem(double minSup, ArrayList<String> column, int c) {
+                String[] items = {"I" + c + "1", "I" + c + "2", "I" + c + "3", "I" + c + "4"};
+                String[][] frequency = new String[2][column.size()];
+                int j = 0;
+                for (String d : items) {
+                        int i = 0;
+                        for (String col : column) {
 
-                                if(d.equals(col)){
+                                if (d.equals(col)) {
                                         i++;
                                 }
                         }
-                        if(Double.valueOf(i)/Double.valueOf(column.size())>minSup){
-                                frequency[0][j]=d;
-                                frequency[1][j]=String.valueOf(i);
+                        if (Double.valueOf(i) / Double.valueOf(column.size()) > minSup) {
+                                frequency[0][j] = d;
+                                frequency[1][j] = String.valueOf(i);
 
-                                System.out.println(frequency[0][j]+", freq"+frequency[1][j]);
+                                System.out.println(frequency[0][j] + ", freq" + frequency[1][j]);
                         }
                         j++;
                 }
         }
 
-        public static ArrayList<ArrayList<ArrayList<String>>> splitData(ArrayList<ArrayList<String>> data){
+        public static ArrayList<ArrayList<ArrayList<String>>> splitData(ArrayList<ArrayList<String>> data) {
                 // 20 instances -> test , Cid =  50 -> apprentissage  , D=150
-                int i,j;String class1 = "1.0",  class2 = "2.0", class3 = "3.0"; int column=7;
-                ArrayList <ArrayList <ArrayList<String>>>total = new ArrayList();
+                int i, j;
+                String class1 = "1.0", class2 = "2.0", class3 = "3.0";
+                int column = 7;
+                ArrayList<ArrayList<ArrayList<String>>> total = new ArrayList();
 
                 ArrayList<ArrayList<String>> testData = new ArrayList();
-                ArrayList<ArrayList<String>> trainingData=new ArrayList();
+                ArrayList<ArrayList<String>> trainingData = new ArrayList();
                 ArrayList<String> ligne = new ArrayList<String>();
 
 
-
                 //for each  get 20 first instance  (each class) put it in test , rest 50 put it in training
-                int training1=0;int training2=0;int training3=0;
-                int test1=0;int test2=0;int test3=0;
+                int training1 = 0;
+                int training2 = 0;
+                int training3 = 0;
+                int test1 = 0;
+                int test2 = 0;
+                int test3 = 0;
 
-                for ( i = 0; i < data.get(column).size()-1; i++) {
+                for (i = 0; i < data.get(column).size() - 1; i++) {
                         //System.out.println(data.get(i)[column]);
                         //if class 1 -> 20 test 50 training
                         ligne = new ArrayList<>();
-                        for (j = 0; j<8;j++)
-                        {
+                        for (j = 0; j < 8; j++) {
                                 ligne.add(data.get(j).get(i));
                         }
 
-                        if((data.get(column).get(i).equals(class1) && (test1<20))){
-                                testData.add(ligne); test1++;  }
-                        if((data.get(column).get(i).equals(class1) && (training1<50)  && (test1 ==20))){ trainingData.add(ligne); training1++; }
+                        if ((data.get(column).get(i).equals(class1) && (test1 < 20))) {
+                                testData.add(ligne);
+                                test1++;
+                        }
+                        if ((data.get(column).get(i).equals(class1) && (training1 < 50) && (test1 == 20))) {
+                                trainingData.add(ligne);
+                                training1++;
+                        }
 
-                        if((data.get(column).get(i).equals(class2) && (test2<20))){ testData.add(ligne); test2++;  }
-                        if((data.get(column).get(i).equals(class2) && (training2<50)  && (test2 ==20))){ trainingData.add(ligne); training2++;}
-                        if((data.get(column).get(i).equals(class3) && (test3<20))){ testData.add(ligne); test3++;  }
-                        if((data.get(column).get(i).equals(class3) && (training3<50)  && (test3 ==20))){ trainingData.add(ligne); training3++;}
+                        if ((data.get(column).get(i).equals(class2) && (test2 < 20))) {
+                                testData.add(ligne);
+                                test2++;
+                        }
+                        if ((data.get(column).get(i).equals(class2) && (training2 < 50) && (test2 == 20))) {
+                                trainingData.add(ligne);
+                                training2++;
+                        }
+                        if ((data.get(column).get(i).equals(class3) && (test3 < 20))) {
+                                testData.add(ligne);
+                                test3++;
+                        }
+                        if ((data.get(column).get(i).equals(class3) && (training3 < 50) && (test3 == 20))) {
+                                trainingData.add(ligne);
+                                training3++;
+                        }
                 }
                 total.add(trainingData);
                 total.add(testData);
@@ -784,160 +816,11 @@ public class MainFct {
         }
 
 
-
-        public static void main(String[] args) throws Exception{
-                ArrayList<Double[]> data= MainFct.readFile("datasets/seeds_dataset.txt");
+        public static void main(String[] args) throws Exception {
+                ArrayList<Double[]> data = MainFct.readFile("datasets/seeds_dataset.txt");
                 data = MainFct.minMaxNormalization(data);
                 print_data(data);
-        /*
-        ArrayList<Double> ar = new ArrayList();
-         */
-        /*
-        Double[] instance = {};
-        ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
-        for (int i = 0; i < 7; i++) {
-    public static java.util.ArrayList<java.util.ArrayList<Double[]>> splitData(ArrayList<Double[]> data){
-        // 20 instances -> test , Cid =  50 -> apprentissage  , D=150
-        int i,j;double class1 = 1.0, class2 = 2.0, class3 = 3.0; int column=7;
-        ArrayList <ArrayList<Double[]>> total = new ArrayList();
-        ArrayList<Double[]> testData = new ArrayList();
-        ArrayList<Double[]> trainingData=new ArrayList();
 
-        //for each  get 20 first instance  (each class) put it in test , rest 50 put it in training
-        int training1=0;int training2=0;int training3=0;
-        int test1=0;int test2=0;int test3=0;
-
-        for ( i = 0; i < data.size(); i++) {
-            //System.out.println(data.get(i)[column]);
-            //if class 1 -> 20 test 50 training
-           
-            if((data.get(i)[column] == class1) && (test1<20)){ testData.add(data.get(i)); test1++;  }
-            if((data.get(i)[column] == class1) && (training1<50) && (test1 ==20){ trainingData.add(data.get(i)); training1++;  }
-            if((data.get(i)[column] == class2) && (test2<20)){ testData.add(data.get(i)); test2++;  }
-            if((data.get(i)[column] == class2) && (training2<50)  && (test2 ==20)){ trainingData.add(data.get(i)); training2++;}
-            if((data.get(i)[column] == class3) && (test3<20)){ testData.add(data.get(i)); test3++;  }
-            if((data.get(i)[column] == class3) && (training3<50)  && (test3 ==20)){ trainingData.add(data.get(i)); training3++;}
-        
-        }
-
-        total.add(trainingData);
-        total.add(testData);
-        return total;
-    }
-
-
-    public static void main(String[] args) throws Exception{
-        ArrayList<Double[]> data= MainFct.readFile("datasets\\seeds.txt");
-
-        data=maxmin_normalization_wholeData(data);
-        ArrayList<ArrayList<Double[]>> total=splitData(data);
-        int k=3;
-        Knn knn_instance= new Knn(total.get(0),total.get(1),k);
-        //Double[][] result=knn_instance.calcul_knn();
-        Double[] predicted_classes= knn_instance.predict_class();
-        /*for (int i = 0; i < result.length; i++) {
-            System.out.println("instance : "+i);
-            for (int j = 0; j < k; j++) {
-                System.out.println("nearest "+j+" : "+result[i][j]);
-            }
-            System.out.println("predicted class : "+predicted_classes[i]);
-        }*/
-        /*
-        for (int i = 0; i < predicted_classes.length ; i++) {
-            System.out.println("Instance "+(i+1)+", actual class : "+knn_instance.testing_data.get(i)[7]
-                    +",     predicted class : "+predicted_classes[i]);
-        }
-
-         */
-
-
-        /*
-        Double[] instance = {};
-
-        for (int i = 0; i < list.size(); i++) {
-            frequentItem(0.2,list.get(i),i+1);
-        }
-
-
-
-          //////// USAGE OF NB, CONFUSION MATRIX AND ACCURACY////////////
-          /*
-
-          // First, discretisation
-        ArrayList<Double[]> data= MainFct.readFile("datasets/seeds_dataset.txt");
-        ArrayList<Double> ar = new ArrayList();
-        ArrayList<String> y = new ArrayList();
-        Double[] instance = {};
-        ArrayList <Double> labels = new ArrayList<>();
-
-        ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
-        for (int i = 0; i < 7; i++) {
-
-            for (int j= 0; j < data.size(); j++) {
-                ar.add(data.get(j)[i]);
-            }
-            list.add(discretisation_effectif(ar,4,i+1));
-
-            ar.clear();
-        }
-        // add the labels to the new dataset to be able to call NB fct
-        for (int j= 0; j < data.size(); j++) {
-            y.add(data.get(j)[7].toString());
-        }
-        list.add(y);
-
-
-          ArrayList <ArrayList<Double[]>> total = new ArrayList();
-          ArrayList<Double> predictions = new ArrayList<Double>();
-          ArrayList<Double[]> train, test = new ArrayList<Double[]>();
-          ArrayList<Double> yTrain  = new ArrayList<Double>();
-          ArrayList<Double> yTest = new ArrayList<Double>();
-          total = splitData(data);
-  
-  
-
-          // get xtrainset and yTrainset
-          train = total.get(0);
-          for (int i=0; i<train.size();i++)
-          {
-              yTrain.add(train.get(i)[7]);
-          }
-  
-          // get xtestset and yTestset
-          test  = total.get(1);
-          for (int i=0; i<test.size();i++)
-          {
-              yTest.add(test.get(i)[7]);
-          }
-  
-
-          System.out.println("Test labels");
-          System.out.println(yTest);
-  
-          System.out.println("////////////////////////");
-  
-          System.out.println("Test predictions");
-          predictions = th_naiveBayes(train,test);
-          System.out.println(predictions);
-  
-  
-          System.out.println("//// CONFUSION MATRIX //////");
-          int[][] mat = getConfusion_Matrix(predictions, yTest);
-          
-          for (int i =0; i<3;i++)
-          {
-              String row = "";
-              for(int j=0; j<3; j++){
-                  row = row+" "+mat[i][j];
-              }
-              System.out.println(row);
-          }
-            System.out.println("//// TEST ACCURACY //////");
-            float acc = accuracy(1, mat);
-            System.out.println("Accuracy of classe 1 : " +acc);
-
-          */
 
         }
-
 }
