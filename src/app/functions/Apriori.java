@@ -48,9 +48,9 @@ public class Apriori {
                 return  columnArray;
         }
 
-        public ArrayList<String> calculateFrequentItems(){
+        public ArrayList<String[]> calculateFrequentItems(){
                 //création de la liste des items fréquents
-                ArrayList<String> frequentItems = new ArrayList<>();
+                ArrayList<String[]> frequentItems = new ArrayList<>();
                 ArrayList<String> frequentCondidates = new ArrayList<>();
                 ArrayList<String> firstCondidates = new ArrayList<>();
                 for (int i = 0; i < this.itemset.size(); i++) {
@@ -98,7 +98,8 @@ public class Apriori {
                 Iterator it = frequentItemsList.entrySet().iterator();
                 while (it.hasNext()) {
                         Map.Entry item = (Map.Entry)it.next();
-                        frequentItems.add("{"+ item.getKey() + "}");
+                        String temp=((String)item.getKey());
+                        frequentItems.add((String[]) temp.split(","));
                         it.remove(); // avoids a ConcurrentModificationException
                 }
 
@@ -126,8 +127,8 @@ public class Apriori {
                  */
                 ArrayList<Double[]> data= MainFct.readFile("datasets/seeds_dataset.txt");
                 Apriori apriori = new Apriori(data, 20);
-                ArrayList<String> items = apriori.calculateFrequentItems();
-                for (String item :
+                ArrayList<String[]> items = apriori.calculateFrequentItems();
+                for (String[] item :
                         items) {
                         System.out.println(item);
 

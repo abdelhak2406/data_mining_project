@@ -35,15 +35,15 @@ public class NaiveBays {
                                 for (att =0; att<7 ;att++)
                                 {
 
-                                        Xk_given_Ci = find_prob_Xk_given_Ci(String.valueOf(Double.valueOf(c)),att,train.get(i).get(att), train);
+                                        Xk_given_Ci = find_prob_Xk_given_Ci(String.valueOf(Double.valueOf(c+1)),att,test.get(i).get(att), train);
                                         pX_givenC = pX_givenC* Xk_given_Ci;
                                 }
                                 pX_givenC = pX_givenC * p_de_classes[c];
-                                if(pX_givenC> max){max = pX_givenC; classe = c;}
+                                if(pX_givenC> max){max = pX_givenC; classe = c+1;}
 
                         }
 
-                        predictions.add( Double.valueOf(classe+1));
+                        predictions.add( Double.valueOf(classe));
                 }
                 return predictions;
         }
