@@ -17,6 +17,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.util.*;
 
 
@@ -684,27 +685,49 @@ public class MainFct {
         }
 
         //----------------------- discrétisation ----------------------
+        public static int getIntervalEqual(ArrayList<double[]> listInt, double value){
+                /**
+                 * gets wich interfal a value is
+                 */
+                int i=0;
+                for ( i = 0; i < listInt.size(); i++) {
+                        if ( (value >= listInt.get(i)[0] ) && (value < listInt.get(i)[1] ) ){
+                               return i;
+
+                        }
+                }
+                return i-1;
+        }
+
         public static ArrayList<String> discretisationEqual(ArrayList<Double> column, int q, int c) {
                 /**
-                 * TODO understand how they work!
-                 *
+                 * @param column
+                 * @param q
+                 * @param c
                  */
                 double min = Collections.min(column);
                 double max = Collections.max(column);
-                double int_length = (max - min) / q;
-                double[] array = {int_length, int_length * 2, int_length * 3};
+                double intervalLength = (max - min) / q;
+
+                ArrayList<double[]> listeInvervales = new ArrayList<>() ;
+                //chaque element de listeIntervale continet un intervale [x,y[
+
+                // remplir la liste des intervalles
+                double debutIntervalle = min;
+                for (int i = 0; i < q ; i++) {
+                        double [] tmp = {debutIntervalle , debutIntervalle + intervalLength};
+                        listeInvervales.add(tmp);
+                        debutIntervalle = debutIntervalle +intervalLength;
+                }
                 ArrayList<String> result = new ArrayList<>(column.size());
 
                 for (int i = 0; i < column.size(); i++) {
-                        if (column.get(i) < min + array[0]) {
-                                result.add('I' + String.valueOf(c) + '1');
-                        } else if (column.get(i) < min + array[1]) {
-                                result.add('I' + String.valueOf(c) + '2');
-                        } else if (column.get(i) < min + array[2]) {
-                                result.add('I' + String.valueOf(c) + '3');
-                        } else {
-                                result.add('I' + String.valueOf(c) + '4');
+                        int category = getIntervalEqual(listeInvervales, column.get(i)) + 1 ;
+                        if (category==-1){
+                                System.out.println("error in discretisationEqual");
+                                System.exit(0);
                         }
+                        result.add("I" + String.valueOf(c) + String.valueOf(category) );
                 }
                 return result;
 
@@ -847,7 +870,24 @@ public class MainFct {
         public static void main(String[] args) throws Exception {
                 ArrayList<Double[]> data = MainFct.readFile("datasets/seeds_dataset.txt");
                 data = MainFct.minMaxNormalization(data);
-                print_data(data);
+
+                /*  Test discretisationEqual
+
+                //create the data!
+                ArrayList<Double> ar = new ArrayList<>();
+                for(int i=0 ; i< data.size() ;i++){
+                        ar.add(data.get(i)[1]);
+                }
+                //put it into the function
+                ArrayList<String> arResult = new ArrayList<>();
+                arResult = discretisationEqual(ar,6,1);
+                //check the output
+                for (String val:arResult ) {
+                        System.out.println(val);
+                }
+
+                 */
+
 
 
         }
