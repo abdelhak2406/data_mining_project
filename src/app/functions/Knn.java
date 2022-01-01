@@ -44,8 +44,8 @@ public class Knn {
     }
 
     //This function predicts a class for every testing data
-    public Double[] predict_class(){
-        Double[] predicted_classes= new Double[testing_data.size()];
+    public ArrayList<Double> predict_class(){
+        ArrayList<Double> predicted_classes= new ArrayList<Double>();
         for (int i = 0; i < testing_data.size(); i++) {
             Double[][] distances= new Double[training_data.size()][2];
             for (int j = 0; j < training_data.size(); j++) {
@@ -66,13 +66,13 @@ public class Knn {
                 }
             }
             if(cmp1>cmp2 && cmp1>cmp3){
-                predicted_classes[i]=1.0;
+                predicted_classes.add(1.0);
             }
             else if(cmp2>cmp1 && cmp2>cmp3){
-                predicted_classes[i]=2.0;
+                predicted_classes.add(2.0);
             }
             else {
-                predicted_classes[i]=3.0;
+                predicted_classes.add(3.0);
             }
 
         }
