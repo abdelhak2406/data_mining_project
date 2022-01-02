@@ -17,7 +17,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.lang.reflect.Array;
 import java.util.*;
 
 
@@ -58,8 +57,8 @@ public class MainFct {
                 return matrice;
         }
 
-        public static void print_data(ArrayList<Double[]> data) {
-                /**
+        public static void printData(ArrayList<Double[]> data) {
+                /** previously named print_data
                  * Print the data read by @see readFile
                  * @deprecated
                  */
@@ -71,8 +70,8 @@ public class MainFct {
                 }
         }
 
-        public static ChartPanel scatter_diagram(ArrayList<Double[]> data, int a, int b) {
-                /**
+        public static ChartPanel scatterDiagram(ArrayList<Double[]> data, int a, int b) {
+                /** previously named  scatter_diagram
                  * Create the scatter diagram of a and b variables (columns)
                  * @param data The data that we got from @see readFile
                  * @param a the index of the first column(attribute) in data(the first variable selected in the ui)
@@ -367,7 +366,7 @@ public class MainFct {
 
         static Double[] sort(Double[] array) {
                 /**
-                 * Compute a Double[] list
+                 * Sort a Double[] list
                  * @param array the array we want to sort
                  * @return Double[], the array sorted
                  * @note i guess it can be optimised using another sorting method mais bon.
@@ -450,7 +449,8 @@ public class MainFct {
                                 } else return sorted[index - 1];
                         } else {
                                 //TODO: throw some exception here
-                                System.out.println("Unexpected value: " + quartile);
+                                System.out.println("Unexpected quartile value: " + quartile);
+                                System.exit(0);
                         }
                 }
 
@@ -554,7 +554,9 @@ public class MainFct {
         //--------------------------------part2--------------------------
         public static Double[] getColumn(ArrayList<Double[]> data, int column) {
                 /**
-                 * get the entire column of the data(matrix) and return it.
+                 * get the entire column of the data(matrix) and return it as Double[]
+                 * @note the thing is that some functions used after in KNN and others
+                       are using another type which is an ArrayList<>.
                  * @return the entire column specified in @param column
                  */
 
@@ -687,7 +689,7 @@ public class MainFct {
         //----------------------- discrétisation ----------------------
         public static int getIntervalEqual(ArrayList<double[]> listInt, double value){
                 /**
-                 * gets wich interfal a value is
+                 * gets in which interval a value is
                  */
                 int i=0;
                 for ( i = 0; i < listInt.size(); i++) {
@@ -701,16 +703,20 @@ public class MainFct {
 
         public static ArrayList<String> discretisationEqual(ArrayList<Double> column, int q, int c) {
                 /**
-                 * @param column
-                 * @param q
-                 * @param c
+                 * Compute new discretized values for a column in the dataset using the equal method
+                 * @param column the column in ArrayList<Double> type which means that we need to
+                        make an extra step to loop through the data and then transform and get each
+                        column in this new type
+                        * TODO:create a function to do this transformation to have a better dry code.
+                 * @param q number of intervals
+                 * @param c column number
                  */
                 double min = Collections.min(column);
                 double max = Collections.max(column);
                 double intervalLength = (max - min) / q;
 
-                ArrayList<double[]> listeInvervales = new ArrayList<>() ;
                 //chaque element de listeIntervale continet un intervale [x,y[
+                ArrayList<double[]> listeInvervales = new ArrayList<>() ;
 
                 // remplir la liste des intervalles
                 double debutIntervalle = min;
@@ -719,8 +725,9 @@ public class MainFct {
                         listeInvervales.add(tmp);
                         debutIntervalle = debutIntervalle +intervalLength;
                 }
-                ArrayList<String> result = new ArrayList<>(column.size());
 
+
+                ArrayList<String> result = new ArrayList<>(column.size());
                 for (int i = 0; i < column.size(); i++) {
                         int category = getIntervalEqual(listeInvervales, column.get(i)) + 1 ;
                         if (category==-1){
@@ -730,11 +737,20 @@ public class MainFct {
                         result.add("I" + String.valueOf(c) + String.valueOf(category) );
                 }
                 return result;
-
-
         }
 
-        public static ArrayList<String> discretisation_effectif(ArrayList<Double> column, int q, int c) {
+        public static ArrayList<String> discretisationEffectif(ArrayList<Double> column, int q, int c) {
+                /** TODO -priority- FIX: the function doesn't return all the 210 values for some reason
+
+                 * Compute new discretized values for a column in the dataset using the effectif method.
+                 * @param column the column in ArrayList<Double> type which means that we need to
+                make an extra step to loop through the data and then transform and get each
+                column in this new type
+                 * TODO:create a function to do this transformation to have a better dry code.
+                 * @param q number of intervals
+                 * @param c column number
+                 */
+
                 Double[] ar = new Double[column.size()];
                 for (int i = 0; i < column.size(); i++) {
                         ar[i] = column.get(i);
@@ -758,6 +774,9 @@ public class MainFct {
         }
 
         public static void frequentItem(double minSup, ArrayList<String> column, int c) {
+                /**
+                 * TODO:find why this function exists and where it can be used and how it works
+                 */
                 String[] items = {"I" + c + "1", "I" + c + "2", "I" + c + "3", "I" + c + "4"};
                 String[][] frequency = new String[2][column.size()];
                 int j = 0;
@@ -779,16 +798,27 @@ public class MainFct {
                 }
         }
 
-        public static ArrayList<ArrayList<ArrayList<String>>> splitData(ArrayList<ArrayList<String>> data) {
+        public static ArrayList<ArrayList<ArrayList<String>>> splitNormalizedData(ArrayList<ArrayList<String>> data) {
+                /**
+                 * @param data: the discretized data NOT THE NORMAL ONE
+                 * and to disretize, you'll need some extra efforts, to create the new dataStructure
+                 *  TODO: create a method to DRY the code more according to this issue.
+                 * @return we return 2 ArrayList<ArrayList<String> the one at index 0 is the trainData which have 150 lines
+                 *      and the second is the testData which have 60 element 20 for each class.
+                 *@note THE THING IS there was a paradigm shift between @param data, and the trainData and testData
+                 *       in @param `data` when we do data.get(i) we get the i'th column
+                 *       Wheras is trainData and testData returned, when we do trainData.get(i) we get the i'th line.
+                 *       and i think it's very poorly and badly done having to switch like this.
+                 *       TODO: maybe try to find a way to have ONE manner to work with
+                 */
                 // 20 instances -> test , Cid =  50 -> apprentissage  , D=150
                 int i, j;
                 String class1 = "1.0", class2 = "2.0", class3 = "3.0";
-                int column = 7;
+                int targetIndex = 7;
                 ArrayList<ArrayList<ArrayList<String>>> total = new ArrayList();
 
                 ArrayList<ArrayList<String>> testData = new ArrayList();
                 ArrayList<ArrayList<String>> trainingData = new ArrayList();
-                ArrayList<String> ligne = new ArrayList<String>();
 
 
                 //for each  get 20 first instance  (each class) put it in test , rest 50 put it in training
@@ -799,7 +829,11 @@ public class MainFct {
                 int test2 = 0;
                 int test3 = 0;
 
-                for (i = 0; i < data.get(column).size() - 1; i++) {
+                ArrayList<String> ligne = new ArrayList<String>();
+                for (i = 0; i < data.get(targetIndex).size(); i++)//TODO:why the -1??
+                        //FIX: THIS IS WEIRD! the size is supposed to be 210 so the mex index is 209
+                        // BUTT the 209 is noon existant!!!!
+                {
                         //System.out.println(data.get(i)[column]);
                         //if class 1 -> 20 test 50 training
                         ligne = new ArrayList<>();
@@ -807,28 +841,27 @@ public class MainFct {
                                 ligne.add(data.get(j).get(i));
                         }
 
-                        if ((data.get(column).get(i).equals(class1) && (test1 < 20))) {
+                        if ( (data.get(targetIndex).get(i).equals(class1) ) && (test1 < 20) )  {
                                 testData.add(ligne);
                                 test1++;
                         }
-                        if ((data.get(column).get(i).equals(class1) && (training1 < 50) && (test1 == 20))) {
+                        if ( ( data.get(targetIndex).get(i).equals(class1) ) && (training1 < 50) && (test1 == 20) ) {
                                 trainingData.add(ligne);
                                 training1++;
                         }
-
-                        if ((data.get(column).get(i).equals(class2) && (test2 < 20))) {
+                        if ((data.get(targetIndex).get(i).equals(class2) && (test2 < 20))) {
                                 testData.add(ligne);
                                 test2++;
                         }
-                        if ((data.get(column).get(i).equals(class2) && (training2 < 50) && (test2 == 20))) {
+                        if ((data.get(targetIndex).get(i).equals(class2) && (training2 < 50) && (test2 == 20))) {
                                 trainingData.add(ligne);
                                 training2++;
                         }
-                        if ((data.get(column).get(i).equals(class3) && (test3 < 20))) {
+                        if ((data.get(targetIndex).get(i).equals(class3) && (test3 < 20))) {
                                 testData.add(ligne);
                                 test3++;
                         }
-                        if ((data.get(column).get(i).equals(class3) && (training3 < 50) && (test3 == 20))) {
+                        if ((data.get(targetIndex).get(i).equals(class3) && (training3 < 50) && (test3 == 20))) {
                                 trainingData.add(ligne);
                                 training3++;
                         }
@@ -840,6 +873,13 @@ public class MainFct {
 
 
         public static java.util.ArrayList<java.util.ArrayList<Double[]>> split_data_knn(ArrayList<Double[]> data){
+                /**
+                 * Split the data into test and train!
+                 * @param data the dataset returned by @see readData
+                 *  TODO: create a method to DRY the code more according to this issue.
+                 *  TODO: understand how this work!
+                 * @return i dont know! TODO:know!
+                 */
                 // 20 instances -> test , Cid =  50 -> apprentissage  , D=150
                 int i,j;double class1 = 1.0, class2 = 2.0, class3 = 3.0; int column=7;
                 ArrayList <ArrayList<Double[]>> total = new ArrayList();
@@ -853,12 +893,30 @@ public class MainFct {
                 for ( i = 0; i < data.size(); i++) {
                         //System.out.println(data.get(i)[column]);
                         //if class 1 -> 20 test 50 training
-                        if((data.get(i)[column] == class1) && (test1<20)){ testData.add(data.get(i)); test1++;  }
-                        if((data.get(i)[column] == class1) && (training1<50) && test1==20){ trainingData.add(data.get(i)); training1++;  }
-                        if((data.get(i)[column] == class2) && (test2<20)){ testData.add(data.get(i)); test2++;  }
-                        if((data.get(i)[column] == class2) && (training2<50) && test2==20){ trainingData.add(data.get(i)); training2++;}
-                        if((data.get(i)[column] == class3) && (test3<20)){ testData.add(data.get(i)); test3++;  }
-                        if((data.get(i)[column] == class3) && (training3<50) && test3==20){ trainingData.add(data.get(i)); training3++;}
+                        if( ( data.get(i)[column] == class1 ) && (test1 < 20) ){
+                                testData.add(data.get(i));
+                                test1++;
+                        }
+                        if( (data.get(i)[column] == class1) && (training1 < 50) && ( test1 == 20) ){
+                                trainingData.add(data.get(i));
+                                training1++;
+                        }
+                        if( (data.get(i)[column] == class2) && (test2<20) ){
+                                testData.add(data.get(i));
+                                test2++;
+                        }
+                        if( (data.get(i)[column] == class2) && (training2 < 50) && (test2==20) ){
+                                trainingData.add(data.get(i));
+                                training2++;
+                        }
+                        if( ( data.get(i)[column] == class3) && (test3<20) ){
+                                testData.add(data.get(i));
+                                test3++;
+                        }
+                        if( (data.get(i)[column] == class3) && (training3<50) && (test3==20) ){
+                                trainingData.add(data.get(i));
+                                training3++;
+                        }
                 }
 
                 total.add(trainingData);
@@ -870,7 +928,8 @@ public class MainFct {
         public static void main(String[] args) throws Exception {
                 ArrayList<Double[]> data = MainFct.readFile("datasets/seeds_dataset.txt");
                 data = MainFct.minMaxNormalization(data);
-
+                System.out.println(data.size());
+                System.out.println(data.get(data.size()-1)[0]);
                 /*  Test discretisationEqual
 
                 //create the data!

@@ -1,10 +1,8 @@
 package app.functions;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import static app.functions.MainFct.discretisation_effectif;
-import static app.functions.MainFct.splitData;
+import static app.functions.MainFct.*;
 
 public class NaiveBays {
 
@@ -138,29 +136,30 @@ public class NaiveBays {
                  * Function to test the naiveBays things!
                  * confusion matrix,
                  * ect
-                 * TODO:trouve comment executer sa!!
+                 * dont forget to change the name from mainTest to main to run it.
                  */
                 ArrayList<Double[]> data= MainFct.readFile("datasets/seeds_dataset.txt");
-                ArrayList<Double> ar = new ArrayList();
+                ArrayList<Double> columnInDataset = new ArrayList();
                 ArrayList<String> y = new ArrayList();
                 Double[] instance = {};
                 ArrayList <Double> labels = new ArrayList<>();
+                // discretize every  column.
+                ArrayList<ArrayList<String>> discretizedData = new ArrayList<ArrayList<String>>(); //we will have 8 colum, each column beign ar Arraylist<String>
 
-                ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
                 for (int i = 0; i < 7; i++) {
-
                         for (int j= 0; j < data.size(); j++) {
-                                ar.add(data.get(j)[i]);
+                                columnInDataset.add(data.get(j)[i]);
                         }
-                        list.add(discretisation_effectif(ar,4,i+1));
-
-                        ar.clear();
+                        discretizedData.add(discretisationEqual(columnInDataset,4,i+1));
+                        columnInDataset.clear();
                 }
-                // add the labels to the new dataset to be able to call NB fct
+
+                // add the labels(8th column) to the new dataset to be able to call NB fct
                 for (int j= 0; j < data.size(); j++) {
                         y.add(data.get(j)[7].toString());
                 }
-                list.add(y);
+                discretizedData.add(y);
+                //concretement quand on fait discretizedData.get(i) i:fait reference au numero de  la colonne.
 
 
 
@@ -175,7 +174,7 @@ public class NaiveBays {
                 ArrayList<String> yTrain  = new ArrayList<String>();
                 ArrayList<String > yTest = new ArrayList<String>();
 
-                total = splitData(list);
+                total = splitNormalizedData(discretizedData);
 
 
 

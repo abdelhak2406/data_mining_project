@@ -92,7 +92,7 @@ public class DashboardWindowController {
              iarg1= Integer.parseInt(arg1)-1 ;
              iarg2 = Integer.parseInt(arg2)-1 ;
 
-            JPanel scatterplot = MainFct.scatter_diagram(data, iarg1, iarg2);
+            JPanel scatterplot = MainFct.scatterDiagram(data, iarg1, iarg2);
             swingNodeScatterPot.setContent(scatterplot);
             chart_scatterPlot.getChildren().add(swingNodeScatterPot);
 
