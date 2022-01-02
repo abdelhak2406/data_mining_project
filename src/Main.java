@@ -8,32 +8,32 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
 
-    @Override
-    public void start(Stage stage) throws Exception {
+        @Override
+        public void start(Stage stage) throws Exception {
 
 
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("resources/views/MainWindow.fxml"));
-        stage.setTitle("Data Mining Project");
-        Scene scene = new Scene(root);
+                Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("resources/views/MainWindow.fxml"));
+                stage.setTitle("Data Mining Project");
+                Scene scene = new Scene(root);
 
-        // the css
-        String cssPath = "resources/views/style.css";
-        String css = this.getClass().getResource(cssPath).toExternalForm();
-
-
-        Image icon = new Image("resources/img/tuxou.png");
+                // the css
+                String cssPath = "resources/views/style.css";
+                String css = this.getClass().getResource(cssPath).toExternalForm();
 
 
-        scene.getStylesheets().add(css);
-        stage.getIcons().add(icon);
-        stage.setScene(scene);
-        stage.show();
-    }
+                Image icon = new Image("resources/img/tuxou.png");
 
-    public static void main(String[] args){
 
-        launch(args);
+                scene.getStylesheets().add(css);
+                stage.getIcons().add(icon);
+                stage.setScene(scene);
+                stage.show();
+        }
 
-    }
+        public static void main(String[] args){
+
+                launch(args);
+
+        }
 
 }
