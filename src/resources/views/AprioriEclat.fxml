@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<SplitPane dividerPositions="0.055441478439425054" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="579.0" prefWidth="1012.0" style="-fx-background-color: #FFFFFC;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.AprioriEclat">
+    <items>
+        <AnchorPane>
+            <children>
+                <Button fx:id="btn_home" layoutX="4.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" styleClass=".menu-btn" text="Home" />
+                <Button fx:id="btn_dashboard" layoutX="106.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToDashboardWin" prefHeight="25.0" prefWidth="91.0" styleClass=".menu-btn" text="Dashboard" />
+            </children></AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #FFFFFC;">
+            <children>
+                <Button fx:id="reset_btn" layoutX="821.0" layoutY="61.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="120.0" text="Reset" />
+                <TableView fx:id="datasetTable" layoutX="440.0" layoutY="188.0" prefHeight="346.0" prefWidth="556.0">
+                    <columns>
+                        <TableColumn prefWidth="75.0" />
+                        <TableColumn prefWidth="75.0" />
+                    </columns>
+                    <styleClass>
+                        <String fx:value=".table-view" />
+                        <String fx:value=".column-header-background" />
+                    </styleClass>
+                </TableView>
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="157.0" layoutX="441.0" layoutY="15.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="210.0" />
+                <Button fx:id="normalize_btn" layoutX="486.0" layoutY="129.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="120.0" text="Normaliser" />
+            <RadioButton fx:id="min_max_radio" layoutX="474.0" layoutY="69.0" mnemonicParsing="false" text="Min-max normalisation" />
+            <RadioButton fx:id="z_score_radio" layoutX="474.0" layoutY="93.0" mnemonicParsing="false" text="Z-score normalisation" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="257.0" layoutX="6.0" layoutY="16.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="429.0" />
+                <Text layoutX="194.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Apriori">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="257.0" layoutX="6.0" layoutY="277.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="429.0" />
+            <TableView fx:id="apriori_condidates_table" layoutX="14.0" layoutY="49.0" prefHeight="219.0" prefWidth="260.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+            </TableView>
+            <Text layoutX="506.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Normalisation">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <TableView fx:id="apriori_result_table" layoutX="282.0" layoutY="49.0" prefHeight="219.0" prefWidth="144.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+            </TableView>
+            <Text layoutX="14.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste des items conditats:" />
+            <Text layoutX="290.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Résultat final:" />
+            <Text layoutX="207.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Eclat">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            </children></AnchorPane>
+    </items>
+</SplitPane>
