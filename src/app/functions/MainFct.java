@@ -751,22 +751,28 @@ public class MainFct {
                  * @param c column number
                  */
 
-                Double[] ar = new Double[column.size()];
+                Double[] ar = new Double[column.size()];//i guess it's just to use sort(ar) later.
                 for (int i = 0; i < column.size(); i++) {
                         ar[i] = column.get(i);
                 }
-                Double[] sorted = sort(ar);
-                Double[] quartiles = new Double[q];
+                Double[] sortedColumn = sort(ar);
+                Double[] quartiles = new Double[q]; // contain values of every quantile!
                 for (int i = 0; i < q; i++) {
-                        quartiles[i] = sorted[(Math.round(column.size() / q * (i + 1)))];
+                        //the round do what the teacher said with x>0.5 blabla bla.
+                        int k = i+1, n = column.size();
+                        // we get the adress and from the adress we get the value.
+                        quartiles[i] = sortedColumn[ (Math.round( n / q * k) ) ];
                 }
-                //System.out.println(quartiles[0]+"   "+quartiles[1]+"   "+quartiles[2]+"   "+quartiles[3]);
                 ArrayList<String> result = new ArrayList<>();
+
                 for (int i = 0; i < column.size(); i++) {
+                        // serach it's  quartile
                         for (int j = 0; j < q; j++) {
-                                if (column.get(i) <= quartiles[j]) {
+                                if ( column.get(i) <= quartiles[j] ) {
                                         result.add('I' + String.valueOf(c) + String.valueOf(j + 1));
                                         break;
+                                }else if( column.get(i) > quartiles[q-1]){//last interval
+                                        result.add('I' + String.valueOf(c) + String.valueOf(q));
                                 }
                         }
                 }
@@ -788,7 +794,7 @@ public class MainFct {
                                         i++;
                                 }
                         }
-                        if (Double.valueOf(i) / Double.valueOf(column.size()) > minSup) {
+                        if (Double.valueOf(i) / Double.valueOf(column.size()) > minSup ) {
                                 frequency[0][j] = d;
                                 frequency[1][j] = String.valueOf(i);
 
