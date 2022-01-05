@@ -12,10 +12,12 @@
 <SplitPane dividerPositions="0.059548254620123205" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="579.0" prefWidth="1012.0" style="-fx-background-color: #FFFFFC;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.DashboardWindowController">
    <items>
       <AnchorPane prefHeight="0.0" prefWidth="684.0">
-         <children>
-            <Button fx:id="btn_home" layoutX="7.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToHomeWin" prefHeight="25.0" prefWidth="91.0" styleClass=".menu-btn" text="Home" />
-            <Button fx:id="btn_dashboard" layoutX="108.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" styleClass=".menu-btn" text="Dashboard" />
-         </children></AnchorPane>
+          <children>
+              <Button fx:id="btn_home" layoutX="4.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToHomeWin" prefHeight="25.0" prefWidth="91.0" styleClass=".menu-btn" text="Home" />
+              <Button fx:id="btn_dashboard" layoutX="106.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" styleClass=".menu-btn" text="Dashboard" />
+              <Button fx:id="btn_pretraitement" layoutX="207.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToAprioriEclat" prefHeight="25.0" prefWidth="103.0" styleClass=".menu-btn" text="prétraitement" />
+          </children>
+      </AnchorPane>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="540.0" prefWidth="1128.0">
          <children>
             <Button fx:id="btn_submit" layoutX="75.0" layoutY="108.0" mnemonicParsing="false" onAction="#submitAction" prefHeight="32.0" prefWidth="137.0" text="Submit" />

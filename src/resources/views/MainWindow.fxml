@@ -13,7 +13,9 @@
          <children>
             <Button fx:id="btn_home" layoutX="4.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" styleClass=".menu-btn" text="Home" />
             <Button fx:id="btn_dashboard" layoutX="106.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToDashboardWin" prefHeight="25.0" prefWidth="91.0" styleClass=".menu-btn" text="Dashboard" />
-         </children></AnchorPane>
+            <Button fx:id="btn_pretraitement" layoutX="207.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToAprioriEclat" prefHeight="25.0" prefWidth="103.0" styleClass=".menu-btn" text="prétraitement" />
+         </children>
+    </AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #FFFFFC;">
          <children>
             <Button fx:id="btn_upload" layoutX="821.0" layoutY="22.0" mnemonicParsing="false" onAction="#uploadFile" prefHeight="32.0" prefWidth="120.0" text="Upload" />

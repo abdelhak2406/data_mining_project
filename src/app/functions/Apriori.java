@@ -13,6 +13,7 @@ public class Apriori {
         public ArrayList<ArrayList<String>> itemset;
         public int minSup;
         public HashMap<String, Integer> frequentItemsList = new HashMap<>();
+        public ArrayList<ArrayList<String>> condidatesList = new ArrayList<>();
 
 
         public Apriori(ArrayList<Double[]> data, int support){
@@ -70,8 +71,10 @@ public class Apriori {
                 }
                 firstCondidates = frequentCondidates;
                 int iteration = 0;
-                while(frequentCondidates.size() > 0 && iteration <= 5) {
+                while(frequentCondidates.size() > iteration) {
+                        this.condidatesList.add(frequentCondidates);
                         frequentCondidates = this.join(firstCondidates, iteration+2);
+                        ArrayList<String> tempFrequent = new ArrayList<>();
                         ArrayList<ArrayList<String>> itemset = this.transposeData(this.itemset);
                         for (String item : frequentCondidates) {
                                 String[] items = item.split(",");
@@ -89,10 +92,30 @@ public class Apriori {
                                         }
                                 }
                                 if(frequence >= this.minSup){
+                                        tempFrequent.add(item);
                                         frequentItemsList.put(item, frequence);
                                 }
                         }
                         iteration += 1;
+
+                        //update first condidates list
+                        ArrayList<String> tempFirstCondidates = new ArrayList<>();
+                        for (String item: firstCondidates) {
+                                int cpt = 0;
+                                for (String selectedItem: tempFrequent) {
+                                        String[] tempItems = selectedItem.split(",");
+                                        for (int i = 0; i < tempItems.length; i++) {
+                                                if (item.equals(tempItems[i])){
+                                                        cpt += 1;
+                                                }
+                                        }
+                                }
+                                if(cpt != 0){
+                                        tempFirstCondidates.add(item);
+                                }
+                        }
+
+                        firstCondidates = tempFirstCondidates;
                 }
 
                 Iterator it = frequentItemsList.entrySet().iterator();
@@ -111,28 +134,60 @@ public class Apriori {
                 for (int i = 0; i < list.size()-(nbItems-1); i++) {
                         for (int j = i+1; j < list.size(); j++) {
                                 String newItem = list.get(i);
+                                int cpt = 0;
                                 for (int k = 0; k < nbItems-1; k++) {
-                                        if (j+k < list.size())
+                                        if (j+k < list.size()){
                                                 newItem += "," + list.get(j+k);
+                                                cpt += 1;
+                                        }
                                 }
-                                joinedItems.add(newItem);
+                                if (cpt == nbItems-1){
+                                        joinedItems.add(newItem);
+                                }
                         }
                 }
                 return joinedItems;
         }
-        public static void mainTest(String[] args) throws Exception {
+
+        public ArrayList<ArrayList<String>> getCondidatesList(){
+                return this.condidatesList;
+        }
+
+        public static void main(String[] args) throws Exception {
                 /**
                  * If we want to test it her's how!
                  * just change the name mainTest to main and execute it.
                  */
-                ArrayList<Double[]> data= MainFct.readFile("datasets/seeds_dataset.txt");
+                ArrayList<Double[]> data= MainFct.readFile("C:\\Users\\Raouftams\\Downloads\\seeds_dataset.txt");
                 Apriori apriori = new Apriori(data, 20);
                 ArrayList<String[]> items = apriori.calculateFrequentItems();
-                for (String[] item :
-                        items) {
-                        System.out.println(item);
+                ArrayList<ArrayList<String>> condidatesLists = apriori.getCondidatesList();
 
+                /*
+                for (String[] item : items) {
+                        System.out.print("{");
+                        for (String subItem: item) {
+                                System.out.print(subItem + ", ");
+                        }
+                        System.out.print("}");
+                        System.out.println("");
                 }
+
+
+                 */
+
+                int i = 0;
+                for (ArrayList<String> condidateList: condidatesLists) {
+                        System.out.println("C"+ (i+1));
+                        for (String item : condidateList) {
+                                System.out.print(item + "; ");
+                        }
+                        System.out.println("");
+                        i += 1;
+                }
+
+
+
         }
 }
 

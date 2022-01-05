@@ -58,7 +58,7 @@ public class MainWindowController implements Initializable {
         public TextField fieldId = new TextField();
 
         //controller attributes
-        private static String filePath = "";
+        public static String filePath = "";
         private static ActionEvent tempEvent;
         public static String fileExtension = "txt";
 
@@ -483,6 +483,11 @@ public class MainWindowController implements Initializable {
         public void switchToDashboardWin(ActionEvent event) throws Exception {
                 Utilities u = new Utilities();
                 u.switchWindow(event, "/resources/views/DashboardWindow.fxml", root, stage, scene);
+        }
+
+        public void switchToAprioriEclat(ActionEvent event) throws Exception {
+                Utilities u = new Utilities();
+                u.switchWindow(event, "/resources/views/AprioriEclat.fxml", root, stage, scene);
         }
 
         private void refreshScene(ActionEvent event) throws IOException {
