@@ -1,9 +1,13 @@
 package app.controller;
 
+import app.Condidate;
+import app.FrequentItemsRow;
 import app.Instance;
 import app.Utilities;
 import app.functions.Apriori;
 import app.functions.MainFct;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,12 +31,14 @@ public class AprioriEclat implements Initializable {
 
     @FXML
     public TableView<Instance> datasetTable = new TableView<>();
-    public TableView apriori_condidates_table = new TableView<>();
+    public TableView<Condidate> apriori_condidates_table = new TableView<>();
+    public TableView<FrequentItemsRow> apriori_result_table = new TableView<>();
 
     public RadioButton min_max_radio = new RadioButton();
     public RadioButton z_score_radio = new RadioButton();
     @FXML
     public Spinner<Integer> apriori_support_spinner = new Spinner<>();
+
 
 
     //useful attributes
@@ -174,6 +180,22 @@ public class AprioriEclat implements Initializable {
 
     private void addDataToAprioriFrequentItems(ArrayList<String[]> frequentItems) {
         //initialize table form
+        this.apriori_result_table.getColumns().clear();
+        this.apriori_result_table.getItems().clear();
+
+        TableColumn column = new TableColumn<>("L");
+        column.setCellValueFactory(new PropertyValueFactory<>("value"));
+        this.apriori_result_table.getColumns().add(column);
+
+        for (String[] itemSet: frequentItems) {
+            String itemString = "";
+            for (String item: itemSet) {
+                itemString += item +",";
+            }
+            itemString = itemString.substring(0, itemString.length()-1);
+            System.out.println(itemString);
+            this.apriori_result_table.getItems().add(new FrequentItemsRow(itemString));
+        }
 
     }
 
@@ -181,12 +203,45 @@ public class AprioriEclat implements Initializable {
         /**
          * each line i in condidateslist represents the condidates list at iteration i
          */
+
         //Initialize table form
+        this.apriori_condidates_table.getItems().clear();
+        this.apriori_condidates_table.getColumns().clear();
+
+        double columnWidth = 1/condidatesList.size();
         for (int i = 0; i < condidatesList.size(); i++) {
             TableColumn column = new TableColumn<>("C" + (i+1));
             column.setCellValueFactory(new PropertyValueFactory<>("c" + (i+1)));
             this.apriori_condidates_table.getColumns().add(column);
         }
+
+        int maxSize = 0;
+        for (int i = 0; i < condidatesList.size(); i++) {
+            if (condidatesList.get(i).size() > maxSize){
+                maxSize = condidatesList.get(i).size();
+            }
+        }
+
+        String[] rows;
+        for (int i = 0; i < maxSize; i++) {
+            rows = new String[7];
+            for (int j = 0; j < condidatesList.size(); j++) {
+                if (i < condidatesList.get(j).size()){
+                    rows[j] = condidatesList.get(j).get(i);
+                }
+
+                if (j == condidatesList.size()-1){
+                    for (int k = j+1; k < 7; k++) {
+                        rows[k] = "";
+                    }
+                }
+            }
+
+            Condidate condidate = new Condidate(rows);
+            this.apriori_condidates_table.getItems().add(condidate);
+
+        }
+
 
     }
 
