@@ -9,9 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -29,13 +27,17 @@ public class AprioriEclat implements Initializable {
 
     @FXML
     public TableView<Instance> datasetTable = new TableView<>();
+    public TableView apriori_condidates_table = new TableView<>();
+
     public RadioButton min_max_radio = new RadioButton();
     public RadioButton z_score_radio = new RadioButton();
+    @FXML
+    public Spinner<Integer> apriori_support_spinner = new Spinner<>();
 
 
     //useful attributes
     private static String filePath = "";
-    private static ArrayList<Double[]> data = new ArrayList<>();
+    private static ArrayList<Double[]> data = null;
     private static ArrayList<Double[]> normalizedData = null;
 
     @Override
@@ -49,6 +51,9 @@ public class AprioriEclat implements Initializable {
             }
             filePath = MainWindowController.filePath;
         }
+
+        //Initialize apriori parameters
+
     }
 
     private void initDatasetTable(){
@@ -156,8 +161,33 @@ public class AprioriEclat implements Initializable {
     }
 
     public void runApriori(ActionEvent event){
-        if (normalizedData != null){
+        if (data != null){
+            Apriori aprioriInstance = new Apriori(data, this.apriori_support_spinner.getValue());
+            ArrayList<String[]> frequentItems = aprioriInstance.calculateFrequentItems();
+            ArrayList<ArrayList<String>> condidatesList = aprioriInstance.getCondidatesList();
+
+            this.addDataToAprioriCondidates(condidatesList);
+            this.addDataToAprioriFrequentItems(frequentItems);
         }
+
+    }
+
+    private void addDataToAprioriFrequentItems(ArrayList<String[]> frequentItems) {
+        //initialize table form
+
+    }
+
+    private void addDataToAprioriCondidates(ArrayList<ArrayList<String>> condidatesList) {
+        /**
+         * each line i in condidateslist represents the condidates list at iteration i
+         */
+        //Initialize table form
+        for (int i = 0; i < condidatesList.size(); i++) {
+            TableColumn column = new TableColumn<>("C" + (i+1));
+            column.setCellValueFactory(new PropertyValueFactory<>("c" + (i+1)));
+            this.apriori_condidates_table.getColumns().add(column);
+        }
+
     }
 
     @FXML
