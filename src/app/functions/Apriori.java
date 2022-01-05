@@ -3,10 +3,7 @@ package app.functions;
 import scala.Array;
 import scala.Int;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class Apriori {
 
@@ -73,7 +70,7 @@ public class Apriori {
                 int iteration = 0;
                 while(frequentCondidates.size() > iteration) {
                         this.condidatesList.add(frequentCondidates);
-                        frequentCondidates = this.join(firstCondidates, iteration+2);
+                        frequentCondidates = this.generateItemCandidates(firstCondidates, iteration+2);
                         ArrayList<String> tempFrequent = new ArrayList<>();
                         ArrayList<ArrayList<String>> itemset = this.transposeData(this.itemset);
                         for (String item : frequentCondidates) {
@@ -129,6 +126,60 @@ public class Apriori {
                 return frequentItems;
         }
 
+        public ArrayList<String> generateItemCandidates(ArrayList<String> listItems, int k){
+                /**
+                 * you give a list of items and k
+                 * and it gives you the list of possibilities
+                 */
+                // listItems = {10, 20, 30};    // input array
+                //int k = 2;                             // sequence length
+                String [] listItem = new String[listItems.size()];
+                listItem = listItems.toArray(listItem);
+                List<String[]> subsets = new ArrayList<>();
+
+                int[] s = new int[k];                  // here we'll keep indices
+                // pointing to elements in input array
+
+                if (k <= listItem.length) {
+                        // first index sequence: 0, 1, 2, ...
+                        for (int i = 0; (s[i] = i) < k - 1; i++);
+                        subsets.add(this.getSubset(listItem, s));
+                        for(;;) {
+                                int i;
+                                // find position of item that can be incremented
+                                for (i = k - 1; i >= 0 && s[i] == listItem.length - k + i; i--);
+                                if (i < 0) {
+                                        break;
+                                }
+                                s[i]++;                    // increment this item
+                                for (++i; i < k; i++) {    // fill up remaining items
+                                        s[i] = s[i - 1] + 1;
+                                }
+                                subsets.add(this.getSubset(listItem, s));
+                        }
+                }
+
+                ArrayList<String> condidatesList = new ArrayList<>();
+                for (String[] items: subsets) {
+                        String newItem = "";
+                        for (String item: items) {
+                                newItem += item + ",";
+                        }
+                        newItem = newItem.substring(0, newItem.length()-1);
+                        condidatesList.add(newItem);
+                }
+                return  condidatesList;
+        }
+
+        String[] getSubset(String[] input, int[] subset) {
+                // generate actual subset by index sequence
+                String[] result = new String[subset.length];
+                for (int i = 0; i < subset.length; i++)
+                        result[i] = input[subset[i]];
+                return result;
+        }
+
+        /*
         public ArrayList<String> join(ArrayList<String> list, int nbItems){
                 ArrayList<String> joinedItems = new ArrayList<>();
                 for (int i = 0; i < list.size()-(nbItems-1); i++) {
@@ -149,6 +200,8 @@ public class Apriori {
                 return joinedItems;
         }
 
+         */
+
         public ArrayList<ArrayList<String>> getCondidatesList(){
                 return this.condidatesList;
         }
@@ -163,7 +216,7 @@ public class Apriori {
                 ArrayList<String[]> items = apriori.calculateFrequentItems();
                 ArrayList<ArrayList<String>> condidatesLists = apriori.getCondidatesList();
 
-                /*
+
                 for (String[] item : items) {
                         System.out.print("{");
                         for (String subItem: item) {
@@ -174,8 +227,7 @@ public class Apriori {
                 }
 
 
-                 */
-
+        /*
                 int i = 0;
                 for (ArrayList<String> condidateList: condidatesLists) {
                         System.out.println("C"+ (i+1));
@@ -187,6 +239,8 @@ public class Apriori {
                 }
 
 
+
+         */
 
         }
 }
