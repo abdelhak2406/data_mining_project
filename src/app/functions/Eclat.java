@@ -6,11 +6,18 @@ public class Eclat {
         //TODO: try to print the actual list in every step of the process.
         public ArrayList<ArrayList<String>> itemset;
         public  int minSup;
-
+        public int qVal;
         public ArrayList<String[]> frequentItemsList = new ArrayList();
         public ArrayList<ArrayList<String>> condidatesList = new ArrayList<>();
 
-        public  Eclat(ArrayList <Double> data, int support, int q){
+        public  Eclat(ArrayList <Double[]> data, int support, int q, int discType){
+                /**
+                 * @param discType discretization type equal or effectif 1:equal 2: effectif
+                 */
+                this. qVal = q;
+
+                this.itemset = this.preprocessData(data, q, discType);
+                this.minSup = itemset.get(0).size() * support / 100 ;
 
         }
 
@@ -19,18 +26,25 @@ public class Eclat {
 
                 //Needs the discretized dataset Arraylist<String[ ] >
                 // suport is supposed to be given as a %
-                this.itemset = this.preprocessData(data);//itemset.get(i) gets you the column 'i' content (a table of 210 strings)
+                this.itemset = this.preprocessData(data, 4, 1 );//itemset.get(i) gets you the column 'i' content (a table of 210 strings)
                 this.minSup = itemset.get(0).size()*support/100;
         }
 
-        public ArrayList<ArrayList<String>> preprocessData(ArrayList<Double[]> data){
+        public ArrayList<ArrayList<String>> preprocessData(ArrayList<Double[]> data, int q, int discType){
                 /**
                  * take the data and get the discretized one!
                  *
                  */
                 ArrayList<ArrayList<String>> descritized_data = new ArrayList<ArrayList<String>>();
-                for (int i = 0; i < 7; i++) {
-                        descritized_data.add(MainFct.discretisationEqual(this.getColumn(data, i), 4, i+1));
+                if (discType == 1)  {
+                        for (int i = 0; i < 7; i++) {
+                                descritized_data.add(MainFct.discretisationEqual(this.getColumn(data, i), q, i+1));
+                        }
+                }else{
+                        for (int i = 0; i < 7; i++) {
+                                descritized_data.add(MainFct.discretisationEffectif(this.getColumn(data, i), q, i+1));
+                        }
+
                 }
                 return descritized_data;
         }
