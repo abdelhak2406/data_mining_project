@@ -1,13 +1,10 @@
 package app.controller;
 
 import app.Condidate;
-import app.FrequentItemsRow;
 import app.Instance;
 import app.Utilities;
 import app.functions.Apriori;
 import app.functions.MainFct;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,6 +17,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 public class AprioriEclat implements Initializable {
@@ -32,7 +31,7 @@ public class AprioriEclat implements Initializable {
     @FXML
     public TableView<Instance> datasetTable = new TableView<>();
     public TableView<Condidate> apriori_condidates_table = new TableView<>();
-    public TableView<FrequentItemsRow> apriori_result_table = new TableView<>();
+    public TableView<Condidate> apriori_result_table = new TableView<>();
 
     public RadioButton min_max_radio = new RadioButton();
     public RadioButton z_score_radio = new RadioButton();
@@ -179,23 +178,79 @@ public class AprioriEclat implements Initializable {
     }
 
     private void addDataToAprioriFrequentItems(ArrayList<String[]> frequentItems) {
+        //Preprocess data
+        //Transform frequentItems list of list to simple list of strings using concatenation of the elements
+        ArrayList<String> frequentItemsList = new ArrayList<>();
+        for (String[] items: frequentItems) {
+            String newItem = "";
+            for (String item: items) {
+                newItem += item + ", ";
+            }
+            newItem = newItem.substring(0, newItem.length()-2);
+            frequentItemsList.add(newItem);
+        }
+
+        //Sort list by length of string
+        Collections.sort(frequentItemsList, Comparator.comparing(String::length));
+        //Get number of lists by checking the length of the last item
+        int nbLists = frequentItemsList.get(frequentItems.size()-1).split(",").length;
+
         //initialize table form
         this.apriori_result_table.getColumns().clear();
         this.apriori_result_table.getItems().clear();
 
-        TableColumn column = new TableColumn<>("L");
-        column.setCellValueFactory(new PropertyValueFactory<>("value"));
-        this.apriori_result_table.getColumns().add(column);
-
-        for (String[] itemSet: frequentItems) {
-            String itemString = "";
-            for (String item: itemSet) {
-                itemString += item +",";
-            }
-            itemString = itemString.substring(0, itemString.length()-1);
-            System.out.println(itemString);
-            this.apriori_result_table.getItems().add(new FrequentItemsRow(itemString));
+        for (int i = 0; i < nbLists; i++) {
+            TableColumn column = new TableColumn<>("L" + (i+1));
+            column.setCellValueFactory(new PropertyValueFactory<>("c" + (i+1)));
+            this.apriori_result_table.getColumns().add(column);
         }
+
+        // Transform sorted list to a matrix in which each line i represents list Li
+        ArrayList<ArrayList<String>> listOfFrequentItemsList = new ArrayList<>();
+        ArrayList<String> listOfFrequentItems = new ArrayList<>();
+        String tmpItem = frequentItemsList.get(0);
+        for (int i = 0; i < frequentItemsList.size(); i++) {
+            if (frequentItemsList.get(i).length() > tmpItem.length()){
+                listOfFrequentItemsList.add(listOfFrequentItems);
+                listOfFrequentItems = new ArrayList<>();
+                tmpItem = frequentItemsList.get(i);
+            }
+
+            listOfFrequentItems.add(frequentItemsList.get(i));
+
+            if (i == frequentItemsList.size()-1){
+                listOfFrequentItemsList.add(listOfFrequentItems);
+            }
+        }
+
+        //Add data to table
+        int maxSize = 0;
+        for (int i = 0; i < listOfFrequentItemsList.size(); i++) {
+            if (listOfFrequentItemsList.get(i).size() > maxSize){
+                maxSize = listOfFrequentItemsList.get(i).size();
+            }
+        }
+
+        String[] rows;
+        for (int i = 0; i < maxSize; i++) {
+            rows = new String[7];
+            for (int j = 0; j < listOfFrequentItemsList.size(); j++) {
+                if (i < listOfFrequentItemsList.get(j).size()){
+                    rows[j] = listOfFrequentItemsList.get(j).get(i);
+                }
+
+                if (j == listOfFrequentItemsList.size()-1){
+                    for (int k = j+1; k < 7; k++) {
+                        rows[k] = "";
+                    }
+                }
+            }
+
+            Condidate condidate = new Condidate(rows);
+            this.apriori_result_table.getItems().add(condidate);
+
+        }
+
 
     }
 
