@@ -1,15 +1,18 @@
 package app.functions;
 
-import scala.Int;
-import smile.neighbor.lsh.Hash;
-
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Eclat {
         //TODO: try to print the actual list in every step of the process.
         public ArrayList<ArrayList<String>> itemset;
         public  int minSup;
+
+        public ArrayList<String[]> frequentItemsList = new ArrayList();
+        public ArrayList<ArrayList<String>> condidatesList = new ArrayList<>();
+
+        public  Eclat(ArrayList <Double> data, int support, int q){
+
+        }
 
         public Eclat (ArrayList<Double[]> data, int support){
                 //TODO: -non priority- coud've done some inheritance here
@@ -78,13 +81,11 @@ public class Eclat {
                         }
                 }
 
-
-                int docCounter = 0;
                 // we loop through the matrix and put true(1) if the item apears in the i'th document
                 for (Map.Entry<String, ArrayList<Boolean>> item : listItems.entrySet()) {
 
                         for (int i = 0; i < this.itemset.get(0).size(); i++) {//for every doc, donc ligne
-                                // check si li'tem existe
+                                // check si l'item existe
                                 if (isInDocument(item.getKey(), i)) {
                                         //mettre 1 a l'index doucment
                                         ArrayList<Boolean> tmp = item.getValue();
@@ -92,26 +93,13 @@ public class Eclat {
                                         listItems.put(item.getKey(), tmp);
                                 }
                         }
-
-                        //item.getKey();
-                        //item.getValue();
-                        // Printing all elements of a Map
-
                 }
-
                 return  listItems;
-
-
-        }
-
-        public void createList(){
-                // Hashmap<String, Arraylist<> 210 taille>
-                //
         }
 
         public int calculateSupport(ArrayList<Boolean> listDoc){
                 /**
-                 *
+                 * Calculer support pour L1
                  */
                 int res =0;
                 for (Boolean elem:listDoc) {
@@ -123,6 +111,9 @@ public class Eclat {
         }
 
         public String[] getAllKeys(HashMap< String, ArrayList<Boolean>> mat){
+                /**
+                 * Get all the keys of the @param mat
+                 */
 
                 String[] listKeys = new String[mat.size()];
                 int i =0;
@@ -135,8 +126,9 @@ public class Eclat {
 
         public int calculSupportNCandidats( HashMap< String, ArrayList<Boolean>> mat, String[] candidat ){
                 /**
-                 * Calculer support pour un  candidats (quand c'est plusieurs truc=
+                 * Calculer support pour un  candidats (quand c'est plusieurs truc)
                  * @param candidat une liste d'item
+                 * @param mat matrice verticale
                  */
                 int res= 0;
 
@@ -158,6 +150,7 @@ public class Eclat {
 
                 return res;
         }
+
         public  Boolean isInListCandidates(String item , List<String []> listCand){
                 /**
                  * you give the list of candidates and an item
@@ -172,6 +165,7 @@ public class Eclat {
                 }
                 return false;
         }
+
         public   HashMap< String, ArrayList<Boolean>> deleteUselessItems( HashMap< String, ArrayList<Boolean>> curentMat,
                                                                List<String[]> items){
 
@@ -190,27 +184,44 @@ public class Eclat {
         }
 
         public void executEclat(){
+                //TODO: enlever les truc de supression et juste faire des ajouts
 
                 HashMap< String, ArrayList<Boolean>> verticalMat = getVerticalMat();
+                //this.condidatesList//.get(i) gives the list of Ci th candidates
 
-                ArrayList<String> toDelete = new ArrayList<>();
                 // supprimer les item ayant support < minSupport afin de genere L1
+                ArrayList<String> toDelete = new ArrayList<>();
+
+                ArrayList<String> candidatL = new ArrayList<>();
+
+
                 for (Map.Entry<String, ArrayList<Boolean>> item : verticalMat.entrySet()) {
                         ArrayList<Boolean> listDoc = item.getValue();
                         // calculer support
                         int support = calculateSupport(listDoc);
                         if ( support < this.minSup ){
-                                // supprimer l'item
                                 toDelete.add(item.getKey()) ;
-                                //verticalMat.remove(item.getKey());
+                        }else{
+                                //TODO:ajouter item frequent ici
+                                String [] tmpStr = new String[1] ;
+                                tmpStr[0] = item.getKey();
+                                this.frequentItemsList.add(tmpStr);
                         }
-                        //item.getKey();
-                        //item.getValue();
+                        //ajouter item candidat
+
+                        candidatL.add(item.getKey());
+
+                        //item.getKey(); item.getValue();
                 }
+                this.condidatesList.add(candidatL);
+                //candidatL.clear();
+
                 // delete les truc non candidats
                 for (int i = 0; i < toDelete.size(); i++) {
                         verticalMat.remove(toDelete.get(i));
                 }
+
+
 
                 // verticalMat now contains L1
                 System.out.println("LISTE L1");
@@ -221,14 +232,17 @@ public class Eclat {
 
 
 
-                // TODO: now we need to understand the next steps!!
-                // okay now we need to get all the Lks
 
+
+
+
+                // now we do for the rest of the Lks
                 int k =2;
                 while (true){
                         // dbred les combinaisoin possible de k
                         // get all the items (donc keys sous forme de String[]!
                         String[] allKeys = getAllKeys(verticalMat);
+                        ArrayList<String> candidatLi = new ArrayList<>();
                         List<String[]> listCandidates = this.generateItemCandidates(allKeys,k); //
                         List<String[]> listItemFreq = new ArrayList<>();
 
@@ -240,23 +254,24 @@ public class Eclat {
                                 if (res >= this.minSup){
                                         listItemFreq.add(listCandidates.get(i)) ;
 
+                                        //ajouter a la liste des frequt final
+                                        this.frequentItemsList.add(listCandidates.get(i));
                                         //supprimer de la liste listCandidates
                                         // on vas l'ajouter a la liste puis supp en bas
                                         //toDeleteIndex.add(i);
                                 }
+                                String tmp = "";
+                                for (String itm:listCandidates.get(i)
+                                     ) {
+                                       tmp = tmp.concat(itm+" ,") ;
+                                }
+                                tmp = tmp.substring(0, tmp.length()-2);//space +,
 
+                                candidatLi.add(tmp);
                         }
 
-                        // suprimer!
-                        /*
-                        for (int i = 0; i < toDeleteIndex.size(); i++) {
-                                int delInd = toDeleteIndex.get(i);
-                                listCandidates.remove( delInd );
-                        }
-                         */
-
-                        // at this point nous avons la liste des item frequent pour k=2
-                        //afficher contenu!
+                        this.condidatesList.add(candidatLi);
+                        //-----------------------------------------------------------------------
                         System.out.println("liste L"+k+"----------------");
                         for (int i = 0; i < listItemFreq.size(); i++) {
                                 for (int j = 0; j < listItemFreq.get(i).length; j++) {
@@ -265,11 +280,19 @@ public class Eclat {
                                 System.out.println("");
                         }
                         System.out.println("----------Fin L"+k+"---------------------------");
+                        //-----------------------------------------------------------------------
+
+
+                        //we quit when ther's no frequent item
                         if (listItemFreq.size() == 0 ){
                                break;
                         }
+
+
+                        //-----------------------------------------------------------------------
+                        //delete the items that we don't need in the vertical mat to free up some space.
                         verticalMat = deleteUselessItems(verticalMat,listItemFreq);
-                        toDeleteIndex.clear();
+                        //candidatL.clear();
                         listItemFreq.clear();
                         k++;
                 }
@@ -282,27 +305,16 @@ public class Eclat {
 
 
         }
+
         String[] getSubset(String[] input, int[] subset) {
-                // generate actual subset by index sequence
+                /**
+                 * generate actual subset by index sequence
+                 */
                 String[] result = new String[subset.length];
                 for (int i = 0; i < subset.length; i++)
                         result[i] = input[subset[i]];
                 return result;
         }
-
-        //----------------------------------
-        //----------------------------------
-        //----------------------------------
-
-
-
-        //----------------------------------
-        //----------------------------------
-        //----------------------------------
-        //----------------------------------
-
-
-
 
         public List<String[]>  generateItemCandidates(String[] listItems, int k){
                 /**
@@ -343,7 +355,26 @@ public class Eclat {
                 ArrayList<Double[]> data = MainFct.readFile("datasets/seeds_dataset.txt");
                 Eclat eclat = new Eclat(data, 20);
                 eclat.executEclat();
-                System.out.println(eclat.itemset.size());
+                System.out.println("--------------------------------------------");
+                System.out.println("--------------------------------------------");
+                System.out.println("--------------------------------------------");
+                System.out.println("--------------------------------------------");
+                System.out.println("-----------------Frequent Item--------------");
+
+                for (int i = 0; i < eclat.frequentItemsList.size(); i++) {
+                        for (int j = 0; j < eclat.frequentItemsList.get(i).length; j++) {
+                                System.out.println(eclat.frequentItemsList.get(i)[j]);
+                        }
+                        System.out.println("--------------------------");
+                }
+                System.out.println("-----------------Candidat Item--------------");
+
+                for (int i = 0; i < eclat.condidatesList.size(); i++) {
+                        for (int j = 0; j < eclat.condidatesList.get(i).size(); j++) {
+                                System.out.println(eclat.condidatesList.get(i).get(j));
+                        }
+                        System.out.println("--------------------------");
+                }
                 /*
                         //test that method
                 String [] listItems = {"a", "b", "c"};    // input array
