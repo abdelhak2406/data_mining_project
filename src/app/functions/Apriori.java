@@ -9,19 +9,28 @@ public class Apriori {
 
         public ArrayList<ArrayList<String>> itemset;
         public int minSup;
+        public int discretizationQ; // = 1 if equal discretization and 2 if effective discretization
+        public int discretizationType;
         public HashMap<String, Integer> frequentItemsList = new HashMap<>();
         public ArrayList<ArrayList<String>> condidatesList = new ArrayList<>();
 
 
-        public Apriori(ArrayList<Double[]> data, int support){
-                this.itemset = this.preprocessData(data);
-                this.minSup = itemset.get(0).size()*support/100;
+        public Apriori(ArrayList<Double[]> data, int support, int discretizationQ, int discretizationType){
+            this.discretizationQ = discretizationQ;
+            this.discretizationType = discretizationType;
+            this.itemset = this.preprocessData(data);
+            this.minSup = itemset.get(0).size()*support/100;
         }
 
         public ArrayList<ArrayList<String>> preprocessData(ArrayList<Double[]> data){
                 ArrayList<ArrayList<String>> descritized_data = new ArrayList<ArrayList<String>>();
                 for (int i = 0; i < 7; i++) {
-                        descritized_data.add(MainFct.discretisationEqual(this.getColumn(data, i), 4, i+1));
+                    if (this.discretizationType == 1){
+                            descritized_data.add(MainFct.discretisationEqual(this.getColumn(data, i), this.discretizationQ, i+1));
+                    }else{
+                            descritized_data.add(MainFct.discretisationEffectif(this.getColumn(data, i), this.discretizationQ, i+1));
+                    }
+
                 }
                 return descritized_data;
         }
@@ -52,7 +61,10 @@ public class Apriori {
                 ArrayList<String> frequentCondidates = new ArrayList<>();
                 ArrayList<String> firstCondidates = new ArrayList<>();
                 for (int i = 0; i < this.itemset.size(); i++) {
-                        String[] items = {"I"+ (i+1) + "1", "I"+ (i+1) + "2", "I"+ (i+1) + "3", "I"+ (i+1) + "4"};
+                    String[] items = new String[this.discretizationQ];
+                    for (int j = 0; j < this.discretizationQ; j++) {
+                        items[j] = "I" + (i+1) + "" + (j+1);
+                    }
                         for (String item: items) {
                                 int frequence = 0;
                                 for (int j = 0; j < this.itemset.get(i).size(); j++) {
@@ -60,16 +72,20 @@ public class Apriori {
                                                 frequence += 1;
                                         }
                                 }
+                                firstCondidates.add(item);
                                 if (frequence >= this.minSup){
                                         this.frequentItemsList.put(item, frequence);
                                         frequentCondidates.add(item);
                                 }
                         }
                 }
+                this.condidatesList.add(firstCondidates);
                 firstCondidates = frequentCondidates;
                 int iteration = 0;
                 while(frequentCondidates.size() > iteration) {
+                    if (iteration > 0){
                         this.condidatesList.add(frequentCondidates);
+                    }
                         frequentCondidates = this.generateItemCandidates(firstCondidates, iteration+2);
                         ArrayList<String> tempFrequent = new ArrayList<>();
                         ArrayList<ArrayList<String>> itemset = this.transposeData(this.itemset);
@@ -179,38 +195,17 @@ public class Apriori {
                 return result;
         }
 
-        /*
-        public ArrayList<String> join(ArrayList<String> list, int nbItems){
-                ArrayList<String> joinedItems = new ArrayList<>();
-                for (int i = 0; i < list.size()-(nbItems-1); i++) {
-                        for (int j = i+1; j < list.size(); j++) {
-                                String newItem = list.get(i);
-                                int cpt = 0;
-                                for (int k = 0; k < nbItems-1; k++) {
-                                        if (j+k < list.size()){
-                                                newItem += "," + list.get(j+k);
-                                                cpt += 1;
-                                        }
-                                }
-                                if (cpt == nbItems-1){
-                                        joinedItems.add(newItem);
-                                }
-                        }
-                }
-                return joinedItems;
-        }
-
-         */
-
         public ArrayList<ArrayList<String>> getCondidatesList(){
                 return this.condidatesList;
         }
 
-        public static void main(String[] args) throws Exception {
+
+        public static void mainTest(String[] args) throws Exception {
                 /**
                  * If we want to test it her's how!
                  * just change the name mainTest to main and execute it.
                  */
+                /*
                 ArrayList<Double[]> data= MainFct.readFile("C:\\Users\\Raouftams\\Downloads\\seeds_dataset.txt");
                 Apriori apriori = new Apriori(data, 20);
                 ArrayList<String[]> items = apriori.calculateFrequentItems();
@@ -227,7 +222,7 @@ public class Apriori {
                 }
 
 
-        /*
+
                 int i = 0;
                 for (ArrayList<String> condidateList: condidatesLists) {
                         System.out.println("C"+ (i+1));

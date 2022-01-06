@@ -188,13 +188,13 @@ public class MainWindowController implements Initializable {
                                         className = "Canadian";
                                 Instance instance = new Instance(
                                         i,
-                                        data[0],
-                                        data[1],
-                                        data[2],
-                                        data[3],
-                                        data[4],
-                                        data[5],
-                                        data[6],
+                                        String.valueOf(data[0]),
+                                        String.valueOf(data[1]),
+                                        String.valueOf(data[2]),
+                                        String.valueOf(data[3]),
+                                        String.valueOf(data[4]),
+                                        String.valueOf(data[5]),
+                                        String.valueOf(data[6]),
                                         className
                                 );
                                 i += 1;

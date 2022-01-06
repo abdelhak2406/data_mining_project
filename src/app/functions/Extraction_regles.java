@@ -120,10 +120,10 @@ public class Extraction_regles {
 
         public static void main(String[] args) throws Exception{
                 ArrayList<Double[]> data= MainFct.readFile("datasets/seeds.txt");
-                Apriori apriori = new Apriori(data, 25);
-                ArrayList<String[]> items = apriori.calculateFrequentItems();
+                //Apriori apriori = new Apriori(data, 25);
+                //ArrayList<String[]> items = apriori.calculateFrequentItems();
 
-                Extraction_regles ex_instance= new Extraction_regles(data,90,items);
-                System.out.println(ex_instance.rule_extraction());
+                //Extraction_regles ex_instance= new Extraction_regles(data,90,items);
+                //System.out.println(ex_instance.rule_extraction());
         }
 }

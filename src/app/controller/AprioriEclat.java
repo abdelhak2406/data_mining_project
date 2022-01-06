@@ -35,8 +35,12 @@ public class AprioriEclat implements Initializable {
 
     public RadioButton min_max_radio = new RadioButton();
     public RadioButton z_score_radio = new RadioButton();
+    public RadioButton effective_discretization_radio = new RadioButton();
+    public RadioButton equal_discretization_radio = new RadioButton();
+
     @FXML
     public Spinner<Integer> apriori_support_spinner = new Spinner<>();
+    public TextField discretization_q_field = new TextField();
 
 
 
@@ -57,7 +61,8 @@ public class AprioriEclat implements Initializable {
             filePath = MainWindowController.filePath;
         }
 
-        //Initialize apriori parameters
+        //Initialize discretization
+        this.discretization_q_field.setText("4");
 
     }
 
@@ -126,6 +131,34 @@ public class AprioriEclat implements Initializable {
                 className = "Canadian";
             Instance instance = new Instance(
                     i,
+                    String.valueOf(data[0]),
+                    String.valueOf(data[1]),
+                    String.valueOf(data[2]),
+                    String.valueOf(data[3]),
+                    String.valueOf(data[4]),
+                    String.valueOf(data[5]),
+                    String.valueOf(data[6]),
+                    className
+            );
+            i += 1;
+            this.datasetTable.refresh();
+            this.datasetTable.getItems().add(instance);
+        }
+    }
+
+    public void addDiscretizedDataToTable(ArrayList<String[]> matrix){
+        this.datasetTable.getItems().clear();
+        int i = 1;
+        String className = "";
+        for (String[] data: matrix) {
+            if (data[data.length - 1].equals("1"))
+                className = "Kama";
+            if (data[data.length - 1].equals("2"))
+                className = "Rosa";
+            if (data[data.length - 1].equals("3"))
+                className = "Canadian";
+            Instance instance = new Instance(
+                    i,
                     data[0],
                     data[1],
                     data[2],
@@ -160,6 +193,31 @@ public class AprioriEclat implements Initializable {
         this.addDataToTable(normalizedData);
     }
 
+    public void effectiveDiscretizationSelected(ActionEvent event) {
+        this.effective_discretization_radio.selectedProperty().setValue(true);
+        this.equal_discretization_radio.selectedProperty().setValue(false);
+    }
+
+    public void equalDiscretizationSelected(ActionEvent event) {
+        this.equal_discretization_radio.selectedProperty().setValue(true);
+        this.effective_discretization_radio.selectedProperty().setValue(false);
+    }
+
+    public void discretizeData(ActionEvent event){
+        int q = Integer.parseInt(this.discretization_q_field.getText());
+        ArrayList<ArrayList<String>> descritized_data = new ArrayList<ArrayList<String>>();
+        for (int i = 0; i < 7; i++) {
+            if (this.equal_discretization_radio.selectedProperty().get()) {
+                descritized_data.add(MainFct.discretisationEqual(this.getColumn(data, i), q, i + 1));
+            }else{
+                descritized_data.add(MainFct.discretisationEffectif(this.getColumn(data, i), q, i + 1));
+            }
+        }
+        ArrayList<String[]> newData = this.transposeData(descritized_data);
+
+        this.addDiscretizedDataToTable(newData);
+    }
+
     public void resetTable(ActionEvent event){
         this.addDatasetToTable(filePath);
         normalizedData = null;
@@ -167,7 +225,13 @@ public class AprioriEclat implements Initializable {
 
     public void runApriori(ActionEvent event){
         if (data != null){
-            Apriori aprioriInstance = new Apriori(data, this.apriori_support_spinner.getValue());
+            // if discretizationType = 1 we use equal discretization else we use effective discretization
+            int discretizationType = 1;
+            if (this.effective_discretization_radio.selectedProperty().get()){
+                discretizationType = 2;
+            }
+
+            Apriori aprioriInstance = new Apriori(data, this.apriori_support_spinner.getValue(), Integer.parseInt(this.discretization_q_field.getText()), discretizationType);
             ArrayList<String[]> frequentItems = aprioriInstance.calculateFrequentItems();
             ArrayList<ArrayList<String>> condidatesList = aprioriInstance.getCondidatesList();
 
@@ -263,7 +327,7 @@ public class AprioriEclat implements Initializable {
         this.apriori_condidates_table.getItems().clear();
         this.apriori_condidates_table.getColumns().clear();
 
-        double columnWidth = 1/condidatesList.size();
+
         for (int i = 0; i < condidatesList.size(); i++) {
             TableColumn column = new TableColumn<>("C" + (i+1));
             column.setCellValueFactory(new PropertyValueFactory<>("c" + (i+1)));
@@ -298,6 +362,28 @@ public class AprioriEclat implements Initializable {
         }
 
 
+    }
+
+    //Useful but in general useless functions
+    public ArrayList<String[]> transposeData(ArrayList<ArrayList<String>> data){
+        ArrayList<String[]> new_data = new ArrayList<>();
+        for (int i = 0; i < data.get(0).size(); i++) {
+            ArrayList<String> tempItemset = new ArrayList<>();
+            String[] tmpArray = new String[data.size()];
+            for (int j = 0; j < data.size(); j++) {
+                tempItemset.add(data.get(j).get(i));
+            }
+            new_data.add(tempItemset.toArray(tmpArray));
+        }
+        return new_data;
+    }
+
+    public ArrayList<Double> getColumn(ArrayList<Double[]> data, int column){
+        ArrayList<Double> columnArray = new ArrayList<>();
+        for(int i=0 ;i<data.size();i++) {
+            columnArray.add(data.get(i)[column]);
+        }
+        return  columnArray;
     }
 
     @FXML

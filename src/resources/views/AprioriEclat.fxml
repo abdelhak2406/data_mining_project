@@ -6,7 +6,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<SplitPane dividerPositions="0.055441478439425054" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="579.0" prefWidth="1012.0" style="-fx-background-color: #FFFFFC;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.AprioriEclat">
+<SplitPane dividerPositions="0.055441478439425054" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="579.0" prefWidth="1012.0" style="-fx-background-color: #FFFFFC;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.AprioriEclat">
     <items>
         <AnchorPane>
             <children>
@@ -17,8 +17,7 @@
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #FFFFFC;">
             <children>
-                <Button fx:id="btn_reset" layoutX="821.0" layoutY="61.0" mnemonicParsing="false" onAction="#resetTable" prefHeight="32.0" prefWidth="120.0" styleClass="btn_reset" text="Reset" />
-                <TableView fx:id="datasetTable" layoutX="440.0" layoutY="188.0" prefHeight="346.0" prefWidth="556.0">
+                <TableView fx:id="datasetTable" layoutX="440.0" layoutY="277.0" prefHeight="257.0" prefWidth="556.0">
                     <columns>
                         <TableColumn prefWidth="75.0" />
                         <TableColumn prefWidth="75.0" />
@@ -28,10 +27,11 @@
                         <String fx:value=".column-header-background" />
                     </styleClass>
                 </TableView>
-                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="157.0" layoutX="441.0" layoutY="15.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="210.0" />
-                <Button fx:id="normalize_btn" layoutX="486.0" layoutY="129.0" mnemonicParsing="false" onAction="#normalizeData" prefHeight="32.0" prefWidth="120.0" text="Normaliser" />
-            <RadioButton fx:id="min_max_radio" layoutX="474.0" layoutY="69.0" mnemonicParsing="false" onAction="#minMaxNormalizationSelected" text="Min-max normalisation" />
-            <RadioButton fx:id="z_score_radio" layoutX="474.0" layoutY="93.0" mnemonicParsing="false" onAction="#zScoreNormalizationSelected" text="Z-score normalisation" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="134.0" layoutX="440.0" layoutY="14.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="210.0" />
+                <Button fx:id="btn_reset" layoutX="552.0" layoutY="106.0" mnemonicParsing="false" onAction="#resetTable" prefHeight="32.0" prefWidth="80.0" styleClass="btn_reset" text="Reset" />
+                <Button fx:id="normalize_btn" layoutX="451.0" layoutY="106.0" mnemonicParsing="false" onAction="#normalizeData" prefHeight="32.0" prefWidth="80.0" text="Normaliser" />
+            <RadioButton fx:id="min_max_radio" layoutX="473.0" layoutY="52.0" mnemonicParsing="false" onAction="#minMaxNormalizationSelected" text="Min-max normalisation" />
+            <RadioButton fx:id="z_score_radio" layoutX="473.0" layoutY="73.0" mnemonicParsing="false" onAction="#zScoreNormalizationSelected" text="Z-score normalisation" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="257.0" layoutX="6.0" layoutY="16.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="429.0" />
                 <Text layoutX="14.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Apriori">
                     <font>
@@ -40,16 +40,16 @@
                 </Text>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="257.0" layoutX="6.0" layoutY="277.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="429.0" />
                 <Button fx:id="run_apriori_btn" layoutX="335.0" layoutY="21.0" mnemonicParsing="false" onAction="#runApriori" prefHeight="17.0" prefWidth="91.0" styleClass="btn_add" text="Exécuter" />
-                <TableView fx:id="apriori_condidates_table" layoutX="14.0" layoutY="70.0" prefHeight="198.0" prefWidth="260.0">
+                <TableView fx:id="apriori_condidates_table" layoutX="14.0" layoutY="70.0" prefHeight="198.0" prefWidth="210.0">
                     <columns>
                     </columns>
                 </TableView>
-            <Text layoutX="506.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Normalisation">
+            <Text layoutX="505.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Normalisation">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <TableView fx:id="apriori_result_table" layoutX="282.0" layoutY="70.0" prefHeight="198.0" prefWidth="144.0">
+            <TableView fx:id="apriori_result_table" layoutX="227.0" layoutY="70.0" prefHeight="198.0" prefWidth="199.0">
               <columns>
                 <TableColumn prefWidth="75.0" text="C1" />
                 <TableColumn prefWidth="75.0" text="C2" />
@@ -62,8 +62,26 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Spinner fx:id="apriori_support_spinner" initialValue="0" max="100" min="0" editable="true" layoutX="261.0" layoutY="21.0" prefHeight="25.0" prefWidth="63.0" />
+            <Spinner fx:id="apriori_support_spinner" editable="true" initialValue="0" layoutX="261.0" layoutY="21.0" max="100" min="0" prefHeight="25.0" prefWidth="63.0" />
             <Text layoutX="208.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Support :" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="257.0" layoutX="656.0" layoutY="14.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="340.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="117.0" layoutX="440.0" layoutY="154.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="210.0" />
+            <Text layoutX="505.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Discrétisation">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Button fx:id="discretize_btn" layoutX="451.0" layoutY="230.0" mnemonicParsing="false" onAction="#discretizeData" prefHeight="32.0" prefWidth="80.0" text="Discrétiser" />
+            <Button fx:id="btn_reset1" layoutX="552.0" layoutY="230.0" mnemonicParsing="false" onAction="#resetTable" prefHeight="32.0" prefWidth="80.0" styleClass="btn_reset" text="Reset" />
+            <Text layoutX="464.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Q :" />
+            <Text layoutX="767.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Extraction des règles">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <TextField fx:id="discretization_q_field" layoutX="492.0" layoutY="190.0" prefHeight="25.0" prefWidth="40.0" />
+            <RadioButton fx:id="effective_discretization_radio" layoutX="556.0" layoutY="204.0" mnemonicParsing="false" onAction="#effectiveDiscretizationSelected" text="Effective" />
+            <RadioButton fx:id="equal_discretization_radio" layoutX="556.0" layoutY="183.0" mnemonicParsing="false" onAction="#equalDiscretizationSelected" text="Egale" />
             </children>
         </AnchorPane>
     </items>
