@@ -4,6 +4,7 @@ import app.Condidate;
 import app.Instance;
 import app.Utilities;
 import app.functions.Apriori;
+import app.functions.Eclat;
 import app.functions.MainFct;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,6 +33,8 @@ public class AprioriEclat implements Initializable {
     public TableView<Instance> datasetTable = new TableView<>();
     public TableView<Condidate> apriori_condidates_table = new TableView<>();
     public TableView<Condidate> apriori_result_table = new TableView<>();
+    public TableView<Condidate> eclat_condidates_table = new TableView<>();
+    public TableView<Condidate> eclat_result_table = new TableView<>();
 
     public RadioButton min_max_radio = new RadioButton();
     public RadioButton z_score_radio = new RadioButton();
@@ -40,6 +43,7 @@ public class AprioriEclat implements Initializable {
 
     @FXML
     public Spinner<Integer> apriori_support_spinner = new Spinner<>();
+    public Spinner<Integer> eclat_support_spinner = new Spinner<>();
     public TextField discretization_q_field = new TextField();
 
 
@@ -358,6 +362,147 @@ public class AprioriEclat implements Initializable {
 
             Condidate condidate = new Condidate(rows);
             this.apriori_condidates_table.getItems().add(condidate);
+
+        }
+
+
+    }
+
+    public void runEclat(ActionEvent event){
+        if (data != null){
+            // if discretizationType = 1 we use equal discretization else we use effective discretization
+            int discretizationType = 1;
+            if (this.effective_discretization_radio.selectedProperty().get()){
+                discretizationType = 2;
+            }
+
+            Eclat eclatInstance = new Eclat(data, this.eclat_support_spinner.getValue(), Integer.parseInt(this.discretization_q_field.getText()), discretizationType);
+            eclatInstance.executEclat();
+            ArrayList<String[]> frequentItems = eclatInstance.frequentItemsList;
+            ArrayList<ArrayList<String>> condidatesList = eclatInstance.condidatesList;
+
+            this.addDataToEclatCondidates(condidatesList);
+            this.addDataToEclatFrequentItems(frequentItems);
+        }
+    }
+
+    private void addDataToEclatFrequentItems(ArrayList<String[]> frequentItems) {
+        //Preprocess data
+        //Transform frequentItems list of list to simple list of strings using concatenation of the elements
+        ArrayList<String> frequentItemsList = new ArrayList<>();
+        for (String[] items: frequentItems) {
+            String newItem = "";
+            for (String item: items) {
+                newItem += item + ", ";
+            }
+            newItem = newItem.substring(0, newItem.length()-2);
+            frequentItemsList.add(newItem);
+        }
+
+        //Sort list by length of string
+        Collections.sort(frequentItemsList, Comparator.comparing(String::length));
+        //Get number of lists by checking the length of the last item
+        int nbLists = frequentItemsList.get(frequentItems.size()-1).split(",").length;
+
+        //initialize table form
+        this.eclat_result_table.getColumns().clear();
+        this.eclat_result_table.getItems().clear();
+
+        for (int i = 0; i < nbLists; i++) {
+            TableColumn column = new TableColumn<>("L" + (i+1));
+            column.setCellValueFactory(new PropertyValueFactory<>("c" + (i+1)));
+            this.eclat_result_table.getColumns().add(column);
+        }
+
+        // Transform sorted list to a matrix in which each line i represents list Li
+        ArrayList<ArrayList<String>> listOfFrequentItemsList = new ArrayList<>();
+        ArrayList<String> listOfFrequentItems = new ArrayList<>();
+        String tmpItem = frequentItemsList.get(0);
+        for (int i = 0; i < frequentItemsList.size(); i++) {
+            if (frequentItemsList.get(i).length() > tmpItem.length()){
+                listOfFrequentItemsList.add(listOfFrequentItems);
+                listOfFrequentItems = new ArrayList<>();
+                tmpItem = frequentItemsList.get(i);
+            }
+
+            listOfFrequentItems.add(frequentItemsList.get(i));
+
+            if (i == frequentItemsList.size()-1){
+                listOfFrequentItemsList.add(listOfFrequentItems);
+            }
+        }
+
+        //Add data to table
+        int maxSize = 0;
+        for (int i = 0; i < listOfFrequentItemsList.size(); i++) {
+            if (listOfFrequentItemsList.get(i).size() > maxSize){
+                maxSize = listOfFrequentItemsList.get(i).size();
+            }
+        }
+
+        String[] rows;
+        for (int i = 0; i < maxSize; i++) {
+            rows = new String[7];
+            for (int j = 0; j < listOfFrequentItemsList.size(); j++) {
+                if (i < listOfFrequentItemsList.get(j).size()){
+                    rows[j] = listOfFrequentItemsList.get(j).get(i);
+                }
+
+                if (j == listOfFrequentItemsList.size()-1){
+                    for (int k = j+1; k < 7; k++) {
+                        rows[k] = "";
+                    }
+                }
+            }
+
+            Condidate condidate = new Condidate(rows);
+            this.eclat_result_table.getItems().add(condidate);
+
+        }
+
+
+    }
+
+    private void addDataToEclatCondidates(ArrayList<ArrayList<String>> condidatesList) {
+        /**
+         * each line i in condidateslist represents the condidates list at iteration i
+         */
+
+        //Initialize table form
+        this.eclat_condidates_table.getItems().clear();
+        this.eclat_condidates_table.getColumns().clear();
+
+
+        for (int i = 0; i < condidatesList.size(); i++) {
+            TableColumn column = new TableColumn<>("C" + (i+1));
+            column.setCellValueFactory(new PropertyValueFactory<>("c" + (i+1)));
+            this.eclat_condidates_table.getColumns().add(column);
+        }
+
+        int maxSize = 0;
+        for (int i = 0; i < condidatesList.size(); i++) {
+            if (condidatesList.get(i).size() > maxSize){
+                maxSize = condidatesList.get(i).size();
+            }
+        }
+
+        String[] rows;
+        for (int i = 0; i < maxSize; i++) {
+            rows = new String[7];
+            for (int j = 0; j < condidatesList.size(); j++) {
+                if (i < condidatesList.get(j).size()){
+                    rows[j] = condidatesList.get(j).get(i);
+                }
+
+                if (j == condidatesList.size()-1){
+                    for (int k = j+1; k < 7; k++) {
+                        rows[k] = "";
+                    }
+                }
+            }
+
+            Condidate condidate = new Condidate(rows);
+            this.eclat_condidates_table.getItems().add(condidate);
 
         }
 

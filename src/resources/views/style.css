@@ -53,16 +53,17 @@
     -fx-font-weight: 700;
 }
 
-#run_apriori_btn{
+#run_apriori_btn, #run_eclat_btn{
 -fx-background-color: -fx-clr--green;
 }
+
 
 
 
 #btn_upload {
    -fx-background-color: -fx-clr--orange;
 }
-#btn_reset{
+#btn_reset, #btn_reset1{
     -fx-background-color: -fx-clr--red;
 }
 #btn_add{

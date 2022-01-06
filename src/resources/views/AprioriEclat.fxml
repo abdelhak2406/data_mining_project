@@ -6,7 +6,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<SplitPane dividerPositions="0.055441478439425054" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="579.0" prefWidth="1012.0" style="-fx-background-color: #FFFFFC;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.AprioriEclat">
+<SplitPane dividerPositions="0.055441478439425054" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="579.0" prefWidth="1012.0" style="-fx-background-color: #FFFFFC;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.AprioriEclat">
     <items>
         <AnchorPane>
             <children>
@@ -56,14 +56,27 @@
               </columns>
             </TableView>
             <Text layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste des items conditats:" />
-            <Text layoutX="282.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Résultat final:" />
-            <Text layoutX="207.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Eclat">
+            <Text layoutX="228.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Résultat final:" />
+            <Text layoutX="14.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Eclat">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Spinner fx:id="apriori_support_spinner" editable="true" initialValue="0" layoutX="261.0" layoutY="21.0" max="100" min="0" prefHeight="25.0" prefWidth="63.0" />
-            <Text layoutX="208.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Support :" />
+                <Button fx:id="run_eclat_btn" layoutX="335.0" layoutY="283.0" mnemonicParsing="false" onAction="#runEclat" prefHeight="17.0" prefWidth="91.0" styleClass="btn_add" text="Exécuter" />
+                <TableView fx:id="eclat_condidates_table" layoutX="14.0" layoutY="332.0" prefHeight="198.0" prefWidth="210.0">
+                    <columns>
+                    </columns>
+                </TableView>
+                <TableView fx:id="eclat_result_table" layoutX="227.0" layoutY="332.0" prefHeight="198.0" prefWidth="199.0">
+                    <columns>
+                        <TableColumn prefWidth="75.0" text="C1" />
+                        <TableColumn prefWidth="75.0" text="C2" />
+                    </columns>
+                </TableView>
+                <Text layoutX="14.0" layoutY="328.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste des items conditats:" />
+                <Text layoutX="229.0" layoutY="328.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Résultat final:" />
+            <Spinner fx:id="eclat_support_spinner" editable="true" initialValue="0" layoutX="261.0" layoutY="283.0" max="100" min="0" prefHeight="25.0" prefWidth="63.0" />
+            <Text layoutX="208.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Support :" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="257.0" layoutX="656.0" layoutY="14.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="340.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="117.0" layoutX="440.0" layoutY="154.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="210.0" />
             <Text layoutX="505.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Discrétisation">
@@ -82,6 +95,8 @@
             <TextField fx:id="discretization_q_field" layoutX="492.0" layoutY="190.0" prefHeight="25.0" prefWidth="40.0" />
             <RadioButton fx:id="effective_discretization_radio" layoutX="556.0" layoutY="204.0" mnemonicParsing="false" onAction="#effectiveDiscretizationSelected" text="Effective" />
             <RadioButton fx:id="equal_discretization_radio" layoutX="556.0" layoutY="183.0" mnemonicParsing="false" onAction="#equalDiscretizationSelected" text="Egale" />
+            <Spinner fx:id="apriori_support_spinner" editable="true" initialValue="0" layoutX="259.0" layoutY="20.0" max="100" min="0" prefHeight="25.0" prefWidth="63.0" />
+            <Text layoutX="201.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Support :" />
             </children>
         </AnchorPane>
     </items>
