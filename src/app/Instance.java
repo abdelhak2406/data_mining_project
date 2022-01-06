@@ -2,16 +2,16 @@ package app;
 
 public class Instance {
         public int id;
-        public double field1;
-        public double field2;
-        public double field3;
-        public double field4;
-        public double field5;
-        public double field6;
-        public double field7;
+        public String field1;
+        public String field2;
+        public String field3;
+        public String field4;
+        public String field5;
+        public String field6;
+        public String field7;
         public String classe;
 
-        public Instance(int id, double field1, double field2, double field3, double field4, double field5, double field6, double field7, String classe) {
+        public Instance(int id, String field1, String field2, String field3, String field4, String field5, String field6, String field7, String classe) {
                 this.id = id;
                 this.field1 = field1;
                 this.field2 = field2;
@@ -27,31 +27,31 @@ public class Instance {
                 return id;
         }
 
-        public double getField1() {
+        public String getField1() {
                 return field1;
         }
 
-        public double getField2() {
+        public String getField2() {
                 return field2;
         }
 
-        public double getField3() {
+        public String getField3() {
                 return field3;
         }
 
-        public double getField4() {
+        public String getField4() {
                 return field4;
         }
 
-        public double getField5() {
+        public String getField5() {
                 return field5;
         }
 
-        public double getField6() {
+        public String getField6() {
                 return field6;
         }
 
-        public double getField7() {
+        public String getField7() {
                 return field7;
         }
 
