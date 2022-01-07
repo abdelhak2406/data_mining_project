@@ -204,6 +204,10 @@ public class DashboardWindowController {
                 u.switchWindow(event, "/resources/views/AprioriEclat.fxml", root, stage, scene);
         }
 
+        public void  switchToAlgoWin(ActionEvent event) throws Exception {
+                Utilities u = new Utilities();
+                u.switchWindow(event, "/resources/views/BayesKnn.fxml", root, stage, scene);
+        }
 
 
         private void createAndSetSwingContent(final SwingNode swingNode) {
