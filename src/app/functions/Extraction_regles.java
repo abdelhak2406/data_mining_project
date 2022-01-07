@@ -20,9 +20,11 @@ public class Extraction_regles {
                 for (int i = 0; i < itemsets.size(); i++) {
                         if (itemsets.get(i).length>=2){
                                 ArrayList<ArrayList<String>> arrays= subArray(itemsets.get(i));
+                                System.out.println(arrays);
                                 ArrayList<Rule> initial_rules=get_initial_rules(arrays);
                                 for (Rule rule : initial_rules){
-                                        Double down=Double.valueOf(get_support_antecedent(rule)); Double up=Double.valueOf(get_support_antecedent_consequent(rule));
+                                        Double down=Double.valueOf(get_support_antecedent(rule));
+                                        Double up=Double.valueOf(get_support_antecedent_consequent(rule));
                                         System.out.println(up+" /  " +down);
                                         rule.confiance= up/down;
                                         if (rule.confiance*100>=minconf){
@@ -38,34 +40,67 @@ public class Extraction_regles {
 
         public int get_support_antecedent(Rule rule){
                 int count=0;
-                for (int i = 0; i < dataset.size(); i++) {
-                        for (int j = 0; j < dataset.get(i).size(); j++) {
-                                if (dataset.get(i).get(j).equals(rule.antecedent.get(0))){
+                Boolean truth= false;
+                for (int i = 0; i < dataset.get(0).size(); i++) {
+                        for (int k = 0; k < rule.antecedent.size(); k++) {
+                                truth=false;
+                                for (int j = 0; j < dataset.size(); j++) {
+                                        if (dataset.get(j).get(i).equals(rule.antecedent.get(k))){
+                                                truth=true;
+                                        }
+                                }
+                                if(!truth){
+                                        break;
+                                }
+                                else if(truth && k==rule.antecedent.size()-1){
                                         count++;
                                 }
                         }
+
                 }
                 return count;
         }
 
         public int get_support_antecedent_consequent(Rule rule){
                 int count=0;
-                Boolean b1=false,b2=false;
+                Boolean[] b1=new Boolean[rule.antecedent.size()], b2= new Boolean[rule.consequent.size()];
                 for (int i = 0; i < dataset.get(0).size(); i++) {
-                        b1=false;b2=false;
+                        b1=make_array_false(b1);b2=make_array_false(b2);
                         for (int j = 0; j < dataset.size(); j++) {
-                                if (dataset.get(j).get(i).equals(rule.antecedent.get(0))){
-                                        b1=true;
+                                for (int k = 0; k < rule.antecedent.size(); k++) {
+                                        if (dataset.get(j).get(i).equals(rule.antecedent.get(k))){
+                                                b1[k]=true;
+                                        }
                                 }
-                                if(dataset.get(j).get(i).equals(rule.consequent.get(0))){
-                                        b2=true;
+
+                                for (int k = 0; k < rule.consequent.size(); k++) {
+                                        if(dataset.get(j).get(i).equals(rule.consequent.get(k))){
+                                                b2[k]=true;
+                                        }
                                 }
+
                         }
-                        if(b1==true && b2==true){
+                        if(verify_everything_true(b1) && verify_everything_true(b2)){
                                 count++;
                         }
                 }
                 return count;
+        }
+
+        public Boolean verify_everything_true(Boolean[] b1){
+                for (int i = 0; i < b1.length; i++) {
+                        if(!b1[i]){
+                                return false;
+                        }
+                }
+                return true;
+        }
+
+        public Boolean[] make_array_false(Boolean[] bool){
+                for (int i = 0; i < bool.length; i++) {
+                        bool[i]=false;
+                }
+                return  bool;
         }
 
         public ArrayList<ArrayList<String>> preprocessData(ArrayList<Double[]> data){
@@ -88,7 +123,8 @@ public class Extraction_regles {
                 ArrayList<Rule> initial_rules= new ArrayList<>();
                 for (int j = 0; j < arrays.size(); j++) {
                         for (int k = 0; k < arrays.size(); k++) {
-                                if (j!=k){
+                                ArrayList<String> intersect= intersection(arrays.get(j),arrays.get(k));
+                                if (intersect.size()==0){
                                         Rule rule= new Rule(arrays.get(j),arrays.get(k));
                                         initial_rules.add(rule);
                                 }
@@ -98,6 +134,17 @@ public class Extraction_regles {
                 return initial_rules;
         }
 
+        public ArrayList<String> intersection(ArrayList<String> list1, ArrayList<String> list2) {
+                ArrayList<String> list = new ArrayList<String>();
+
+                for (String t : list1) {
+                        if(list2.contains(t)) {
+                                list.add(t);
+                        }
+                }
+
+                return list;
+        }
 
         private static ArrayList<ArrayList<String>> subArray(String[] array) {
                 ArrayList<ArrayList<String>> items = new ArrayList<>(  );
@@ -120,10 +167,17 @@ public class Extraction_regles {
 
         public static void main(String[] args) throws Exception{
                 ArrayList<Double[]> data= MainFct.readFile("datasets/seeds.txt");
-                //Apriori apriori = new Apriori(data, 25);
-                //ArrayList<String[]> items = apriori.calculateFrequentItems();
+                Apriori apriori = new Apriori(data, 25,4,1);
+                ArrayList<String[]> items = apriori.calculateFrequentItems();
 
-                //Extraction_regles ex_instance= new Extraction_regles(data,90,items);
-                //System.out.println(ex_instance.rule_extraction());
+                for (String[] item : items ){
+                        for ( String str : item){
+                                System.out.print(str+" ,");
+                        }
+                        System.out.println();
+                }
+
+                Extraction_regles ex_instance= new Extraction_regles(data,90,items);
+                System.out.println(ex_instance.rule_extraction());
         }
 }
