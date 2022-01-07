@@ -19,7 +19,8 @@
             <children>
                 <Button fx:id="btn_home" layoutX="4.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToHomeWin" prefHeight="25.0" prefWidth="91.0" styleClass=".menu-btn" text="Home" />
                 <Button fx:id="btn_dashboard" layoutX="106.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToDashboardWin" prefHeight="25.0" prefWidth="91.0" styleClass=".menu-btn" text="Dashboard" />
-                <Button fx:id="btn_pretraitement" layoutX="207.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" styleClass=".menu-btn" text="prétraitement" />
+                <Button fx:id="btn_pretraitement" layoutX="207.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToPretraitWin" prefHeight="25.0" prefWidth="103.0" styleClass=".menu-btn" text="prétraitement" />
+            <Button fx:id="btn_algos" layoutX="320.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" styleClass=".menu-btn" text="algos" />
             </children>
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #FFFFFC;">
@@ -47,8 +48,8 @@
             <RadioButton fx:id="naiv_b_radio" layoutX="40.0" layoutY="91.0" mnemonicParsing="false" text="Nailve Bayes" />
             <TableView fx:id="mesures_table" layoutX="440.0" layoutY="21.0" prefHeight="257.0" prefWidth="556.0">
                <columns>
-                  <TableColumn prefWidth="75.0" text="Metrics" />
-                  <TableColumn prefWidth="75.0" text="General" />
+                  <TableColumn prefWidth="75.0" />
+                  <TableColumn prefWidth="75.0" />
                   <TableColumn prefWidth="75.0" text="C1" />
                   <TableColumn prefWidth="75.0" text="C2" />
                   <TableColumn prefWidth="75.0" text="C3" />

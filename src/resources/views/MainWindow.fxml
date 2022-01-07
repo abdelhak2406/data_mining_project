@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import java.lang.String?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.055441478439425054" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="579.0" prefWidth="1012.0" style="-fx-background-color: #FFFFFC;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.MainWindowController">
+<SplitPane dividerPositions="0.055441478439425054" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="579.0" prefWidth="1012.0" style="-fx-background-color: #FFFFFC;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.MainWindowController">
   <items>
     <AnchorPane>
          <children>
             <Button fx:id="btn_home" layoutX="4.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" styleClass=".menu-btn" text="Home" />
             <Button fx:id="btn_dashboard" layoutX="106.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToDashboardWin" prefHeight="25.0" prefWidth="91.0" styleClass=".menu-btn" text="Dashboard" />
             <Button fx:id="btn_pretraitement" layoutX="207.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToAprioriEclat" prefHeight="25.0" prefWidth="103.0" styleClass=".menu-btn" text="prétraitement" />
+            <Button fx:id="btn_algos" layoutX="320.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToAlgoWin" prefHeight="25.0" prefWidth="103.0" styleClass=".menu-btn" text="algos" />
          </children>
     </AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #FFFFFC;">

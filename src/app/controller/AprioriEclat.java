@@ -546,4 +546,8 @@ public class AprioriEclat implements Initializable {
         Utilities u = new Utilities();
         u.switchWindow(event, "/resources/views/AprioriEclat.fxml", root, stage, scene);
     }
+    public void  switchToAlgoWin(ActionEvent event) throws Exception {
+        Utilities u = new Utilities();
+        u.switchWindow(event, "/resources/views/BayesKnn.fxml", root, stage, scene);
+    }
 }
