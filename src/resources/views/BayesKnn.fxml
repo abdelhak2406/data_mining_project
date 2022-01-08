@@ -43,16 +43,13 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Spinner fx:id="Knn_k_value" editable="true" initialValue="0" layoutX="158.0" layoutY="35.0" max="100" min="0" prefHeight="25.0" prefWidth="63.0" />
-            <RadioButton fx:id="knn_radio" layoutX="40.0" layoutY="38.0" mnemonicParsing="false" text="Knn" />
-            <RadioButton fx:id="naiv_b_radio" layoutX="40.0" layoutY="91.0" mnemonicParsing="false" text="Nailve Bayes" />
+            <Spinner fx:id="knn_k_value" editable="true" initialValue="0" layoutX="158.0" layoutY="35.0" max="100" min="0" prefHeight="25.0" prefWidth="63.0" />
+            <RadioButton fx:id="knn_radio" layoutX="40.0" layoutY="38.0" mnemonicParsing="false" onAction="#knnSelected" text="Knn" />
+            <RadioButton fx:id="naiv_b_radio" layoutX="40.0" layoutY="91.0" mnemonicParsing="false" onAction="#naivBSelected" text="Nailve Bayes" />
             <TableView fx:id="mesures_table" layoutX="440.0" layoutY="21.0" prefHeight="257.0" prefWidth="556.0">
                <columns>
                   <TableColumn prefWidth="75.0" />
                   <TableColumn prefWidth="75.0" />
-                  <TableColumn prefWidth="75.0" text="C1" />
-                  <TableColumn prefWidth="75.0" text="C2" />
-                  <TableColumn prefWidth="75.0" text="C3" />
                </columns>
                <styleClass>
                   <String fx:value=".table-view" />

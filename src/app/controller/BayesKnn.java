@@ -1,7 +1,9 @@
 package app.controller;
 
+import app.Condidate;
 import app.Instance;
 import app.Utilities;
+import app.functions.Knn;
 import app.functions.MainFct;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +19,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static app.functions.MainFct.split_data_knn;
+import static app.functions.NaiveBays.accuracy;
+import static app.functions.NaiveBays.getConfusion_Matrix;
+
 public class BayesKnn  implements Initializable {
 
         //window fiels
@@ -26,7 +32,7 @@ public class BayesKnn  implements Initializable {
 
 
         @FXML
-        private Spinner<?> Knn_k_value;
+        public Spinner<Integer> knn_k_value = new Spinner<>();
 
         @FXML
         private Button btn_dashboard;
@@ -39,20 +45,20 @@ public class BayesKnn  implements Initializable {
 
         public Button btn_algos;
 
-        @FXML
-        private TableView<?> confusion_mat;
+        public TableView<Condidate> confusion_mat = new TableView<>();
 
         @FXML
         public TableView<Instance> datasetTable = new TableView<>();
 
-        @FXML
-        private RadioButton knn_radio;
 
         @FXML
-        private TableView<?> mesures_table;
+        private TableView<Condidate> mesures_table  = new TableView<>();
 
         @FXML
-        private RadioButton naiv_b_radio;
+        public RadioButton naiv_b_radio;
+
+        @FXML
+        public RadioButton knn_radio;
 
         @FXML
         private Button run_knn_nb;
@@ -64,8 +70,117 @@ public class BayesKnn  implements Initializable {
 
 
 
+        public void naivBSelected(ActionEvent event) {
+                this.knn_radio.selectedProperty().setValue(false);
+                this.naiv_b_radio.selectedProperty().setValue(true);
+        }
+        public void knnSelected(ActionEvent event) {
+                this.naiv_b_radio.selectedProperty().setValue(false);
+                this.knn_radio.selectedProperty().setValue(true);
+        }
+
+
         @FXML
         void runKnnOrNb(ActionEvent event) {
+                //TODO: do something here pls
+                // get what shit is selected!
+
+                // clear confusion matrix
+                this.confusion_mat.getItems().clear();
+                this.mesures_table.getItems().clear();
+
+                float acc = 0;
+
+
+                if (this.knn_radio.selectedProperty().get()){
+                        //
+                        // get the dataset!
+
+                        // data normalized, or not??
+                        //TODO:maybe check if the data is discretized or not
+                        //TODO: take the data from the previous Windows(AprioriEclat)
+
+
+                        ArrayList<ArrayList<Double[]>> total = split_data_knn(data);
+
+                        Knn knn_instance = new Knn(total.get(0), total.get(1), this.knn_k_value.getValue());
+
+                        Double[][] result = knn_instance.calcul_knn();
+
+
+                        ArrayList<Double> predicted_classes = knn_instance.predict_class();
+
+                        ArrayList<String > yTest = new ArrayList<String>();
+
+                        ArrayList<Double[]> test  = total.get(1);//1 le test! 0:train
+                        for (int i=0; i<test.size();i++)
+                        {
+                                yTest.add(String.valueOf(test.get(i)[7]));
+                        }
+
+                        int[][] mat = getConfusion_Matrix(predicted_classes, yTest);
+
+                        //TODO: display the matrix
+                        //this.confusion_mat
+                        for (int i =0; i<3;i++)
+                        {
+                                String[] row = new String[7];
+                                for(int j=0; j<7; j++){
+                                        if ( j < 3 ) {
+                                                row[j] = String.valueOf(mat[i][j]);
+                                        }else{
+                                                row[j] = String.valueOf("");
+                                        }
+                                }
+                                this.confusion_mat.getItems().add(new Condidate(row) ) ;
+
+
+
+                        }
+                        acc = accuracy(1, mat);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//get the k
+
+
+
+
+
+                        System.out.println("k value: "+this.knn_k_value.getValue());
+                }else{
+
+
+                }
+
+                // display the measures (les colonnes!)
+                String [] labels = {"Sensitivity", "Specificity", "Accuracy", "Precision", "Recall", "F-Score"};
+                for (int i = 0; i < 7 ; i++) {
+                        String[] raw = new String[7];
+                        raw[0] = labels[i];
+                        for (int j = 1; j < 7; j++) {
+                                if(j < 5){
+                                        raw[j] = String.valueOf(acc);
+
+                                }else{
+                                        raw[j] = "";
+                                }
+
+                        }
+                        this.mesures_table.getItems().add(new Condidate(raw));
+                }
 
         }
 
@@ -163,7 +278,31 @@ public class BayesKnn  implements Initializable {
                         filePath = MainWindowController.filePath;
                 }
 
+                this.confusion_mat.getColumns().clear();
+                for (int i = 0; i < 3; i++) {
+                        TableColumn colId = new TableColumn<>("");
+                        colId.setCellValueFactory(new PropertyValueFactory<>("c"+ (i + 1) ));
+                        this.confusion_mat.getColumns().add(colId);
 
+
+                }
+
+                this.mesures_table.getColumns().clear();
+
+                TableColumn colIzan = new TableColumn<>("");
+                colIzan.setCellValueFactory(new PropertyValueFactory<>("c1" ));
+
+                TableColumn colId = new TableColumn<>("Mean");
+                colId.setCellValueFactory(new PropertyValueFactory<>("c2" ));
+                this.mesures_table.getColumns().addAll(colIzan, colId );
+
+                for (int i = 0; i < 3; i++) {
+                        colId = new TableColumn<>("C" + (i + 1) );
+                        colId.setCellValueFactory(new PropertyValueFactory<>("c"+ (i + 3) ));
+                        this.mesures_table.getColumns().add(colId);
+
+
+                }
         }
 
 
