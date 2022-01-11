@@ -49,9 +49,10 @@ public class AprioriEclat implements Initializable {
 
 
     //useful attributes
-    private static String filePath = "";
-    private static ArrayList<Double[]> data = null;
-    private static ArrayList<Double[]> normalizedData = null;
+    public static String filePath = "";
+    public static ArrayList<Double[]> data = null;
+    public static ArrayList<Double[]> normalizedData = null;
+    public static ArrayList<ArrayList<String>> discretizedData = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -218,13 +219,14 @@ public class AprioriEclat implements Initializable {
             }
         }
         ArrayList<String[]> newData = this.transposeData(descritized_data);
-
+        discretizedData =  descritized_data;
         this.addDiscretizedDataToTable(newData);
     }
 
     public void resetTable(ActionEvent event){
         this.addDatasetToTable(filePath);
         normalizedData = null;
+        discretizedData = null;
     }
 
     public void runApriori(ActionEvent event){

@@ -94,7 +94,193 @@ public class NaiveBays {
 
                 return confusion_matrix;
         }
+        public static float fScore(int classe, int[][] confusion_matrix){
+                /**
+                 * TODO:test
+                 */
+                int tp, fn = 0, fp = 0,tn = 0,i,j;
+                float sens;
 
+                // 1, TP
+                tp = confusion_matrix[classe-1][classe-1];
+                // 2, FN
+
+                for(i= 0; i<3;i++){
+                        fn = fn+ confusion_matrix[classe-1][i];
+                        fp = fp +  confusion_matrix[i][classe-1];
+                }
+                fn = fn - tp;
+
+                // 3, TP
+                fp=  fp - tp;
+
+                // 4, TN
+                for(i= 0; i<3;i++){
+                        for(j= 0; j<3;j++){
+                                tn = tn+ confusion_matrix[i][j];
+                        }
+                }
+                tn = tn -(tp+fn+fp);
+
+                System.out.println("TP : "+tp);
+                System.out.println("TN : "+tn);
+                System.out.println("FP : "+fp);
+                System.out.println("FN : "+fn);
+
+                float precision = precision(classe, confusion_matrix);
+                float recall = recall(classe, confusion_matrix);
+                sens = (2 * precision * recall) / (precision + recall);
+                return sens;
+
+        }
+        public static float recall(int classe, int[][] confusion_matrix){
+                /**
+                 * TODO:test
+                 */
+                int tp, fn = 0, fp = 0,tn = 0,i,j;
+                float sens;
+
+                // 1, TP
+                tp = confusion_matrix[classe-1][classe-1];
+                // 2, FN
+
+                for(i= 0; i<3;i++){
+                        fn = fn+ confusion_matrix[classe-1][i];
+                        fp = fp +  confusion_matrix[i][classe-1];
+                }
+                fn = fn - tp;
+
+                // 3, TP
+                fp=  fp - tp;
+
+                // 4, TN
+                for(i= 0; i<3;i++){
+                        for(j= 0; j<3;j++){
+                                tn = tn+ confusion_matrix[i][j];
+                        }
+                }
+                tn = tn -(tp+fn+fp);
+
+                System.out.println("TP : "+tp);
+                System.out.println("TN : "+tn);
+                System.out.println("FP : "+fp);
+                System.out.println("FN : "+fn);
+
+                sens = (float)(tp)/ tp + fn;
+                return sens;
+
+        }
+        public static float precision(int classe, int[][] confusion_matrix){
+                /**
+                 * TODO:test
+                 */
+                int tp, fn = 0, fp = 0,tn = 0,i,j;
+                float sens;
+
+                // 1, TP
+                tp = confusion_matrix[classe-1][classe-1];
+                // 2, FN
+
+                for(i= 0; i<3;i++){
+                        fn = fn+ confusion_matrix[classe-1][i];
+                        fp = fp +  confusion_matrix[i][classe-1];
+                }
+                fn = fn - tp;
+
+                // 3, TP
+                fp=  fp - tp;
+
+                // 4, TN
+                for(i= 0; i<3;i++){
+                        for(j= 0; j<3;j++){
+                                tn = tn+ confusion_matrix[i][j];
+                        }
+                }
+                tn = tn -(tp+fn+fp);
+
+                System.out.println("TP : "+tp);
+                System.out.println("TN : "+tn);
+                System.out.println("FP : "+fp);
+                System.out.println("FN : "+fn);
+
+                sens = (float)(tp)/ tp + fp;
+                return sens;
+
+        }
+        public static float specificity(int classe, int[][] confusion_matrix){
+                /**
+                 * TODO:test
+                 */
+                int tp, fn = 0, fp = 0,tn = 0,i,j;
+                float sens;
+
+                // 1, TP
+                tp = confusion_matrix[classe-1][classe-1];
+                // 2, FN
+
+                for(i= 0; i<3;i++){
+                        fn = fn+ confusion_matrix[classe-1][i];
+                        fp = fp +  confusion_matrix[i][classe-1];
+                }
+                fn = fn - tp;
+
+                // 3, TP
+                fp=  fp - tp;
+
+                // 4, TN
+                for(i= 0; i<3;i++){
+                        for(j= 0; j<3;j++){
+                                tn = tn+ confusion_matrix[i][j];
+                        }
+                }
+                tn = tn -(tp+fn+fp);
+
+                System.out.println("TP : "+tp);
+                System.out.println("TN : "+tn);
+                System.out.println("FP : "+fp);
+                System.out.println("FN : "+fn);
+
+                sens = (float)(tn)/ fp + tn;
+                return sens;
+
+        }
+        public static float sensitivity(int classe, int[][] confusion_matrix){
+                /**
+                 * TODO: test
+                 */
+                int tp, fn = 0, fp = 0,tn = 0,i,j;
+                float sens;
+
+                // 1, TP
+                tp = confusion_matrix[classe-1][classe-1];
+                // 2, FN
+
+                for(i= 0; i<3;i++){
+                        fn = fn+ confusion_matrix[classe-1][i];
+                        fp = fp +  confusion_matrix[i][classe-1];
+                }
+                fn = fn - tp;
+
+                // 3, TP
+                fp=  fp - tp;
+
+                // 4, TN
+                for(i= 0; i<3;i++){
+                        for(j= 0; j<3;j++){
+                                tn = tn+ confusion_matrix[i][j];
+                        }
+                }
+                tn = tn -(tp+fn+fp);
+
+                System.out.println("TP : "+tp);
+                System.out.println("TN : "+tn);
+                System.out.println("FP : "+fp);
+                System.out.println("FN : "+fn);
+
+                sens = (float)(tp)/ tp + fn;
+                return sens;
+
+        }
 
         public static float accuracy(int classe, int[][] confusion_matrix){
                 int tp, fn = 0, fp = 0,tn = 0,i,j;
@@ -131,7 +317,7 @@ public class NaiveBays {
 
         }
 
-        public  static void mainTest(String[] args) throws Exception {
+        public  static void main(String[] args) throws Exception {
                 /**
                  * Function to test the naiveBays things!
                  * confusion matrix,

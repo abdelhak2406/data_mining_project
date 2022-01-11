@@ -4,7 +4,6 @@ import app.Condidate;
 import app.Instance;
 import app.Utilities;
 import app.functions.Knn;
-import app.functions.MainFct;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,9 +18,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static app.functions.MainFct.splitNormalizedData;
 import static app.functions.MainFct.split_data_knn;
-import static app.functions.NaiveBays.accuracy;
-import static app.functions.NaiveBays.getConfusion_Matrix;
+import static app.functions.NaiveBays.*;
 
 public class BayesKnn  implements Initializable {
 
@@ -67,6 +66,7 @@ public class BayesKnn  implements Initializable {
         private static String filePath = "";
         private static ArrayList<Double[]> data = null;
         private static ArrayList<Double[]> normalizedData = null;
+        private static ArrayList<ArrayList<String>> discretizedData = null;
 
 
 
@@ -89,7 +89,7 @@ public class BayesKnn  implements Initializable {
                 this.confusion_mat.getItems().clear();
                 this.mesures_table.getItems().clear();
 
-                float acc = 0;
+                ArrayList<Float> allMetrics = new ArrayList<>();
 
 
                 if (this.knn_radio.selectedProperty().get()){
@@ -134,26 +134,47 @@ public class BayesKnn  implements Initializable {
                                 }
                                 this.confusion_mat.getItems().add(new Condidate(row) ) ;
 
-
-
                         }
-                        acc = accuracy(1, mat);
+                        float sensitiv = ( sensitivity(1, mat) + sensitivity(2,mat) + sensitivity(3,mat ) ) /3;
+                        allMetrics.add(sensitiv) ;
+                        for (int i = 1; i < 4 ; i++) {
+                                allMetrics.add(sensitivity(i, mat));
+                        }
+
+
+                        float specific = ( specificity(1, mat) + specificity(2,mat) + specificity(3,mat ) ) /3;
+                        allMetrics.add(specific) ;
+                        for (int i = 1; i < 4 ; i++) {
+                                allMetrics.add(specificity(i, mat));
+                        }
+
+                        float   acc = ( accuracy(1, mat) + accuracy(2,mat) + accuracy(3,mat ) ) /3;
+                        allMetrics.add(acc) ;
+                        for (int i = 1; i < 4 ; i++) {
+                                allMetrics.add(accuracy(i, mat));
+                        }
+
+                        float precisio  = ( precision(1, mat) + precision(2,mat) + precision(3,mat ) ) /3;
+                        allMetrics.add(precisio) ;
+                        for (int i = 1; i < 4 ; i++) {
+                                allMetrics.add(precision(i, mat));
+                        }
 
 
 
 
+                        float reca = ( recall(1, mat) + recall(2,mat) + recall(3,mat ) ) /3;
+                        allMetrics.add(reca);
+                        for (int i = 1; i < 4 ; i++) {
+                                allMetrics.add(recall(i, mat));
+                        }
 
 
-
-
-
-
-
-
-
-
-
-//get the k
+                        float fsco = ( fScore(1, mat) + fScore(2,mat) + fScore(3,mat ) ) /3;
+                        allMetrics.add(fsco);
+                        for (int i = 1; i < 4 ; i++) {
+                                allMetrics.add(fScore(i, mat));
+                        }
 
 
 
@@ -161,18 +182,124 @@ public class BayesKnn  implements Initializable {
 
                         System.out.println("k value: "+this.knn_k_value.getValue());
                 }else{
+                        /// BAYESIAN rapsody
 
 
+                        ArrayList<String> y = new ArrayList();
+
+                        // add the labels(8th column) to the new dataset to be able to call NB fct
+                        for (int j= 0; j < data.size(); j++) {
+                                y.add(data.get(j)[7].toString());
+                        }
+                        discretizedData.add(y);
+                        //concretement quand on fait discretizedData.get(i) i:fait reference au numero de  la colonne.
+
+
+
+
+                        //////// USAGE OF NB, CONFUSION MATRIX AND ACCURACY////////////
+
+                        ArrayList<ArrayList<ArrayList<String>>> totalnb = new ArrayList();
+
+                        ArrayList<Double> predictions = new ArrayList<Double>();
+                        ArrayList<ArrayList<String>> train;
+                        ArrayList<ArrayList<String>> test ;
+                        ArrayList<String> yTrain  = new ArrayList<String>();
+                        ArrayList<String > yTest = new ArrayList<String>();
+
+                        totalnb = splitNormalizedData(discretizedData);
+
+
+
+                        train = totalnb.get(0);
+                        System.out.println(train.get(0));
+
+                        // get xtrainset and yTrainset
+                        train = totalnb.get(0);
+                        for (int i=0; i<train.size();i++)
+                        {
+                                yTrain.add(train.get(i).get(7));
+                        }
+
+                        // get xtestset and yTestset
+                        test  = totalnb.get(1);
+                        for (int i=0; i<test.size();i++)
+                        {
+                                yTest.add(test.get(i).get(7));
+                        }
+
+                        predictions = th_naiveBayes(train,test);
+                        int[][] mat = getConfusion_Matrix(predictions, yTest);
+
+
+                        //TODO: display the matrix
+                        //this.confusion_mat
+                        for (int i =0; i<3;i++)
+                        {
+                                String[] row = new String[7];
+                                for(int j=0; j<7; j++){
+                                        if ( j < 3 ) {
+                                                row[j] = String.valueOf(mat[i][j]);
+                                        }else{
+                                                row[j] = String.valueOf("");
+                                        }
+                                }
+                                this.confusion_mat.getItems().add(new Condidate(row) ) ;
+
+                        }
+
+                        float sensitiv = ( sensitivity(1, mat) + sensitivity(2,mat) + sensitivity(3,mat ) ) /3;
+                        allMetrics.add(sensitiv) ;
+                        for (int i = 1; i < 4 ; i++) {
+                                allMetrics.add(sensitivity(i, mat));
+                        }
+
+
+                        float specific = ( specificity(1, mat) + specificity(2,mat) + specificity(3,mat ) ) /3;
+                        allMetrics.add(specific) ;
+                        for (int i = 1; i < 4 ; i++) {
+                                allMetrics.add(specificity(i, mat));
+                        }
+
+                        float   acc = ( accuracy(1, mat) + accuracy(2,mat) + accuracy(3,mat ) ) /3;
+                        allMetrics.add(acc) ;
+                        for (int i = 1; i < 4 ; i++) {
+                                allMetrics.add(accuracy(i, mat));
+                        }
+
+                        float precisio  = ( precision(1, mat) + precision(2,mat) + precision(3,mat ) ) /3;
+                        allMetrics.add(precisio) ;
+                        for (int i = 1; i < 4 ; i++) {
+                                allMetrics.add(precision(i, mat));
+                        }
+
+
+
+
+                        float reca = ( recall(1, mat) + recall(2,mat) + recall(3,mat ) ) /3;
+                        allMetrics.add(reca);
+                        for (int i = 1; i < 4 ; i++) {
+                                allMetrics.add(recall(i, mat));
+                        }
+
+
+                        float fsco = ( fScore(1, mat) + fScore(2,mat) + fScore(3,mat ) ) /3;
+                        allMetrics.add(fsco);
+                        for (int i = 1; i < 4 ; i++) {
+                                allMetrics.add(fScore(i, mat));
+                        }
                 }
 
                 // display the measures (les colonnes!)
                 String [] labels = {"Sensitivity", "Specificity", "Accuracy", "Precision", "Recall", "F-Score"};
+                int k =0;
                 for (int i = 0; i < 7 ; i++) {
                         String[] raw = new String[7];
                         raw[0] = labels[i];
                         for (int j = 1; j < 7; j++) {
                                 if(j < 5){
-                                        raw[j] = String.valueOf(acc);
+                                        raw[j] = String.valueOf(allMetrics.get(k));
+                                        k++;
 
                                 }else{
                                         raw[j] = "";
@@ -225,14 +352,19 @@ public class BayesKnn  implements Initializable {
         }
 
         private void addDatasetToTable(String filePath){
-                ArrayList<Double[]> matrix;
-                try {
-                        matrix = MainFct.readFile(filePath);
-                        data = matrix;
-                        this.addDataToTable(matrix);
+                data =  AprioriEclat.data;
+                if (AprioriEclat.discretizedData != null){
+                        discretizedData = AprioriEclat.discretizedData;
+                        this.addDiscretizedDataToTable(discretizedData);
+                }
+               else{
+                        if (AprioriEclat.normalizedData == null){
+                                data =  AprioriEclat.data;
+                        }else{
+                                data = AprioriEclat.normalizedData ;
 
-                } catch (Exception e) {
-                        e.printStackTrace();
+                        }
+                        this.addDataToTable(data);
                 }
         }
 
@@ -264,7 +396,47 @@ public class BayesKnn  implements Initializable {
                 }
         }
 
+        public void addDiscretizedDataToTable(ArrayList<ArrayList<String>> matrix){
+                ArrayList<String[]> transposedData = this.transposeData(matrix);
+                this.datasetTable.getItems().clear();
+                int i = 1;
+                String className = "";
+                for (String[] data: transposedData) {
+                        if (data[data.length - 1].equals("1"))
+                                className = "Kama";
+                        if (data[data.length - 1].equals("2"))
+                                className = "Rosa";
+                        if (data[data.length - 1].equals("3"))
+                                className = "Canadian";
+                        Instance instance = new Instance(
+                                i,
+                                data[0],
+                                data[1],
+                                data[2],
+                                data[3],
+                                data[4],
+                                data[5],
+                                data[6],
+                                className
+                        );
+                        i += 1;
+                        this.datasetTable.refresh();
+                        this.datasetTable.getItems().add(instance);
+                }
+        }
 
+        public ArrayList<String[]> transposeData(ArrayList<ArrayList<String>> data){
+                ArrayList<String[]> new_data = new ArrayList<>();
+                for (int i = 0; i < data.get(0).size(); i++) {
+                        ArrayList<String> tempItemset = new ArrayList<>();
+                        String[] tmpArray = new String[data.size()];
+                        for (int j = 0; j < data.size(); j++) {
+                                tempItemset.add(data.get(j).get(i));
+                        }
+                        new_data.add(tempItemset.toArray(tmpArray));
+                }
+                return new_data;
+        }
 
         @Override
         public void initialize(URL location, ResourceBundle resources) {
