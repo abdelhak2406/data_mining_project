@@ -21,7 +21,7 @@
                 <Button fx:id="btn_home" layoutX="4.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToHomeWin" prefHeight="25.0" prefWidth="91.0" styleClass=".menu-btn" text="Home" />
                 <Button fx:id="btn_dashboard" layoutX="106.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToDashboardWin" prefHeight="25.0" prefWidth="91.0" styleClass=".menu-btn" text="Dashboard" />
                 <Button fx:id="btn_pretraitement" layoutX="207.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" styleClass=".menu-btn" text="prétraitement" />
-            <Button fx:id="btn_algos" layoutX="320.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToAlgoWin" prefHeight="25.0" prefWidth="103.0" styleClass=".menu-btn" text="algos" />
+                <Button fx:id="btn_algos" layoutX="320.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToAlgoWin" prefHeight="25.0" prefWidth="103.0" styleClass=".menu-btn" text="algos" />
             </children>
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #FFFFFC;">
@@ -39,38 +39,38 @@
                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="134.0" layoutX="440.0" layoutY="14.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="210.0" />
                 <Button fx:id="btn_reset" layoutX="552.0" layoutY="106.0" mnemonicParsing="false" onAction="#resetTable" prefHeight="32.0" prefWidth="80.0" styleClass="btn_reset" text="Reset" />
                 <Button fx:id="normalize_btn" layoutX="451.0" layoutY="106.0" mnemonicParsing="false" onAction="#normalizeData" prefHeight="32.0" prefWidth="80.0" text="Normaliser" />
-            <RadioButton fx:id="min_max_radio" layoutX="473.0" layoutY="52.0" mnemonicParsing="false" onAction="#minMaxNormalizationSelected" text="Min-max normalisation" />
-            <RadioButton fx:id="z_score_radio" layoutX="473.0" layoutY="73.0" mnemonicParsing="false" onAction="#zScoreNormalizationSelected" text="Z-score normalisation" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="257.0" layoutX="6.0" layoutY="16.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="429.0" />
+                <RadioButton fx:id="min_max_radio" layoutX="473.0" layoutY="52.0" mnemonicParsing="false" onAction="#minMaxNormalizationSelected" text="Min-max normalisation" />
+                <RadioButton fx:id="z_score_radio" layoutX="473.0" layoutY="73.0" mnemonicParsing="false" onAction="#zScoreNormalizationSelected" text="Z-score normalisation" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="257.0" layoutX="6.0" layoutY="16.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="429.0" />
                 <Text layoutX="14.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Apriori">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Text>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="257.0" layoutX="6.0" layoutY="277.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="429.0" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="257.0" layoutX="6.0" layoutY="277.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="429.0" />
                 <Button fx:id="run_apriori_btn" layoutX="335.0" layoutY="21.0" mnemonicParsing="false" onAction="#runApriori" prefHeight="17.0" prefWidth="91.0" styleClass="btn_add" text="Exécuter" />
                 <TableView fx:id="apriori_condidates_table" layoutX="14.0" layoutY="70.0" prefHeight="198.0" prefWidth="210.0">
                     <columns>
                     </columns>
                 </TableView>
-            <Text layoutX="505.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Normalisation">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Text>
-            <TableView fx:id="apriori_result_table" layoutX="227.0" layoutY="70.0" prefHeight="198.0" prefWidth="199.0">
-              <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
-              </columns>
-            </TableView>
-            <Text layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste des items conditats:" />
-            <Text layoutX="228.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Résultat final:" />
-            <Text layoutX="14.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Eclat">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Text>
+                <Text layoutX="505.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Normalisation">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Text>
+                <TableView fx:id="apriori_result_table" layoutX="227.0" layoutY="70.0" prefHeight="198.0" prefWidth="199.0">
+                    <columns>
+                        <TableColumn prefWidth="75.0" text="C1" />
+                        <TableColumn prefWidth="75.0" text="C2" />
+                    </columns>
+                </TableView>
+                <Text layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste des items conditats:" />
+                <Text layoutX="228.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Résultat final:" />
+                <Text layoutX="14.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Eclat">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Text>
                 <Button fx:id="run_eclat_btn" layoutX="335.0" layoutY="283.0" mnemonicParsing="false" onAction="#runEclat" prefHeight="17.0" prefWidth="91.0" styleClass="btn_add" text="Exécuter" />
                 <TableView fx:id="eclat_condidates_table" layoutX="14.0" layoutY="332.0" prefHeight="198.0" prefWidth="210.0">
                     <columns>
@@ -84,32 +84,41 @@
                 </TableView>
                 <Text layoutX="14.0" layoutY="328.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste des items conditats:" />
                 <Text layoutX="229.0" layoutY="328.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Résultat final:" />
-            <Spinner fx:id="eclat_support_spinner" editable="true" initialValue="0" layoutX="261.0" layoutY="283.0" max="100" min="0" prefHeight="25.0" prefWidth="63.0" />
-            <Text layoutX="208.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Support :" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="257.0" layoutX="656.0" layoutY="14.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="340.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="117.0" layoutX="440.0" layoutY="154.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="210.0" />
-            <Text layoutX="505.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Discrétisation">
+                <Spinner fx:id="eclat_support_spinner" editable="true" initialValue="0" layoutX="261.0" layoutY="283.0" max="100" min="0" prefHeight="25.0" prefWidth="63.0" />
+                <Text layoutX="208.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Support :" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="257.0" layoutX="656.0" layoutY="14.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="340.0" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="117.0" layoutX="440.0" layoutY="154.0" stroke="#d7d7d7" strokeLineCap="ROUND" strokeType="INSIDE" width="210.0" />
+                <Text layoutX="505.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Discrétisation">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Text>
+                <Button fx:id="discretize_btn" layoutX="451.0" layoutY="230.0" mnemonicParsing="false" onAction="#discretizeData" prefHeight="32.0" prefWidth="80.0" text="Discrétiser" />
+                <Button fx:id="btn_reset1" layoutX="552.0" layoutY="230.0" mnemonicParsing="false" onAction="#resetTable" prefHeight="32.0" prefWidth="80.0" styleClass="btn_reset" text="Reset" />
+                <Text layoutX="464.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Q :" />
+                <Text layoutX="767.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Extraction des règles">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Text>
+                <TextField fx:id="discretization_q_field" layoutX="492.0" layoutY="190.0" prefHeight="25.0" prefWidth="40.0" />
+                <RadioButton fx:id="effective_discretization_radio" layoutX="556.0" layoutY="204.0" mnemonicParsing="false" onAction="#effectiveDiscretizationSelected" text="Effective" />
+                <RadioButton fx:id="equal_discretization_radio" layoutX="556.0" layoutY="183.0" mnemonicParsing="false" onAction="#equalDiscretizationSelected" text="Egale" />
+                <Spinner fx:id="apriori_support_spinner" editable="true" initialValue="0" layoutX="259.0" layoutY="20.0" max="100" min="0" prefHeight="25.0" prefWidth="63.0" />
+                <Text layoutX="201.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Support :" />
+                <Spinner fx:id="conf_spinner" editable="true" initialValue="0" layoutX="747.0" layoutY="46.0" max="100" min="0" prefHeight="25.0" prefWidth="81.0" />
+                <Text layoutX="680.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="min_conf:" />
+                <Button fx:id="run_ruleext_btn" layoutX="845.0" layoutY="47.0" mnemonicParsing="false" onAction="#runRule_extraction" prefHeight="17.0" prefWidth="91.0" styleClass="btn_add" text="Exécuter" />
+                <TextArea fx:id="extracted_rules_area" layoutX="667.0" layoutY="73.0" prefHeight="85.0" prefWidth="319.0" />
+            <Text layoutX="738.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="règles positivement corélées ">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Text>
-            <Button fx:id="discretize_btn" layoutX="451.0" layoutY="230.0" mnemonicParsing="false" onAction="#discretizeData" prefHeight="32.0" prefWidth="80.0" text="Discrétiser" />
-            <Button fx:id="btn_reset1" layoutX="552.0" layoutY="230.0" mnemonicParsing="false" onAction="#resetTable" prefHeight="32.0" prefWidth="80.0" styleClass="btn_reset" text="Reset" />
-            <Text layoutX="464.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Q :" />
-            <Text layoutX="767.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-title" text="Extraction des règles">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Text>
-            <TextField fx:id="discretization_q_field" layoutX="492.0" layoutY="190.0" prefHeight="25.0" prefWidth="40.0" />
-            <RadioButton fx:id="effective_discretization_radio" layoutX="556.0" layoutY="204.0" mnemonicParsing="false" onAction="#effectiveDiscretizationSelected" text="Effective" />
-            <RadioButton fx:id="equal_discretization_radio" layoutX="556.0" layoutY="183.0" mnemonicParsing="false" onAction="#equalDiscretizationSelected" text="Egale" />
-            <Spinner fx:id="apriori_support_spinner" editable="true" initialValue="0" layoutX="259.0" layoutY="20.0" max="100" min="0" prefHeight="25.0" prefWidth="63.0" />
-            <Text layoutX="201.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Support :" />
-            <Spinner fx:id="conf_spinner" editable="true" initialValue="0" layoutX="752.0" layoutY="61.0" max="100" min="0" prefHeight="25.0" prefWidth="63.0" />
-            <Text layoutX="693.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="min_conf:" />
-            <Button fx:id="run_ruleext_btn" layoutX="873.0" layoutY="61.0" mnemonicParsing="false" onAction="#runRule_extraction" prefHeight="17.0" prefWidth="91.0" styleClass="btn_add" text="Exécuter" />
-            <TextArea fx:id="extracted_rules_area" layoutX="667.0" layoutY="102.0" prefHeight="163.0" prefWidth="319.0" />
+            <Spinner fx:id="suppMin_spinner" editable="true" initialValue="0" layoutX="752.0" layoutY="183.0" max="100" min="0" prefHeight="25.0" prefWidth="80.0" />
+            <Text layoutX="683.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Supp min:" />
+            <Button fx:id="runPositiveCorrelation_btn" layoutX="867.0" layoutY="183.0" mnemonicParsing="false" onAction="#runPositiveCorrelation" prefHeight="17.0" prefWidth="91.0" styleClass="btn_add" text="Exécuter" />
+            <TextArea fx:id="PositiveCorrelation_area" layoutX="667.0" layoutY="216.0" prefHeight="46.0" prefWidth="319.0" />
             </children>
         </AnchorPane>
     </items>

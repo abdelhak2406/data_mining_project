@@ -43,8 +43,11 @@ public class AprioriEclat implements Initializable {
     public Spinner<Integer> apriori_support_spinner = new Spinner<>();
     public Spinner<Integer> eclat_support_spinner = new Spinner<>();
     public Spinner<Integer> conf_spinner= new Spinner<>();
+    public Spinner<Integer> suppMin_spinner= new Spinner<>();
     public TextField discretization_q_field = new TextField();
     public TextArea extracted_rules_area= new TextArea();
+    public TextArea PositiveCorrelation_area= new TextArea();
+
 
 
 
@@ -383,6 +386,31 @@ public class AprioriEclat implements Initializable {
         extracted_rules_area.setText(rules_string);
     }
 
+    public void runPositiveCorrelation(ActionEvent event) throws Exception {
+
+        data = MainFct.readFile(filePath);
+        int discretizationType = 1;
+        if (this.effective_discretization_radio.selectedProperty().get()){
+            discretizationType = 2;
+        }
+        Eclat eclat = new Eclat(data, this.suppMin_spinner.getValue(), Integer.parseInt(this.discretization_q_field.getText()), discretizationType);
+        eclat.executEclat();
+        ArrayList<String[]> a = eclat.possitiveCorélée();
+
+        String s=" ";
+        int i,j;
+        for (i = 0; i < a.size(); i++) {
+            s+="Rule : ";
+            for (j = 0; j < a.get(i).length; j++) {
+
+                s+=a.get(i)[j];
+                s+=" ";
+
+            }
+        }
+        PositiveCorrelation_area.setText(s);
+    }
+
     public void runEclat(ActionEvent event){
         if (data != null){
             // if discretizationType = 1 we use equal discretization else we use effective discretization
@@ -524,6 +552,7 @@ public class AprioriEclat implements Initializable {
 
 
     }
+
 
     //Useful but in general useless functions
     public ArrayList<String[]> transposeData(ArrayList<ArrayList<String>> data){

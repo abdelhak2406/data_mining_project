@@ -111,7 +111,7 @@ public class Eclat {
                 return  listItems;
         }
 
-        public int calculateSupport(ArrayList<Boolean> listDoc){
+        public  int calculateSupport(ArrayList<Boolean> listDoc){
                 /**
                  * Calculer support pour L1
                  */
@@ -364,9 +364,110 @@ public class Eclat {
                 return  subsets;
         }
 
+        //-----------------------------------Correlation Rule-------------------------------
+
+        public Integer support( String itemKey ,  ArrayList<Boolean> itemValue  ) {
+                //use support of Eclat
+                return calculateSupport(itemValue);
+        }
+        public Integer supportUnion(String keyA ,  ArrayList<Boolean> valueA , String keyB ,  ArrayList<Boolean> valueB){
+                //get support A using  Eclat
+                Integer sa= support(keyA ,valueA);
+                Integer sb= support(keyB ,valueB);
+
+                // create l'union
+                //calculte its union
+                String [] candidat = {keyA , keyB};
+                HashMap< String, ArrayList<Boolean>> mat = new HashMap<>();
+                mat.put(keyA,valueA);
+                mat.put(keyB,valueB);
+                Integer sab = calculSupportNCandidats( mat ,candidat);
+
+                return sab;
+        }
+        public double lift(String keyA ,  ArrayList<Boolean> valueA , String keyB ,  ArrayList<Boolean> valueB){
+                if(support(keyA,valueA)!= 0 && support(keyB,valueB) != 0)
+                {
+                        return (float) supportUnion(keyA,valueA,keyB,valueB)/support(keyA,valueA);
+                }else return 0.0;
+        }
+
+        public ArrayList<Double> liftL2(){
+                int i , j=0;
+                List<String[]> L2 = new ArrayList<>();
+                for(i=0;i<frequentItemsList.size();i++){
+
+                        if((frequentItemsList.get(i).length) == (2)){
+
+                                L2.add(j,frequentItemsList.get(i));
+                                j++;
+                        }
+                }
+                System.out.println(L2 );
+                HashMap<String, ArrayList<Boolean>> L2ItemFreq = new HashMap<>();
+                HashMap< String, ArrayList<Boolean>> verticalMat = getVerticalMat();
+
+
+                ArrayList<Double> liftResult = new ArrayList<>();
+
+                for(String [] list : L2){
+                        for (Map.Entry<String, ArrayList<Boolean>> item : verticalMat.entrySet()) {
+                                if(list[0].equals(item.getKey()))  {L2ItemFreq.put(item.getKey(),item.getValue());}
+                                if(list[1].equals(item.getKey()))  {L2ItemFreq.put(item.getKey(),item.getValue());}
+                        }}
+
+                for(String [] list : L2){
+                        String keyA = list[0];String keyB = list[1];
+                        ArrayList<Boolean> valueA= L2ItemFreq.get(keyA);ArrayList<Boolean> valueB= L2ItemFreq.get(keyB);
+                        liftResult.add(lift(keyA,valueA,keyB,valueB));
+                }
+                System.out.println(liftResult);
+                return liftResult;
+        }
+        public ArrayList<String []> possitiveCorélée(){
+                int i,j=0;
+
+                List<String[]> L2 = new ArrayList<>();
+                for(i=0;i<frequentItemsList.size();i++){
+                        if((frequentItemsList.get(i).length) == (2)){
+                                L2.add(j,frequentItemsList.get(i));
+                                j++;
+                        }
+                }
+                ArrayList<Double> liftResult = liftL2();
+                ArrayList<String[]> possitiveCorélée = new ArrayList<>();
+                j=0;
+                for(i=0;i<liftResult.size();i++){
+                        if(liftResult.get(i)>=1){possitiveCorélée.add(j,L2.get(i)); System.out.println(L2.get(i)); j++;}
+                }
+
+                return possitiveCorélée;
+        }
+        public ArrayList<String []> NegativeCorélée(){
+                int i,j=0;
+                ArrayList<Double> liftResult = liftL2();
+                ArrayList<String []> NegativeCorélée = new ArrayList<>();
+
+                List<String[]> L2 = new ArrayList<>();
+                for(i=0;i<frequentItemsList.size();i++){
+                        if((frequentItemsList.get(i).length) == (2)){
+                                L2.add(j,frequentItemsList.get(i));
+                                j++;
+                        }
+                }
+                j=0;
+                for(i=0;i<liftResult.size();i++){
+                        if(liftResult.get(i)<1){NegativeCorélée.add(j,L2.get(i)); j++;}
+                }
+                return NegativeCorélée;
+        }
+
+
+
+
         public static void main(String[] args) throws Exception {
                 //TODO: maybe add the 8th column if needed
-                ArrayList<Double[]> data = MainFct.readFile("datasets/seeds_dataset.txt");
+                ArrayList<Double[]> data = MainFct.readFile("C:\\Users\\User\\Desktop\\M2-S3\\Data Mining\\Project\\test\\last-version\\src\\app\\functions\\seeds_dataset.txt");
                 Eclat eclat = new Eclat(data, 20);
                 eclat.executEclat();
                 System.out.println("--------------------------------------------");
@@ -401,7 +502,13 @@ public class Eclat {
                 }
                 */
                 //-----------------------
+                ArrayList<String[]> a = eclat.possitiveCorélée();
+                ArrayList<String[]> b = eclat.NegativeCorélée();
+                int i,j;
+                for (i = 0; i < a.size(); i++) {
+                        for (j = 0; j < a.get(i).length; j++) {
+                                System.out.println("a = " + a.get(i)[j]);
+                        }}
 
+                }
         }
-
-}
