@@ -166,7 +166,7 @@ public class NaiveBays {
                 System.out.println("FP : "+fp);
                 System.out.println("FN : "+fn);
 
-                sens = (float)(tp)/ tp + fn;
+                sens = (float)(tp)/ (tp + fn);
                 return sens;
 
         }
@@ -203,7 +203,7 @@ public class NaiveBays {
                 System.out.println("FP : "+fp);
                 System.out.println("FN : "+fn);
 
-                sens = (float)(tp)/ tp + fp;
+                sens = (float)(tp)/ (tp + fp);
                 return sens;
 
         }
@@ -240,7 +240,7 @@ public class NaiveBays {
                 System.out.println("FP : "+fp);
                 System.out.println("FN : "+fn);
 
-                sens = (float)(tn)/ fp + tn;
+                sens = (float)(tn)/ (fp + tn);
                 return sens;
 
         }
@@ -277,7 +277,7 @@ public class NaiveBays {
                 System.out.println("FP : "+fp);
                 System.out.println("FN : "+fn);
 
-                sens = (float)(tp)/ tp + fn;
+                sens = (float)(tp)/ (tp + fn);
                 return sens;
 
         }
@@ -324,7 +324,7 @@ public class NaiveBays {
                  * ect
                  * dont forget to change the name from mainTest to main to run it.
                  */
-                ArrayList<Double[]> data= MainFct.readFile("datasets/seeds_dataset.txt");
+                ArrayList<Double[]> data= MainFct.readFile("datasets/seeds.txt");
                 ArrayList<Double> columnInDataset = new ArrayList();
                 ArrayList<String> y = new ArrayList();
                 Double[] instance = {};
