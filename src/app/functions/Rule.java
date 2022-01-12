@@ -16,10 +16,9 @@ public class Rule {
 
         @Override
         public String toString() {
-                return "Rule{" +
-                        "antecedent=" + antecedent +
-                        ", consequent=" + consequent +
-                        ", confiance="+ confiance+
-                        '}';
+                return
+                        "antcdnt=" + antecedent +
+                        ", cnsqt=" + consequent +
+                        ", confiance="+ confiance;
         }
 }

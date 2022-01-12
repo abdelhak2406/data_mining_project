@@ -7,6 +7,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
@@ -105,6 +106,10 @@
             <RadioButton fx:id="equal_discretization_radio" layoutX="556.0" layoutY="183.0" mnemonicParsing="false" onAction="#equalDiscretizationSelected" text="Egale" />
             <Spinner fx:id="apriori_support_spinner" editable="true" initialValue="0" layoutX="259.0" layoutY="20.0" max="100" min="0" prefHeight="25.0" prefWidth="63.0" />
             <Text layoutX="201.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Support :" />
+            <Spinner fx:id="conf_spinner" editable="true" initialValue="0" layoutX="752.0" layoutY="61.0" max="100" min="0" prefHeight="25.0" prefWidth="63.0" />
+            <Text layoutX="693.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="min_conf:" />
+            <Button fx:id="run_ruleext_btn" layoutX="873.0" layoutY="61.0" mnemonicParsing="false" onAction="#runRule_extraction" prefHeight="17.0" prefWidth="91.0" styleClass="btn_add" text="Exécuter" />
+            <TextArea fx:id="extracted_rules_area" layoutX="667.0" layoutY="102.0" prefHeight="163.0" prefWidth="319.0" />
             </children>
         </AnchorPane>
     </items>

@@ -20,12 +20,10 @@ public class Extraction_regles {
                 for (int i = 0; i < itemsets.size(); i++) {
                         if (itemsets.get(i).length>=2){
                                 ArrayList<ArrayList<String>> arrays= subArray(itemsets.get(i));
-                                System.out.println(arrays);
                                 ArrayList<Rule> initial_rules=get_initial_rules(arrays);
                                 for (Rule rule : initial_rules){
                                         Double down=Double.valueOf(get_support_antecedent(rule));
                                         Double up=Double.valueOf(get_support_antecedent_consequent(rule));
-                                        System.out.println(up+" /  " +down);
                                         rule.confiance= up/down;
                                         if (rule.confiance*100>=minconf){
                                                 final_rules.add(rule);

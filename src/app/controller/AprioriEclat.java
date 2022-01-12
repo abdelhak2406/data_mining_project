@@ -3,9 +3,7 @@ package app.controller;
 import app.Condidate;
 import app.Instance;
 import app.Utilities;
-import app.functions.Apriori;
-import app.functions.Eclat;
-import app.functions.MainFct;
+import app.functions.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -44,7 +42,9 @@ public class AprioriEclat implements Initializable {
     @FXML
     public Spinner<Integer> apriori_support_spinner = new Spinner<>();
     public Spinner<Integer> eclat_support_spinner = new Spinner<>();
+    public Spinner<Integer> conf_spinner= new Spinner<>();
     public TextField discretization_q_field = new TextField();
+    public TextArea extracted_rules_area= new TextArea();
 
 
 
@@ -53,6 +53,7 @@ public class AprioriEclat implements Initializable {
     public static ArrayList<Double[]> data = null;
     public static ArrayList<Double[]> normalizedData = null;
     public static ArrayList<ArrayList<String>> discretizedData = null;
+    public static ArrayList<String[]> items= null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -243,6 +244,7 @@ public class AprioriEclat implements Initializable {
 
             this.addDataToAprioriCondidates(condidatesList);
             this.addDataToAprioriFrequentItems(frequentItems);
+            items=frequentItems;
         }
 
     }
@@ -370,6 +372,17 @@ public class AprioriEclat implements Initializable {
 
     }
 
+    public void runRule_extraction(ActionEvent event){
+        Extraction_regles ex_instance= new Extraction_regles(data, conf_spinner.getValue(), items);
+        ArrayList<Rule> rules = ex_instance.rule_extraction();
+
+        String rules_string="";
+        for (Rule rule: rules){
+            rules_string+=rule+"\n";
+        }
+        extracted_rules_area.setText(rules_string);
+    }
+
     public void runEclat(ActionEvent event){
         if (data != null){
             // if discretizationType = 1 we use equal discretization else we use effective discretization
@@ -385,6 +398,7 @@ public class AprioriEclat implements Initializable {
 
             this.addDataToEclatCondidates(condidatesList);
             this.addDataToEclatFrequentItems(frequentItems);
+            items=frequentItems;
         }
     }
 
