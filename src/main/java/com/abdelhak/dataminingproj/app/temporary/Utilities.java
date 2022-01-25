@@ -1,4 +1,4 @@
-package com.abdelhak.dataminingproj.app;
+package com.abdelhak.dataminingproj.app.temporary;
 
 import app.functions.MainFct;
 import javafx.beans.value.ChangeListener;

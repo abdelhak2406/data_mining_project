@@ -1,4 +1,4 @@
-package com.abdelhak.dataminingproj.app;
+package com.abdelhak.dataminingproj.app.temporary;
 
 public class Instance {
         public int id;

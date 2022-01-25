@@ -1,8 +1,8 @@
-package com.abdelhak.dataminingproj.app.controller;
+package com.abdelhak.dataminingproj.controller;
 
-import com.abdelhak.dataminingproj.app.Tendances_centrales;
-import com.abdelhak.dataminingproj.app.Tendances_dispersion;
-import com.abdelhak.dataminingproj.app.Utilities;
+import com.abdelhak.dataminingproj.app.temporary.Tendances_centrales;
+import com.abdelhak.dataminingproj.app.temporary.Tendances_dispersion;
+import com.abdelhak.dataminingproj.app.temporary.Utilities;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import app.functions.MainFct;

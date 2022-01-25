@@ -1,9 +1,9 @@
-package com.abdelhak.dataminingproj.app.controller;
+package com.abdelhak.dataminingproj.controller;
 
 import app.functions.MainFct;
 import app.Field;
-import com.abdelhak.dataminingproj.app.Instance;
-import com.abdelhak.dataminingproj.app.Utilities;
+import com.abdelhak.dataminingproj.app.temporary.Instance;
+import com.abdelhak.dataminingproj.app.temporary.Utilities;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,8 +22,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-
-import static com.abdelhak.dataminingproj.app.Utilities.acceptOnlyNumbersTextField;
 
 
 public class MainWindowController implements Initializable {

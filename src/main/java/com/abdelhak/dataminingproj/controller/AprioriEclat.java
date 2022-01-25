@@ -1,8 +1,8 @@
-package com.abdelhak.dataminingproj.app.controller;
+package com.abdelhak.dataminingproj.controller;
 
-import com.abdelhak.dataminingproj.app.Condidate;
-import com.abdelhak.dataminingproj.app.Instance;
-import com.abdelhak.dataminingproj.app.Utilities;
+import com.abdelhak.dataminingproj.app.temporary.Condidate;
+import com.abdelhak.dataminingproj.app.temporary.Instance;
+import com.abdelhak.dataminingproj.app.temporary.Utilities;
 import app.functions.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

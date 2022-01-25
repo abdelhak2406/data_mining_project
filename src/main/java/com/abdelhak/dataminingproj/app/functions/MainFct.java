@@ -1,6 +1,6 @@
 package com.abdelhak.dataminingproj.app.functions;
 
-import com.abdelhak.dataminingproj.app.controller.MainWindowController;
+import com.abdelhak.dataminingproj.controller.MainWindowController;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
