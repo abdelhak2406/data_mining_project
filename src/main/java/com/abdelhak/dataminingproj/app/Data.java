@@ -1,15 +1,14 @@
 package com.abdelhak.dataminingproj.app;
 
-import com.abdelhak.dataminingproj.controller.MainWindowController;
 
+import  org.apache.commons.io.FilenameUtils;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Data {
          public ArrayList<ArrayList<Double>> dataset ;
 
-        Data(String path) throws Exception {
+        public Data(String path) throws Exception {
                 this.dataset  =this.readData(path);
         }
 
@@ -26,7 +25,7 @@ public class Data {
                 String line = reader.readLine();
                 while (line != null) {
                         String[] line_table;
-                        if (MainWindowController.fileExtension.equals("txt")) {
+                        if (FilenameUtils.getExtension(path).equals("txt")){
                                 line_table = line.split("\t+");
                         } else {
                                 line_table = line.split(",");
