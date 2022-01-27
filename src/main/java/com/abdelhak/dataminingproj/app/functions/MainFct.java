@@ -414,7 +414,6 @@ public class MainFct {
                  * @return Double, the quartile value
                  */
                 double result = 0;
-                ;
                 //////////////////Not Getting the right column
                 Double[] mycol = new Double[data.size()];
                 int i;
