@@ -1,14 +1,18 @@
 # data_mining_project
 
+# Run 
 
-## Dependecies
+## 1.Using intellij
 
-- Java version 14
-- JavaFx version 16
-    - download [here] (https://gluonhq.com/products/javafx/)
-    - add VM Option as mentionned [here] (https://openjfx.io/openjfx-docs/)
-      Note that we are using intellij, the process might be different for another IDE
-    - Add to modules in the project structure in intellij `alt+ctrl+shift+s` to acess
-- jfreeshart 
-    - the jar is in the depend directory, just add it to the libraries in intellij.
-    
+- if you open the project using intellij, it will do everything for you .
+
+## 2.Terminal
+
+### Linux/Mac
+```bash
+.\gradlew build
+```
+### Windows
+```dos
+gradlew build
+```
