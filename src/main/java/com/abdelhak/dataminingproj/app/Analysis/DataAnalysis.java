@@ -51,7 +51,7 @@ public class DataAnalysis {
                  *
                  */
 
-                ArrayList<Double> column = data.getColumn(colNum);
+                ArrayList<Double> column = this.data.getColumn(colNum);
                 Collections.sort(column);
                 if(column.size() % 2 == 1 ){
                         return column.get(column.size() / 2);
@@ -80,6 +80,7 @@ public class DataAnalysis {
                 }
                 return max;
         }
+
         public ArrayList<Double> getMode(int colNum){
                 /* TODO:test!
                  *
@@ -122,7 +123,7 @@ public class DataAnalysis {
 
         public  Double getMidRange(int colNum){
 
-                ArrayList<Double> column = data.getColumn(colNum);
+                ArrayList<Double> column = this.data.getColumn(colNum);
                 Collections.sort(column);
 
                 double max = column.get(column.size() - 1);
@@ -170,21 +171,20 @@ public class DataAnalysis {
                  * get the Q1 Q2 and Q3 quartiles
                  * toujours arondir a la valeur entiere superieur!
                  */
-                ArrayList<Double> sorted = data.getColumn(colNum);
+                ArrayList<Double> dataColumn = this.data.getColumn(colNum);
                 ArrayList<Double> quartileList = new ArrayList<>();
-                Collections.sort(sorted);
-                double result = 0;
-                int i, index;
-                int size = sorted.size();
+                Collections.sort(dataColumn);
+                int  index;
+                int size = dataColumn.size();
 
                 //Q1
                 if (size % 4==0){//pas de reste de division
                         index = size / 4;
                         //-1 because we start from the index 0!
-                        quartileList.add(sorted.get(index) -1) ;
+                        quartileList.add(dataColumn.get(index) -1) ;
                 }else{
-                        index = Integer.parseInt(String.valueOf(size / 4)) ;
-                        quartileList.add(sorted.get(index))  ;
+                        index = size / 4  ;//we will only get the int part.
+                        quartileList.add(dataColumn.get(index))  ;
                 }
                 //Q2
                 quartileList.add(this.getMedian(colNum) );
@@ -192,13 +192,13 @@ public class DataAnalysis {
                 if ( ( (size*3) % 4 ) == 0 ) {//pas de reste de division
                         index = size / 4;
                         //-1 because we start from the index 0!
-                        quartileList.add(sorted.get(index) -1) ;
+                        quartileList.add(dataColumn.get(index) -1) ;
                 }else{
-                        index = Integer.parseInt(String.valueOf( (size*3) / 4 )) ;
-                        quartileList.add(sorted.get(index))  ;
+                        index = (size*3) / 4  ;
+                        quartileList.add(dataColumn.get(index))  ;
                 }
 
-                /*
+                /* youcef's implementation!
                 int taille = sorted.size(), index;
                         index = taille / 4;
                         System.out.println("index = " + index);
@@ -232,46 +232,112 @@ public class DataAnalysis {
                 return quartileList;
         }
 
-        getOutliers(){
-
+        public ArrayList<Double> getOutliers(int colNum){
+                /*TODO: test
+                 * @return all the outlier values of the @param colNum
+                 */
+                ArrayList<Double> column = this.data.getColumn(colNum);
+                ArrayList<Double> outliersList = new ArrayList<>();
+                Collections.sort(column);
+                ArrayList<Double> quartiList = this.getQuartiles(colNum);
+                double iqr = this.getIqr(colNum);
+                double lowLimit = quartiList.get(0) - (1.5 * iqr) ;
+                double highLimit = quartiList.get(2) + (1.5 * iqr) ;
+                int i = 0;
+                //low values!
+                while ( (i < column.size()) && (column.get(i) < lowLimit ) ){
+                        outliersList.add(column.get(i));
+                        i++;
+                }
+                // high values!
+                i = column.size() - 1;
+                while ( (i >= 0) && (column.get(i) > highLimit) ){
+                        outliersList.add(column.get(i));
+                        i--;
+                }
+                return outliersList;
         }
 
-        getRange(){
-                /** Etenque
+        public Double getRange(int colNum){
+                /* Etendue
                  *
                  */
-
+                ArrayList<Double>column = this.data.getColumn(colNum);
+                Collections.sort(column);
+                return ( column.get(column.size() - 1 ) - column.get(0) );
         }
 
-        getFiveNumbers(){
-
+        public ArrayList<Double> getFiveNumbers(int colNum){
+                /*
+                 * get the five numbers (Min, Q1, Q2, Q3, Max)
+                 */
+                ArrayList<Double> fiveNum = new ArrayList<>();
+                ArrayList<Double> column = this.data.getColumn(colNum);
+                ArrayList<Double> quartiList = this.getQuartiles(colNum);
+                Collections.sort(column);
+                fiveNum.add(column.get(0));
+                fiveNum.addAll(quartiList);
+                fiveNum.add( column.get( column.size() - 1 ) );
+                return  fiveNum;
         }
 
         public  Double getIqr(int colNum){
-               ArrayList<Double> quartiList = getQuartiles(colNum) ;
+                /*Ecart interquartile
+                 *
+                 */
+                ArrayList<Double> quartiList = getQuartiles(colNum) ;
                 return  (quartiList.get(2) - quartiList.get(0))  ;
         }
 
-        getStd(){
+        public Double getStd(int colNum){
                 /* ecart-type
                  *
                  */
+                double sum = 0.0, mean = this.getMean(colNum);
+                ArrayList<Double> column = this.data.getColumn(colNum);
+                for (double element: column) {
+                        double tmp = Math.pow( (element - mean) , 2);
+                        sum = sum + tmp;
+                }
+                sum = Math.sqrt( sum / column.size() );
+
+                return sum;
+        }
+
+        public  Double getVariance(int colNum){
+                double std = this.getStd(colNum) ;
+                return (std * std);
+        }
+
+        public Double getCorrelationCoef(int colNum1, int colNum2){
+
+                ArrayList<Double> column1 = this.data.getColumn(colNum1);
+                ArrayList<Double> column2 = this.data.getColumn(colNum2);
+                double mean1  = this.getMean(colNum1);
+                double mean2  = this.getMean(colNum2);
+                double std1 = this.getStd(colNum1);
+                double std2 = this.getStd(colNum2);
+                double n12 =  column2.size() * mean1 * mean2;
+                double sum12 = 0.0;
+                for (int i = 0; i < column1.size(); i++) {
+                        sum12 = sum12 + (column1.get(i) * column2.get(2));
+                }
+
+                return ( ( sum12 - n12 ) / ( ( column1.size() - 1 ) * std1 * std2 ) ) ;
+
 
         }
 
-        getVariance(){
-
-        }
-
+        /*TODO:implement this 2 methods!when i know what they should do
         getAllMetrics(){
-
-        }
-
-        getCorrelationCoef(){
 
         }
 
         getCovariance(){
 
+
         }
+
+         */
+
 }

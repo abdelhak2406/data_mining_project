@@ -81,11 +81,11 @@
                                     <cellValueFactory><PropertyValueFactory property="moyenne" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="mtronq_col" minWidth="74.0" prefWidth="92.0" text="Trimmed mean">
+                                <TableColumn fx:id="mtronq_col" minWidth="74.0" prefWidth="129.0" text="Trimmed mean">
                                     <cellValueFactory><PropertyValueFactory property="moy_tronquee" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn fx:id="mode_col" minWidth="86.0" prefWidth="141.0" text="Mode">
+                                <TableColumn fx:id="mode_col" minWidth="86.0" prefWidth="104.0" text="Mode">
                                     <cellValueFactory><PropertyValueFactory property="mode" />
                                     </cellValueFactory>
                                 </TableColumn>
@@ -175,13 +175,13 @@
             <Label layoutX="210.0" layoutY="159.0" prefHeight="32.0" prefWidth="128.0" text="(first column)" />
             <Label layoutX="174.0" layoutY="242.0" prefHeight="32.0" prefWidth="128.0" text="(first column)" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fffffc" height="182.0" layoutX="594.0" layoutY="158.0" stroke="#edecec" strokeType="INSIDE" width="121.0" />
-            <Label layoutX="609.0" layoutY="159.0" prefHeight="32.0" prefWidth="91.0" text="correlation coef" textAlignment="CENTER">
+            <Label layoutX="600.0" layoutY="159.0" prefHeight="32.0" prefWidth="109.0" text="correlation coef" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
             <TextField fx:id="correlationCoefField" alignment="CENTER" editable="false" layoutX="600.0" layoutY="191.0" prefHeight="25.0" prefWidth="109.0" style="-fx-background-color: #fffffc; -fx-border-color: #fffffc;" />
-            <Label layoutX="621.0" layoutY="254.0" prefHeight="32.0" prefWidth="68.0" text="Correlation">
+            <Label layoutX="603.0" layoutY="254.0" prefHeight="32.0" prefWidth="103.0" text="Correlation">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
