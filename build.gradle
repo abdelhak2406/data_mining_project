@@ -3,7 +3,7 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
-group 'org.example'
+group 'org.abdelhak'
 version '1.0-SNAPSHOT'
 
 repositories {

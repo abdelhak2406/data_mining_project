@@ -12,6 +12,10 @@ public class Data {
                 this.dataset  =this.readData(path);
         }
 
+        public Data(ArrayList<ArrayList<Double>> data){
+               this.dataset = data;
+        }
+
         public ArrayList<ArrayList<Double>> readData(String path)throws  Exception{
                 /*TODO:test
                  * Method used to read the file as txt or csv

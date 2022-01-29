@@ -2,6 +2,7 @@ package com.abdelhak.dataminingproj.app.Analysis;
 
 import com.abdelhak.dataminingproj.app.Data;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
@@ -11,6 +12,10 @@ public class DataAnalysis {
 
         public DataAnalysis(String path) throws Exception {
                this.data = new Data(path);
+        }
+
+        public DataAnalysis(ArrayList<ArrayList<Double>> data){
+                this.data = new Data(data);
         }
 
         public  double getMean(int colNum){
