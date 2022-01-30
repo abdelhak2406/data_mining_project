@@ -6,7 +6,8 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Data {
-         public ArrayList<ArrayList<Double>> dataset ;
+        public ArrayList<ArrayList<Double>> dataset ;
+        public ArrayList<ArrayList<String>> discretizeData ;
 
         public Data(String path) throws Exception {
                 this.dataset  =this.readData(path);
@@ -92,6 +93,58 @@ public class Data {
                 return this.dataset.get(lineNum).get(colNum);
         }
 
+        public void addColumnDataToNormalized(int colData){
+                /*Add the column @param colData to the  @param colNormal
+                 *
+                 */
+                ArrayList<Double> columnData = this.getColumn(colData);
+                ArrayList<String> columnDataStr = new ArrayList<>();
+                //convert every elemnt of columnData into String
+                for (double elem:columnData) {
+                        columnDataStr.add(String.valueOf(elem));
+                }
+                this.addColumnD(columnDataStr);
+
+        }
+
+
+        public void setColumnD(int colNum, ArrayList<String> discretizedCol) {
+                /*
+                 *D for discretized!
+                 */
+                if (discretizedCol.size() != this.discretizeData.size()){
+                        //TODO: throw exception is better
+                        System.out.println("error different length!");
+                        System.exit(0);
+                }
+                else{
+                        for (int i = 0; i < discretizedCol.size(); i++) {
+                                this.discretizeData.get(i).set(colNum,discretizedCol.get(i));
+                        }
+
+                }
+
+        }
+
+        public void addColumnD(ArrayList<String>columnD){
+               //we add a new
+                //check if it has the good size
+                if (columnD.size()!= this.discretizeData.size()){
+                        System.out.println("ERROR");
+                        System.exit(0);
+                }else{
+                        int i =0;
+                        for (ArrayList<String> line:this.discretizeData) {
+                               line.add(columnD.get(i)) ;
+                               i++;
+                        }
+
+                }
+
+
+        }
+
+
         public void setColumn(int colNum, ArrayList<Double> column){
                 /*
                  * Change the column colNum values!
@@ -111,6 +164,7 @@ public class Data {
 
         }
 
+        //TODO: add a method to cast an ArrayList<Double> into
         public void setLine(int lineNum, ArrayList<Double> line){
 
                 if (line.size() != this.dataset.get(0).size()){

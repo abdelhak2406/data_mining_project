@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class DataTransformation extends DataAnalysis{
-        ArrayList<ArrayList<String>> discretizedData;
-
 
         public DataTransformation(String path) throws Exception{
                super(path);
@@ -48,7 +46,6 @@ public class DataTransformation extends DataAnalysis{
         public void minMaxNorm(){
                 /**
                  * Normalize all the dataset  using the minMax method
-                 * @param data the dataset returned by @see readData
                  * @return the normalized dataset!
                  * @note i know the solution is kindof stupid now and it takes a little bit too much ram
                 but since the dataset is small we can work with that, and any changes are welcome.
@@ -102,7 +99,7 @@ public class DataTransformation extends DataAnalysis{
         }
 
         public void zScoreNorm(){
-                /**
+                /*
                  * Normalize all the dataset  using the zScore method
                  * @param data the dataset returned by @see readData
                  * @return the normalized dataset!
@@ -131,7 +128,72 @@ public class DataTransformation extends DataAnalysis{
         }
         */
 
-        public void discretisEqual(int q){
+        public int getIntervalEqual(ArrayList<double[]> listInt, double value){
+                /**
+                 * gets in which interval a value is
+                 */
+                int i=0;
+                for ( i = 0; i < listInt.size(); i++) {
+                        if ( (value >= listInt.get(i)[0] ) && (value < listInt.get(i)[1] ) ){
+                                return i;
+
+                        }
+                }
+                return i-1;
+        }
+
+        public ArrayList<String> getDiscretisEqualCol(int q, int colNum){
+                /*
+                 * Compute new discretized values for a column in the dataset using the equal method
+                 * @param column the column in ArrayList<Double> type which means that we need to
+                make an extra step to loop through the data and then transform and get each
+                column in this new type
+                 * TODO:create a function to do this transformation to have a better dry code.
+                 * @param q number of intervals
+                 * @param c column number
+                 */
+                ArrayList<Double> column = this.data.getColumn(colNum);
+                double min = Collections.min(column);
+                double max = Collections.max(column);
+                double intervalLength = (max - min) / q;
+
+                //chaque element de listeIntervale continet un intervale [x,y[
+                ArrayList<double[]> listeInvervales = new ArrayList<>() ;
+
+                // remplir la liste des intervalles
+                double debutIntervalle = min;
+                for (int i = 0; i < q ; i++) {
+                        double [] tmp = {debutIntervalle , debutIntervalle + intervalLength};
+                        listeInvervales.add(tmp);
+                        debutIntervalle = debutIntervalle +intervalLength;
+                }
+
+
+                ArrayList<String> result = new ArrayList<>(column.size());
+                for (Double element : column) {
+                        int category = getIntervalEqual(listeInvervales, element) + 1;
+                        if (category == -1) {
+                                System.out.println("error in getDiscretisEqualCol");
+                                System.exit(0);
+                        }
+                        result.add("I" + String.valueOf(colNum) + String.valueOf(category));
+                }
+                return result;
+
+        }
+
+        public void discretiseEqual(int q){
+
+                //" -1 " because the last column is the target, we don't want to discretize it.
+                int maxCol = this.data.dataset.get(0).size() -1;
+                this.data.discretizeData = new ArrayList<>();
+
+                for (int i = 0; i < maxCol; i++) {
+                        ArrayList<String> discretizedI = this.getDiscretisEqualCol(q,i);
+                       this.data.setColumnD(i,discretizedI);
+                }
+                // add the target column it's the last column soo that's why the -1 ( the 0 is just a random choice)
+                this.data.addColumnDataToNormalized(this.data.dataset.get(0).size() - 1);
 
         }
 
